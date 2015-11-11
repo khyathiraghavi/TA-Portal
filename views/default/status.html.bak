@@ -1,0 +1,128 @@
+{{extend 'layout.html'}}
+{{import datetime}}
+{{now=datetime.datetime.now()}}
+
+<div class="content_heading">STATUS FOR APPLIED COURSES</div>
+{{if records_appliedfor: }}
+    
+   
+    <div class="content_form form">
+    <table align='center'>
+    <tr>
+    <td align="center">COURSE NAME</td>
+    <td align="center">PREFERENCES</td>
+    
+    {{if state==1:}}
+    <td align="center">UP</td>
+    <td align="center">DOWN</td>
+    
+    {{pass}}<!--comments removed bacause commented pass is treated as a normal pass -->
+    </tr>
+    {{index=0}}
+        {{for i in records_appliedfor:}}
+        {{print i.AppliedFor.status}}
+        <tr>
+            {{if i.AppliedFor.status=='None' :}}
+            <td align="center"><font size='2' color='black' > {{=i.Course.cname}}</font></td>
+            <td align="center"><font size='2' color='black' > {{=i.AppliedFor.preference}}</font> </td>
+      {{elif i.AppliedFor.status=='Rejected' :}}
+            <td align="center"><font size='2' color='black' > {{=i.Course.cname}}</font></td><!--color changed from blue to black -->
+            <td align="center"><font size='2' color='black' > {{=i.AppliedFor.preference}}</font> </td>
+      {{elif i.AppliedFor.status=='Selected' :}}
+            
+            <td align="center"><font size='2' color='red' > {{=i.Course.cname}}</font></td><!--color changed from red to black -->
+            <td align="center"><font size='2' color='red' > {{=i.AppliedFor.preference}}</font> </td>
+           
+                
+                            
+            <script src="jquery.js"></script>
+		    <script type='text/javascript'>
+                
+            {{selected= db(db.SelectedTA.appid==i.AppliedFor.appid).select(db.SelectedTA.timestamp,db.SelectedTA.flag)[0]}}
+         
+            
+                
+            {{uptil=selected.timestamp+datetime.timedelta(days=1)}}                
+            {{left=uptil-now}}
+            var flag={{=selected.flag}}
+            var check=0;
+            var days={{=left.days}}
+        
+            if(days>=0&&flag==0)
+            {
+                
+                var hrs = {{=left.seconds/3600}};
+                var min = Math.floor(({{=left.seconds}}-hrs*3600)/60);
+                var sec = {{=left.seconds}}-hrs*3600-min*60;
+                
+      			var interval = setInterval(function() 
+      			{
+                    
+                    document.getElementById('timer_div').style.position="absolute";
+                    document.getElementById('timer_div').style.top="90px";
+                    document.getElementById('timer_div').style.left="400px";
+    				document.getElementById('timer_div').innerHTML =  'You have '+ hrs +' hours '+ min + ' minutes ' + --sec + ' seconds left to accept your selection as a TA ' ;
+                   
+                 	if (sec <= 0)
+    			 	{
+                               
+                		min--;
+                		sec=60;
+                 	}
+                    if(min < 0)
+            	 	{
+               			hrs--;
+                		min=60;
+                    }
+            	 	if(hrs < 0)
+            	 	{
+                        alert("Sorry, Your selection is deleted");                    
+               			clearInterval(interval);
+                        window.location.replace("http://127.0.0.1:8000/taship3/default/home_page");
+                        
+                        
+                    }
+    		
+                }, 1000);
+               
+            }
+       
+       
+            
+       
+            </script>
+            
+         
+              
+
+	 {{if state==2:}}
+            {{TAid=db(db.SelectedTA.appid == i.AppliedFor.appid).select()}}            
+            {{if TAid :}}
+            {{if TAid[0].flag==0 :}}
+            <form name='Applicant' method="post" >
+            <input name='cid' type='hidden' value={{=i.AppliedFor.cid}} />
+            <td> <input name='submit' value='accept' type='submit'/></td>
+            <td><input name='submit' value='reject' type='submit'/></td>
+            </form>
+            {{pass}}
+            {{pass}}
+            {{pass}}
+            {{elif i.AppliedFor.status=='Nominated' :}}
+            	<td align="center"><font size='2' color='black' > {{=i.Course.cname}}</font></td>
+            	<td align="center"><font size='2' color='black' > {{=i.AppliedFor.preference}}</font> </td>
+            {{pass}}
+            {{if state==1 :}}
+            <form name='Preference' method="post" >
+            <input name='apfid' type='hidden' value={{=i.AppliedFor.id}} />
+            <input name='index' type='hidden' value={{=index}} />
+            <td> <input name='submit' value='up' type='submit'/></td>
+            <td><input name='submit' value='down' type='submit'/></td>
+            </form>
+            {{pass}}
+          </tr> 
+          {{index+=1}}
+        {{pass}}
+        </table>
+	</div>
+{{pass}}
+<div align="center" id="timer_div" ></div>

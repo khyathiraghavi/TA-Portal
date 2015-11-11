@@ -1,0 +1,28 @@
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+	<head>  
+		{{response.files.append(URL(request.application,'static','css/web2py_bootstrap.css'))}}
+		{{response.files.append(URL(request.application,'static','css/bootstrap.min.css'))}}
+		{{response.files.append(URL(request.application,'static','css/web2py.css'))}}
+		{{include 'web2py_ajax.html'}}
+
+	</head>
+	<body>
+<h2 style="text-align:center;">ADMIN PRIVILEGES</h2>
+<br/>
+<h3 >COURSES</h3><br />
+<div style="text-align:center">
+{{=A("ADD COURSE", _href=URL('add_courses'),_class="btn  btn-large")}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+{{=A("UPDATE COURSE", _href=URL('update_course'),_class="btn  btn-large")}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+{{=A("UPDATE COURSE DATABASE", _href=URL('upload'),_class="btn btn-large")}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+{{=A("COURSE INFO", _href=URL('courses_info'),_class="btn btn-large")}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+</div>
+<h3>DEADLINES</h3><br />
+<div style="text-align:center">
+{{=A("SET APPLICANT DEADLINE", _href=URL('set_date'),_class="btn  btn-large")}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+{{=A("SET FACULTY DEADLINE", _href=URL('nominate_date'),_class="btn btn-large")}}</span>
+</div>
+<h3>ISAS DUMP</h3><br />
+<div style="text-align:center">{{=A("UPLOAD STUDENT DB", _href=URL('isas_upload'),_class="btn btn-large")}}</span></div>
+</body>
+</html>

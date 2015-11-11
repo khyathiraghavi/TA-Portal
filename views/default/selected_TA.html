@@ -1,0 +1,395 @@
+{{extend 'layout.html'}}
+<div class="content_heading">LIST OF SELECTED TAs</div>
+<script type="text/javascript">
+function check(){
+    var k=document.getElementById('jumbo').value;
+	if(k=='course'){
+		document.getElementById('type1').value=0;
+		document.getElementById("a").style.display="block";
+		document.getElementById("b").style.display="none";
+		document.getElementById("c").style.display="none";
+		document.getElementById("d").style.display="none";
+		document.getElementById("e").style.display="none";
+	}
+	else if(k=='apname'){
+		document.getElementById('type2').value=1;
+		document.getElementById("a").style.display="none";
+		document.getElementById("b").style.display="block";
+		document.getElementById("c").style.display="none";
+		document.getElementById("d").style.display="none";
+		document.getElementById("e").style.display="none";
+	}
+	else if(k=='rollno'){
+		document.getElementById('type3').value=2;
+		document.getElementById("a").style.display="none";
+		document.getElementById("b").style.display="none";
+		document.getElementById("c").style.display="block";
+		document.getElementById("d").style.display="none";
+		document.getElementById("e").style.display="none";
+	}
+	else if(k=='emailid'){
+		document.getElementById('type4').value=3;
+		document.getElementById("a").style.display="none";
+		document.getElementById("b").style.display="none";
+		document.getElementById("c").style.display="none";
+		document.getElementById("d").style.display="block";
+		document.getElementById("e").style.display="none";
+	}
+	else if(k=='program'){
+		document.getElementById('type5').value=4;
+		document.getElementById("a").style.display="none";
+		document.getElementById("b").style.display="none";
+		document.getElementById("c").style.display="none";
+		document.getElementById("d").style.display="none";
+		document.getElementById("e").style.display="block";
+	}
+}
+function check1(){
+	var k=document.getElementById('jumbo').value;
+	if(k=='course'){
+		document.getElementById("a").style.display="block";
+		document.getElementById("b").style.display="none";
+		document.getElementById("c").style.display="none";
+		document.getElementById("d").style.display="none";
+		document.getElementById("e").style.display="none";
+	}
+	else if(k=='apname'){
+		document.getElementById("a").style.display="none";
+		document.getElementById("b").style.display="block";
+		document.getElementById("c").style.display="none";
+		document.getElementById("d").style.display="none";
+		document.getElementById("e").style.display="none";
+	}
+	else if(k=='rollno'){
+		document.getElementById("a").style.display="none";
+		document.getElementById("b").style.display="none";
+		document.getElementById("c").style.display="block";
+		document.getElementById("d").style.display="none";
+		document.getElementById("e").style.display="none";
+	}
+	else if(k=='emailid'){
+		document.getElementById("a").style.display="none";
+		document.getElementById("b").style.display="none";
+		document.getElementById("c").style.display="none";
+		document.getElementById("d").style.display="block";
+		document.getElementById("e").style.display="none";
+	}
+	else if(k=='program'){
+		document.getElementById("a").style.display="none";
+		document.getElementById("b").style.display="none";
+		document.getElementById("c").style.display="none";
+		document.getElementById("d").style.display="none";
+		document.getElementById("e").style.display="block";
+	}
+}
+</script>
+<div class="content_font">
+{{if ((request.vars.name1 == '0') or (request.vars.name1 == None)):}}
+        <div>
+            Select By: <select id='jumbo' name='feedback' onchange='check();'>
+            <option value='course' selected='selected'>COURSE</option>
+            <option value='apname'>NAME</option>
+            <option value='rollno'>ROLL NO.</option>
+            <option value='emailid'>EMAIL ID</option>
+            <option value='program'>PROGRAM</option>
+            </select>
+        </div>
+
+{{elif (request.vars.name1 == '1'): }}
+		<div>
+        	Select By: <select id='jumbo' name='feedback' onchange='check();'>
+            <option value='course'>COURSE</option>
+            <option value='apname' selected='selected'>Name</option>
+            <option value='rollno'>ROLL NO.</option>
+            <option value='emailid'>EMAIL ID</option>
+            <option value='program'>PROGRAM</option>
+            </select>
+        </div>
+{{elif (request.vars.name1 == '2'):}}
+	 	<div>
+            Select By: <select id='jumbo' name='feedback' onchange='check();'>
+            <option value='course'>COURSE</option>
+            <option value='apname' >NAME</option>
+            <option value='rollno' selected='selected'>ROLL NO.</option>
+            <option value='emailid'>EMAIL ID</option>
+            <option value='program'>PROGRAM</option>
+            </select>
+        </div>
+{{elif (request.vars.name1 == '3'):}}
+	 	<div>
+            Select By: <select id='jumbo' name='feedback' onchange='check();'>
+            <option value='course'>COURSE</option>
+            <option value='apname' >NAME</option>
+            <option value='rollno'>ROLL NO</option>
+            <option value='emailid' selected='selected'>EMAIL ID</option>
+            <option value='program'>PROGRAM</option>
+            </select>
+       </div>
+{{elif (request.vars.name1 == '4'):}}
+	 	<div>
+            Select By: <select id='jumbo' name='feedback' onchange='check();'>
+            <option value='course'>COURSE</option>
+            <option value='apname' >NAME</option>
+            <option value='rollno'>ROLL NO</option>
+            <option value='emailid'>EMAIL ID</option>
+            <option value='program' selected='selected'>PROGRAM</option>
+            </select>
+        </div>
+	{{pass}}
+</div>
+<!--select id='jumbo' name='feedback' onchange='check();'>
+<option value='course'>Course</option>
+<option value='apname'>Name</option>
+<option value='rollno'>Roll No.</option>
+<option value='emailid'>Email id.</option>
+<option value='program'>Program</option>
+</select-->
+<div id='a'>
+   <script type='text/javascript'>
+      check1();
+   </script>
+   
+   <div class="form"></br>
+   	<form name='form1'>
+    	<input name='name1' type='hidden' id='type1' value='0'/>
+	    	Select Course:<select name='name'>
+	       {{r=db((db.Course.id>0)).select()}}
+	       {{for i in r:}}
+	       <option value='{{=i.id}}'>{{=i.cname}}</option>
+	       {{pass}}
+	    	</select>
+	    	<input name='submit1' type='submit' value='Submit'/>
+   </form>
+   </div>
+   {{ if (request.vars.submit1):}}
+   {{ Records = db((db.AppliedFor.cid == request.vars.name) & (db.Course.id == db.SelectedTA.cid) & \
+   	(db.Applicant.id == db.SelectedTA.appid) &(db.Course.id == request.vars.name) & (db.Applicant.id == db.AppliedFor.appid)).count()}}
+   {{ r = db( (db.AppliedFor.cid == request.vars.name)& (db.Course.id == db.SelectedTA.cid) & \
+   	(db.Applicant.id == db.SelectedTA.appid) & (db.Course.id == request.vars.name) & \
+   	(db.Applicant.id == db.AppliedFor.appid)).select(orderby = db.Applicant.apname)}}
+   <div class="content_font"></br>No. Of Records : {{=Records}}<br /><br /></div>
+   <div class="simple">
+   <table>
+       <tr>
+             <td>TA TYPE</td>
+             <td>APPLICANT NAME</td>
+             <td>ROLL NO</td>
+             <td>GRADE</td>
+             <td>CGPA</td>
+             <td>COURSE</td>
+             <td>STATUS</td>
+     	</tr>
+      {{for index in r:}}
+      	<tr>
+              <td>{{=index.SelectedTA.TAtype}}</td>
+              <td><a href="#" onclick="alert('Email-id:  {{=index.Applicant.apemail_id}}\r\nPhone No.:  {{=index.Applicant.phoneno}}');" > {{=index.Applicant.apname}}</a></td>
+              <td>{{=index.Applicant.aprollno}}</td>
+              <td>{{=index.AppliedFor.grade}}</td>
+              <td>{{=index.Applicant.apcgpa}}</td>
+              <td>{{=index.Course.cname}}</td>
+        {{if index.SelectedTA.flag==1:}}
+              <td>Accecpted</td>
+              {{else:}}
+              <td>Pending</td>
+              {{pass}}
+      </tr>
+	{{pass}}
+		</table>
+        </div>
+	{{pass}}
+</div>
+
+
+<div id='b'>
+<script type='text/javascript'>check1();</script>
+<br>
+	<div class="form">
+    <form name='form2'><input name='name1' type='hidden' id='type2' value='1'/>
+	Enter Name: <input name='name' type='text' value=''/>
+	<input name='submit2' type='submit' value='Submit'/>
+	</form>
+    </div>
+{{ if (request.vars.submit2) :}}
+{{ Records = db((db.AppliedFor.cid == db.Course.id) & (db.Course.id == db.SelectedTA.cid) &\
+		(db.Applicant.id == db.SelectedTA.appid)  & (db.Applicant.apname.like('%%%s%%'%request.vars.name)) & \
+		(db.Applicant.id == db.AppliedFor.appid)).count()}}
+{{ r = db((db.AppliedFor.cid == db.Course.id) & (db.Course.id == db.SelectedTA.cid) & (db.Applicant.id == db.SelectedTA.appid)&\
+    	(db.Applicant.apname.like('%%%s%%'%request.vars.name)) & (db.Applicant.id == db.AppliedFor.appid)).select(orderby = db.Applicant.apname)}}		
+        <div class="content_font"></br>No. Of Records : {{=Records}}<br /><br /></div>
+		<div class="simple">
+        <table>
+		<tr>
+            <td>TA TYPE</td>
+            <td>APPLICANT NAME</td>
+            <td> ROLL NO</td>
+            <td>GRADE</td>
+            <td>CGPA</td>
+            <td>COURSE</td>
+            <td>STATUS</td>
+		</tr>
+{{for index in r:}}
+		<tr>
+            <td>{{=index.SelectedTA.TAtype}}</td>
+            <td><a href="#" onclick="alert('Email-id:  {{=index.Applicant.apemail_id}}\r\nPhone No.:  {{=index.Applicant.phoneno}}');" > {{=index.Applicant.apname}}</a></td>
+            <td>{{=index.Applicant.aprollno}}</td>
+            <td>{{=index.AppliedFor.grade}}</td>
+            <td>{{=index.Applicant.apcgpa}}</td>
+            <td>{{=index.Course.cname}}</td>
+            {{if index.SelectedTA.flag==1:}}
+            <td>Accecpted</td>
+            {{else:}}
+            <td>Pending</td>
+            {{pass}}    
+		</tr>
+	{{pass}}
+	</table>
+    </div>
+	{{pass}}
+</div>
+
+<div id='c'>
+<script type='text/javascript'>check1();</script>
+<br>
+<div class="form">
+	<form name='form3'><input name='name1' type='hidden' id='type3' value='2'/>
+	Enter Roll No.: <input name='name' type='text' value=''/>
+	<input name='submit3' type='submit' value='Submit'/>
+	</form>
+</div>
+{{ if (request.vars.submit3): }}
+{{ Records = db( (db.AppliedFor.cid == db.Course.id) & (db.Course.id == db.SelectedTA.cid) & (db.Applicant.id == db.SelectedTA.appid) &\
+		(db.Applicant.aprollno == request.vars.name)  &(db.Applicant.id == db.AppliedFor.appid)).count()}}
+{{ r = db((db.AppliedFor.cid == db.Course.id) & (db.Course.id == db.SelectedTA.cid)& (db.Applicant.id == db.SelectedTA.appid) & \
+		(db.Applicant.aprollno == request.vars.name) & (db.Applicant.id == db.AppliedFor.appid)).select(orderby = db.Applicant.apname)}}
+		<div class="content_font"></br>No. Of Records : {{=Records}}<br /><br /></div>
+		<div class="simple">
+        <table>
+            <tr>
+                <td>TA TYPE</td>
+                <td>APPLICANT NAME</td>
+                <td>ROLL NO</td>
+                <td>GRADE</td>
+                <td>CGPA</td>
+                <td>COURSE</td>
+                <td>STATUS</td>
+			</tr>
+{{for index in r:}}
+			<tr>
+                <td>{{=index.SelectedTA.TAtype}}</td>
+                <td><a href="#" onclick="alert('Email-id:  {{=index.Applicant.apemail_id}}\r\nPhone No.:  {{=index.Applicant.phoneno}}');" > {{=index.Applicant.apname}}</a></td>
+                <td>{{=index.Applicant.aprollno}}</td>
+                <td>{{=index.AppliedFor.grade}}</td>
+                <td>{{=index.Applicant.apcgpa}}</td>
+                <td>{{=index.Course.cname}}</td>
+                {{if index.SelectedTA.flag==1:}}
+                 <td>Accecpted</td>
+                 {{else:}}
+                 <td>Pending</td>
+                 {{pass}}
+           </tr>
+           {{pass}}
+	</table>
+	</div>
+	{{pass}}
+</div>
+
+
+<div id='d'>
+<script type='text/javascript'>check1();</script>
+<br>
+<div class="form">
+	<form name='form4'>
+    	<input name='name1' type='hidden' id='type4' value='3'/>
+		Enter Email-Id: <input name='name' type='text' value=''/>
+		<input name='submit4' type='submit' value='Submit'/>
+	</form>
+</div>
+{{ if (request.vars.submit4) : }}
+{{ Records = db((db.AppliedFor.cid == db.Course.id) & (db.Course.id == db.SelectedTA.cid) &(db.Applicant.id == db.SelectedTA.appid) & \
+		(db.Applicant.apemail_id.like('%%%s%%'%request.vars.name)) & (db.Applicant.id == db.AppliedFor.appid)).count()}}
+{{ r = db((db.AppliedFor.cid == db.Course.id)  & (db.Course.id == db.SelectedTA.cid) & (db.Applicant.id == db.SelectedTA.appid) & \
+		(db.Applicant.apemail_id.like('%%%s%%'%request.vars.name)) & (db.Applicant.id == db.AppliedFor.appid)).select(orderby = db.Applicant.apname)}}
+		<div class="content_font"></br>No. Of Records : {{=Records}}<br /><br /></div>
+		<div class="simple">
+        <table>
+		<tr>
+            <td>TA TYPE</b></td>
+            <td>APPLICANT NAME</b></td>
+            <td>ROLL NO</b></td>
+            <td>GRADE</b></td>
+            <td>CGPA </b></td>
+            <td>COURSE</b></td>
+            <td>STATUS</b></td>
+		</tr>
+{{for index in r:}}
+		<tr>
+            <td>{{=index.SelectedTA.TAtype}}</td>
+            <td><a href="#" onclick="alert('Email-id:  {{=index.Applicant.apemail_id}}\r\nPhone No.:  {{=index.Applicant.phoneno}}');" > {{=index.Applicant.apname}}</a></td>
+            <td>{{=index.Applicant.aprollno}}</td>
+            <td>{{=index.AppliedFor.grade}}</td>
+            <td>{{=index.Applicant.apcgpa}}</td>
+            <td>{{=index.Course.cname}}</td>
+            {{if index.SelectedTA.flag==1:}}
+            <td>Accecpted</td>
+            {{else:}}
+            <td>Pending</td>
+            {{pass}}        
+	</tr>
+{{pass}}
+</table>
+</div>
+{{pass}}
+</div>
+
+<div id='e'>
+<script type='text/javascript'>check1();</script>
+<br>
+
+<div class="form">
+   <form name='form5'>
+   		<input name='name1' type='hidden' id='type5' value='4'/>
+        Enter Program: <select name='name'>
+        {{r=db((db.Program.id)>0).select()}}
+        {{for i in r:}}
+        <option value='{{=i.id}}'>{{=i.pname}}</option>
+        {{pass}}
+        </select>
+        <input name='submit5' type='submit' value='Submit'/>
+	</form>
+    </div>
+{{ if (request.vars.submit5): }}
+{{ Records = db((db.AppliedFor.cid == db.Course.id) & (db.Course.id == db.SelectedTA.cid) & (db.Applicant.id == db.SelectedTA.appid) &\
+		(db.Applicant.program_id == request.vars.name) & (db.Applicant.id == db.AppliedFor.appid)).count()}}
+{{ r = db((db.AppliedFor.cid == db.Course.id) & (db.Course.id == db.SelectedTA.cid)& (db.Applicant.id == db.SelectedTA.appid) & \
+		(db.Applicant.program_id == request.vars.name) & (db.Applicant.id == db.AppliedFor.appid)).select(orderby = db.Applicant.apname)}}
+		<div class="content_font"></br>No. Of Records : {{=Records}}<br /><br /></div>
+		<div class="simple">
+        <table>
+            <tr>
+                <td>TA TYPE</td>
+                <td>APPLICATN NAME</td>
+                <td>ROLL NO</td>
+                <td>GRADE</td>
+                <td>CGPA</td>
+                <td>COURSE</td>
+                <td>STATUS</td>
+            </tr>
+{{for index in r:}}
+            <tr>
+                <td>{{=index.SelectedTA.TAtype}}</td>
+                <td><a href="#" onclick="alert('Email-id:  {{=index.Applicant.apemail_id}}\r\nPhone No.:  {{=index.Applicant.phoneno}}');" > {{=index.Applicant.apname}}</a></td>
+                <td>{{=index.Applicant.aprollno}}</td>
+                <td>{{=index.AppliedFor.grade}}</td>
+                <td>{{=index.Applicant.apcgpa}}</td>
+                <td>{{=index.Course.cname}}</td>
+                {{if index.SelectedTA.flag==1:}}
+                <td>Accecpted</td>
+                {{else:}}
+                <td>Pending</td>
+                {{pass}}
+            </tr>
+	{{pass}}
+	</table>	
+	</div>
+	{{pass}}
+</div>

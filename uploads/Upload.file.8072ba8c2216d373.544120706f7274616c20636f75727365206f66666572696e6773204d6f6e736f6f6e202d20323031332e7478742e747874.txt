@@ -1,0 +1,107 @@
+A Course on Generalised Syntax,CLG543,4,F,1,SOMA PAUL,soma@iiit.ac.in
+Adaptive Signal Processing,ECE441,4,F,1,ANUBHA GUPTA,agupta@iiit.ac.in
+Advanced Bioinformatics,SCI652,4,F,1,NITA PAREKH,nita@iiit.ac.in
+Advanced Biology(Cellular/Molecular/Genetic),SCI421,4,F,1,RAMESHWAR(CNSB),rameshwar_a@iiit.ac.in
+Advanced Biomolecular Architecture,SCI541,4,F,1,ABHIJIT MITRA,abi_chem@iiit.ac.in
+Advanced Computer Networks,CSE435,4,F,1,SHATRUNJAY RAWAT,shatrunjay.rawat@iiit.ac.in
+Advanced Problem Solving,CSE603,6,F,1,VIKRAM PUDI,vikram@iiit.ac.in
+Advanced Reinforce Concrete Design,CES625,4,F,1,Chenna Rajaram,rajaram.chenna@research.iiit.ac.in
+Advanced Topics in Remote Sensing,CEG561,4,F,1,K S RAJAN,rajan@iiit.ac.in
+Algorithms,ICS211,4,F,1,KANNAN SRINATHAN,srinathan@iiit.ac.in
+Algorithms and Operating Systems,ICS331,4,F,1,ASHOK KUMAR DAS,ashok.das@iiit.ac.in
+Analog and Mixed Signal Design,ECE461,4,F,1,VIJAYA SANKARA RAO,vijay.p@iiit.ac.in
+Applied Attention Theory,Temp4,4,F,1,PRIYANKA SRIVASTAVA,priyanka.srivastava@iiit.ac.in
+Basic Maths I,CLG611,4,F,1,SHANTHI KARLAPALEM,skarlapalem@iiit.ac.in
+Biomolecular Structure Interaction and Dynamics,SCI643,4,F,1,ABHIJIT MITRA,abi_chem@iiit.ac.in
+Biomolecular Structure and Supramolecular Chemistry,SCI644,4,F,3,DEVAPRIYA KUMAR,deva@iiit.ac.in,Abhijit Mitra,abi_chem@iiit.ac.in,Tapan Kumar Sau,tapan.sau@iiit.ac.in
+Broadband Networks,ECE530,4,F,1,JAYASHREE RATNAM,jaya.ratnam@iiit.ac.in
+CASE Workshop,CES634,4,F,1,DILIP KUMAR,dilipkumarpv@iiit.ac.in
+CMOS Radio Frequencey Integrated Circuit Design,ECE467,4,F,1,AZEEMUDDIN SYED,azeemuddin.s@iiit.ac.in
+CNS Lab,SCI373,4,F,2,DEVAPRIYA KUMAR,deva@iiit.ac.in,M Krishnan,m.krishnan@iiit.ac.in
+Classical Text Reading,HSS422,4,F,2,NAVJYOTI SINGH,navjyoti@iiit.ac.in,Pranav Vasista,vasishta@research.iiit.ac.in
+Classical Text Reading III,HSS511,4,F,1,PRK RAO,prkrao@iiit.ac.in
+Cloud Computing,CSE565,4,F,1,VASUDEVA VARMA,vv@iiit.ac.in
+Communication Theory II,ECE436,4,F,1,JAYSER RAINAM,jaya.ratnam@iiit.ac.in
+Compilers,CSE419,4,F,1,GOVINDARAJULU R,gregeti@iiit.ac.in
+Complexity and Advanced Algorithms,CSE411,4,F,1,KISHORE KOTHAPALLI,kkishore@iiit.ac.in
+Computational Linguistics I,CLG421,4,F,2,DIPTHI MISHRA,dipti@iiit.ac.in,Radhika M,radhika.mamidi@iiit.ac.in
+Computer Programming,ICS101,5,F,1,GOVINDARAJULU R,gregeti@iiit.ac.in
+Computer Problem Solving,CSE602,4,F,1,KAMAL KARLAPALEM,kamal@iiit.ac.in
+Confluence of Humanities and CS,HSS290,4,F,1,NAVJYOTI SINGH,navjyoti@iiit.ac.in
+Data Warehousing and Data Mining,CSE445,5,F,1,KAMAL KARLAPALEM,kamal@iiit.ac.in
+Design for Testability,Temp6,4,F,1,SUBHAJIT ROY,src.vlsi@iiit.ac.in
+Design of Mechanisms,Temp7,4,F,1,SURIL VIJAY SHAH,surilshah@iiit.ac.in
+Differential Equations,IMA303,4,F,1,SHOBHA ORUGANTI,shobha.oruganti@iiit.ac.in
+Digital Image Processing,CSE478,4,F,1,JAYANTHI SIVASWAMY,jsivaswamy@iiit.ac.in
+Digital Logic and Processors,IEC101,5,F,2,K MADHAVA KRISHNA,mkrishna@iiit.ac.in,Vinay Kumar Mittal,vinay.mittal@iiit.ac.in
+Discrete Maths and Algorithms,CSE611,6,F,1,ASHOK KUMAR DAS,ashok.das@iiit.ac.in
+Ecological and Geospatial Modeling,CSE592,4,F,1,R C PRASAD,rcprasad@iiit.ac.in
+Economics and Organizations,HSS360,4,F,1,BABA PRASAD,prasad.b@iiit.ac.in
+Electrical Science II,ECE260,2,H,1,AZEEMUDDIN SYED,azeemuddin.s@iiit.ac.in
+Electrical Science I,IEC102,2,H,2,JAYASHREE RATNAM,jaya.ratnam@iiit.ac.in,Vinay Kumar Mittal,vinay.mittal@iiit.ac.in
+Electromagnetic Theory and Applications,ECE381,4,F,1,K R SARMA,sarma.kr@iiit.ac.in
+Embedded Hardware Design,ECE225,4,F,1,SUBHAJIT ROY,src.vlsi@iiit.ac.in
+English I,IHS101,2,F,1,A GIRIDHAR RAO,giridhar.rao@iiit.ac.in
+Foundation Engineering and Design,CGE631,4,F,1,NEELIMA SATYAM,neelima.satyam@iiit.ac.in
+Game Design and Engineering,Temp1,4,F,1,KAVITHA VEMURI,kvemuri@iiit.ac.in
+General Physics,SCI101,4,F,1,INDRANIL CHAKARBARTY,indranil.chakrabarty@iiit.ac.in
+Green Buildings,CEG422,4,F,1,VISHAL GARG,vishal@iiit.ac.in
+Human Values I,IHS103,2,F,PRADEEP RAMANCHARLA,ramancharla@iiit.ac.in
+Humanities Skills I,IHS105,2,F,NAVJYOTI SINGH,navjyoti@iiit.ac.in
+IT Workshop I,ICS102,3,F,1,VIKRAM PUDI,vikram@iiit.ac.in
+Imagined Futures: Readings in Science Fiction,HSS346,4,F,1,A GIRIDHAR RAO,giridhar.rao@iiit.ac.in
+Information Theory and Coding,ECE539,4,F,2,GARIMELLA RAMA MURTHY,rammurthy@iiit.ac.in,Anil Kumar V,anil.vuppala@iiit.ac.in
+Innovation and Technology Management,HSS352,4,F,1,BABA PRASAD,prasad.b@iiit.ac.in
+Installation as a Form of Art,HSS332,4,F,1,BANATANWIN DASMAHAPATRA,banatanwi.mahapatra@research.iiit.ac.in
+Intro to Cognitive Science,CSE485,4,F,1,PRIYANKA SRIVASTAVA,priyanka.srivastava@iiit.ac.in
+Introduction to Databases,ICS241,2,F,1,KAMAL KARLAPALEM,kamal@iiit.ac.in
+Introduction to Gauge Theories,Temp8,4,F,1,CHANDRASEKHER MUKKU,mukku@iiit.ac.in
+Introduction to Linguistics,CLG211,4,F,1,DIPTHI MISHRA,dipti@iiit.ac.in
+Introduction to Middleware Systems,CSE463,4,F,1,RAMESH LOGANATHAN,rameshl@iiit.ac.in
+Linear Control Systems,ECE451,4,F,2,RAMBABU KALLA,rambabu.kalla@iiit.ac.in,Suril Vijay Kumar,surilshah@iiit.ac.in
+Linear Electronic Circuits,ECE205,5,F,2,VIJAYA SANKARA RAO,vijay.p@iiit.ac.in,Anil Kumar V,anil.vuppala@iiit.ac.in
+Linguistic Data: Collection and Analysis,CLG451,4,F,1,RADHIKA MAMIDI,radhika.mamidi@iiit.ac.in
+Machine Learning,CSE577,4,F,1,C V JAWAHAR,jawahar@iiit.ac.in
+Mathematics I,IMA101,4,F,1,INDRANIL CHAKARBARTY,indranil.chakrabarty@iiit.ac.in
+Mathematics III,IMA201,4,F,1,C N KAUL,kaul@iiit.ac.in
+Maths and Statistics,SCI550,4,F,1,NITA PAREKH,nita@iiit.ac.in
+Mechanics of Materials,Temp5,4,F,2,VENKATESHWARLU,vm@iiit.ac.in,Pradeep Ramancharla,ramancharla@iiit.ac.in
+Mobile Information Systems,CSE536,4,F,1,HEMA VENKATARAMAN,hemavenkat59@iiit.ac.in
+Mobile Robotics,CSE483,4,F,1,K MADHAVA KRISHNA,mkrishna@iiit.ac.in
+Non-Violence,HSS354,4,F,1,NANDA KISHORE ACHARYA,nand.acharya@iiit.ac.in
+Number Theory and Cryptology,IMA404,4,F,1,RAJAT TANDON,rajattan@iiit.ac.in
+Ontology,HSS310,4,F,2,RAJESH TAVVA,vrktavva@research.iiit.ac.in,Navjyothi Singh,navjyoti@iiit.ac.in
+Operating Systems,ICS231,3,F,1,P KRISHNA REDDY,pkreddy@iiit.ac.in
+Operating Systems (PG),CSE531,4,F,1,P KRISHNA REDDY,pkreddy@iiit.ac.in
+Operations Research,IMA406,4,F,1,C N KAUL,kaul@iiit.ac.in
+Optics Symmetry and Spectroscopy,SCI435,4,F,1,DEVAPRIYA KUMAR,deva@iiit.ac.in
+Parallel Programming,CSE502,4,F,1,KISHORE KOTHAPALLI,kkishore@iiit.ac.in
+Phonetics and Phonology,CLG413,4,F,1,PERI BHASKARARAO,bha.peri@iiit.ac.in
+Principles and Techniques of Instrumental Analysis,SCI719,4,F,1,TAPAN KUMAR SAU,tapan.sau@iiit.ac.in
+Principles of Programming Languages,CSE415,4,F,1,VENKATESH CHOPPELLA,venkatesh.choppella@iiit.ac.in
+Probability & Random Processes,ECE230,4,F,1,ANUBHA GUPTA,agupta@iiit.ac.in
+QM-II & Spectroscopy,SCI437,4,F,2,DEVAPRIYA KUMAR,deva@iiit.ac.in,Prabhakar B,prabhakar.b@iiit.ac.in
+Research in Information Security,CSE540,4,F,1,KANNAN SRINATHAN,srinathan@iiit.ac.in
+SSAD & Project,ICS261,3,F,1,Y RAGHU REDDY,raghu.reddy@iiit.ac.in
+Science I,ISC201,4,F,1,PRABHAKAR B,prabhakar.b@iiit.ac.in
+Science Lab 1,SCI371,4,F,2,DEVAPRIYA KUMAR,deva@iiit.ac.in,Tapan Kumar Sau,tapan.sau@iiit.ac.in
+Scripting and Computer Environments,CSE505,4,F,1,MULUALEM TEKU,mulualem.teku@research.iiit.ac.in
+Seismic Eva and Strengthening of Buildings,CES641,4,F,1,PRADEEP RAMANCHARLA,ramancharla@iiit.ac.in
+Sense of Past,HSS240,4,F,1,PRANAV KUMAR,vasishta@research.iiit.ac.in
+Signals and Systems,ECE241,4,F,1,JAYANTHI SIVASWAMY,jsivaswamy@iiit.ac.in
+Software Quality Engineering,CSE861,4,F,2,KIRTI GARG,kirti@iiit.ac.in,Raghu Reddy,raghu.reddy@iiit.ac.in
+Soil Dynamics and Machine Foundations,CGE628,4,F,1,NEELIMA SATYAM,neelima.satyam@iiit.ac.in
+Spatial Informatics,CSE591,4,F,1,K S RAJAN,rajan@iiit.ac.in
+Speech Signal Processing,ECE448,4,F,1,YEGNANARAYANA,yegna@iiit.ac.in
+Statistical Methods in AI,CSE471,4,F,1,ANOOP NAMBOODIRI,anoop@iiit.ac.in
+Structural Dynamics,CES631,4,F,1,PRADEEP RAMANCHARLA,ramancharla@iiit.ac.in
+Studies in Alternative Development,HSS462,4,F,2,NANDA KISHORE ACHARYA,nand.acharya@iiit.ac.in,Devansh Mittal,devansh.mittal@research.iiit.ac.in
+Theory of Elasticity,CEA611,4,F,1,VENKATESHWARLU,vm@iiit.ac.in
+Thermodynamics & Statistical Mechanics,SCI331,4,F,2,TAPAN KUMAR SAU,tapan.sau@iiit.ac.in,M Krishnan,m.krishnan@iiit.ac.in
+Time Frequency Analysis,ECE442,4,F,1,ANIL KUMAR VUPPALA,anil.vuppala@iiit.ac.in
+e-Governance,CSE566,4,F,2,R K BAGGA,rbagga@iiit.ac.in,Harish P Iyer,harishiyer@iiit.ac.in
+Computers and Scripting I,CLG661,4,F,2,Riyaz Bhatt,riyazbhatt@iiit.ac.in,Sukhada,sukhada@iiit.ac.in
+Game Theory for Computer Science,Temp2,4,F,2,GANESH IYER,ganeshiyer@iiit.ac.in,Ramesh Loganathan,rameshl@iiit.ac.in
+Linguistics 1: Language Typology and Universals,CLG411,4,F,1,RADHIKA MAMIDI,radhika.mamidi@iiit.ac.in
+Natural Language Processing,CSE472,4,F,3,Kishore Prahlad,kishore@iiit.ac.in,Himanshu Sharma,himanshusharma@iiit.ac.in,Vasudeva Verma,vv@iiit.ac.in
+Web Mining,Temp3,4,F,1,MANISH GUPTA,manishgupta@iiit.ac.in

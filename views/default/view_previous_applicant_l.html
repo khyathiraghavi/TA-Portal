@@ -1,0 +1,20 @@
+{{extend 'layout.html'}}
+
+<div class="content_heading"> PREVIOUS APPLICANT LOG</div>
+<div class="simple">
+<table>
+<tr>
+<td>COURSE NAME</td>
+<td>COURSE ID</td>
+<td>TOTAL NO OF APPLICANTS</td>
+</tr>
+{{for i in q:}}
+<tr>
+<td>{{=A(i.cname,_href=URL('detail_view',args=[i.id]))}} </td>
+<td>{{=i.cid}}</td>
+<td>{{=i.No_of_TAs_applied}}</td>
+</tr>
+{{pass}}
+</table>
+</div>
+

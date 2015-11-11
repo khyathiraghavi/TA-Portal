@@ -1,0 +1,20 @@
+{{extend 'layout.html'}}
+<center><font size='5'>ALLOCATED TAs</font></center><br><br />
+<table border="1" cellpadding='5' cellspacing='0' class="rounded-corner">
+   <tr>
+      <td><center><b>COURSE NAME</b></center></td>
+      <td><center><b>COURSE ID</b></center></td>
+      <td><center><b>NO. OF QUARTER TAs</b></center></td>
+      <td><center><b>NO. OF HALF TAs</b></center> </td>
+      <td><center><b>NO. OF FULL TAs</b></center> </td>
+   </tr>
+   {{ for i in records :}}
+   <tr>
+      <td><center>{{=i.cname}}</center></td>
+      <td><center>{{=i.cid}}</center></td>
+      <td><center>{{=i.no_of_qta}}</center></td>
+      <td><center>{{=i.no_of_hta}}</center></td>
+      <td><center>{{=i.no_of_fta}}</center></td>
+   </tr>
+   {{pass}}
+</table>

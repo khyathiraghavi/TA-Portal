@@ -1,0 +1,27 @@
+{{extend 'layout.html'}}
+
+<div class="content_heading"> Profile</div>
+{{ if records: }}
+{{ i = records[0] }}
+    <div class="content_font center_small">
+    <table>
+    <tr><td>NAME:</td><td>&nbsp;{{=i.Applicant.apname}}</td></tr>
+    <tr><td>ROLL NO.:</td><td>&nbsp;{{=i.Applicant.aprollno}}</td></tr>
+    <tr><td>EMAIL ID:</td><td>&nbsp;{{=i.Applicant.apemail_id}}</td></tr>
+    <tr><td>PROGRAM OF STUDY:</td><td>&nbsp;{{=i.Program.pname}}</td></tr>
+    <tr><td>CGPA:</td><td>&nbsp;{{=i.Applicant.apcgpa}}</td></tr>
+    <tr><td>PREV EXPERIENCE:</td><td>&nbsp; {{= i.Applicant.prev_exp}}</td></tr>
+    <tr><td>MOBILE NO.</td><td>&nbsp; {{=i.Applicant.phoneno}}</td></tr>
+    </table>
+    </div>
+{{pass}}
+{{ if flag: }}
+    <h4>Reviews For Past TAships</h4>
+{{ for j in query: }}
+<h5>TA for:&nbsp;{{=j.course_name}}</br>
+    Semester:&nbsp;{{=j.time}}</br>
+    CourseID:&nbsp;{{=j.course_id}}</br>
+    Overall Rating:&nbsp;{{=j.rating}}/5.0</br>
+    Overall Review:&nbsp;{{=j.Comments}}</h5>
+{{pass}}
+{{pass}}

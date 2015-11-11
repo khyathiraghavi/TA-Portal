@@ -1,0 +1,181 @@
+# coding: utf8
+
+#########################################################################
+## This scaffolding model makes your app work on Google App Engine too
+#########################################################################
+
+if request.env.web2py_runtime_gae:            # if running on Google App Engine
+    db = DAL('gae')                           # connect to Google BigTable
+    session.connect(request, response, db=db) # and store sessions and tickets there
+    ### or use the following lines to store sessions in Memcache
+    # from gluon.contrib.memdb import MEMDB
+    # from google.appengine.api.memcache import Client
+    # session.connect(request, response, db=MEMDB(Client())
+else:    # else use a normal relational database
+    db = DAL('mysql://adminship:passcode@localhost/taship')       # if not, use SQLite or other DB
+#    db = DAL('mysql://adminta:passcode2013@localhost/taship2012')       # if not, use SQLite or other DB
+#    db = DAL('sqlite://storage1.sqlite')       # if not, use SQLite or other DB
+#     db = DAL('mysql://adminpgee:regportal@localhost/ugnew')       # if not, use SQLite or other DB
+#     db = DAL('mysql://adminpgee:regportal@localhost/pgnew') 
+#    authdb = DAL('sqlite://../../taship/databases/storage.sqlite')
+      # if not, use SQLite or other DB
+## if no need for session
+# session.forget()
+
+#########################################################################
+## Here is sample code if you need for 
+## - email capabilities
+## - authentication (registration, login, logout, ... )
+## - authorization (role based authorization)
+## - services (xml, csv, json, xmlrpc, jsonrpc, amf, rss)
+## - crud actions
+## comment/uncomment as needed
+#import MySQLdb
+
+from gluon.tools import *
+auth=Auth(globals(),db) # authentication/authorization
+auth.settings.extra_fields['auth_event']=[
+    Field('user_type','string'),
+    Field('name','string'),
+    Field('uid','string')]
+auth.settings.hmac_key='sha512:f5cbda62-70b3-4b5e-bb7b-c65c6d95e1cc'
+auth.define_tables()                         # creates all needed tables
+crud=Crud(globals(),db)                      # for CRUD helpers using auth
+service=Service(globals())                   # for json, xml, jsonrpc, xmlrpc, amfrpc
+
+# crud.settings.auth=auth                      # enforces authorization on crud
+# mail=Mail()                                  # mailer
+# mail.settings.server='smtp.gmail.com:587'    # your SMTP server
+# mail.settings.sender='you@gmail.com'         # your email
+# mail.settings.login='username:password'      # your credentials or None
+# auth.settings.mailer=mail                    # for user email verification
+# auth.settings.registration_requires_verification = True
+# auth.settings.registration_requires_approval = True
+# auth.messages.verify_email = \
+#  'Click on the link http://.../user/verify_email/%(key)s to verify your email'
+## more options discussed in gluon/tools.py
+#########################################################################
+
+#########################################################################
+## Define your tables below, for example
+##
+## >>> db.define_table('mytable',Field('myfield','string'))
+##
+## Fields can be 'string','text','password','integer','double','boolean'
+##       'date','time','datetime','blob','upload', 'reference TABLENAME'
+## There is an implicit 'id integer autoincrement' field
+## Consult manual for more options, validators, etc.
+##
+## More API examples for controllers:
+##
+## >>> db.mytable.insert(myfield='value')
+## >>> rows=db(db.mytable.myfield=='value').select(db.mytable.ALL)
+## >>> for row in rows: print row.id, row.myfield
+#########################################################################
+
+db.define_table(
+        'Program',
+        Field('pname','string',required=True)
+           )
+
+db.define_table(
+        'Semester',
+        Field('semname','string',required=True)
+           )
+
+db.define_table(
+        'Faculty',
+        Field('fname','string',required=True),
+        Field('femail_id','string',requires=IS_EMAIL())
+           )
+
+
+db.define_table(
+        'Course',
+        Field('cid','string',required=True),
+        Field('cname','string',required=True),
+        Field('cdts','integer',required=True),
+        Field('no_of_ta','integer'),
+        Field('no_of_qta','integer'),
+        Field('no_of_hta','integer'),
+        Field('no_of_fta','integer'),
+        Field('hours_per_week','integer'),
+        Field('sem_id',db.Semester,required=True),
+        Field('coursetype',requires=IS_IN_SET('Full','Half')),
+        Field('no_of_faculty','integer',required=True))
+
+
+db.define_table(
+        'Admin',
+        Field('adname','string',required=True),
+        Field('ademail_id','string',requires=IS_EMAIL())
+           )
+
+db.define_table(
+        'Applicant',
+        Field('apname','string',required=True),
+        Field('apemail_id','string',requires=IS_EMAIL()),
+        Field('aprollno','integer',requires=IS_INT_IN_RANGE(minimum=1000, maximum=9999999999),required=True),
+        Field('apcgpa','double',required=True,requires=IS_FLOAT_IN_RANGE(minimum=0,maximum=10)),
+        Field('phoneno','integer'),
+#        Field('phoneno','bigint'),
+        Field('prev_exp','boolean',required=True),
+#       Field('flag','boolean',required=True,default=False),
+        Field('program_id',db.Program,required=True)
+           )
+
+db.define_table(
+        'Teach',
+        Field('faculty_id',db.Faculty,required=True),
+        Field('course_id',db.Course,required=True)
+           )
+
+db.define_table(
+	'AppliedFor',
+	Field('appid',db.Applicant,required=True),
+	Field('cid',db.Course,required=True),
+	Field('noflag','integer',required=True,default='0'),
+	Field('grade','string',required=True),
+	Field('timestamp','datetime',required=True),
+    Field('preference','integer',requires=IS_IN_SET([1,2,3,4,5,6,7,8,9,10])),
+    Field('status',requires=IS_IN_SET(['Selected','Rejected','Nominated','None']),default='None')
+    )
+
+db.define_table(
+	'SelectedTA',
+	Field('appid',db.Applicant,required=True),
+	Field('cid',db.Course,required=True),
+	Field('TAtype','string',requires=IS_IN_SET(['Quarter','Half','Full'])),
+	Field('timestamp','datetime',required=True),
+    Field('flag','integer',default=0))
+
+
+
+db.define_table(
+    'Portaldate',
+    Field('start_date','datetime',required=True),
+    Field('end_date','datetime',required=True))
+
+
+db.define_table(
+	'OfferedTo',
+	Field('cid',db.Course,required=True),
+	Field('programid',db.Program,required=True))
+
+db.OfferedTo.cid.requires=[IS_IN_DB(db,'Course.id','%(cname)s')]
+db.OfferedTo.programid.requires=[IS_IN_DB(db,'Program.id','%(pname)s')]
+
+db.AppliedFor.appid.requires=[IS_IN_DB(db,'Applicant.id','%(apname)s')]
+db.AppliedFor.cid.requires=[IS_IN_DB(db,'Course.id','%(cname)s')]
+db.SelectedTA.appid.requires=[IS_IN_DB(db,'Applicant.id','%(apname)s')]
+db.SelectedTA.cid.requires=[IS_IN_DB(db,'Course.id','%(cname)s')]
+
+db.Course.sem_id.requires = [IS_IN_DB(db,'Semester.id','%(semname)s')]
+db.Applicant.program_id.requires = [IS_IN_DB(db,'Program.id','%(pname)s')]
+db.Teach.faculty_id.requires = [IS_IN_DB(db,'Faculty.id','%(fname)s')]
+db.Teach.course_id.requires = [IS_IN_DB(db,'Course.id','%(cname)s')]   
+
+
+db.define_table(
+      'Upload',
+      Field('file','upload'))

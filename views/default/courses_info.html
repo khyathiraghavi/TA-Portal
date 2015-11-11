@@ -1,0 +1,34 @@
+{{extend 'layout.html'}}
+<div class="content_heading">COURSES INFORMATION</div>
+<div class="simple">
+<table>
+   <tr>
+      <td>COURSE NAME</td>
+      <td>COURSE ID</td>
+      <td>COURSE CREDITS</td>
+      <td>COURSE Type(F/H)</td>
+      <td>HOURS PER WEEK</td>
+      <td>FACULTY</td>
+   </tr>
+   {{record=db(db.Course.id>0).select(orderby=db.Course.cname.upper())}}
+   {{for i in record:}}
+   	{{name=""}}
+   	{{fname=db((db.Teach.course_id==i.id)&(db.Faculty.id==db.Teach.faculty_id)).select()}}
+   	{{for j in fname:}}
+   		{{name+="; "+j.Faculty.fname}}
+   	{{pass}}
+   	<tr>
+	{{if session.login==1 or session.login==3:}}
+      		<td>{{=A(i.cname,_href=URL(r=request,args=i.cid,f='cprofile_display.html'))}}</td>
+	{{else:}}
+      		<td>{{=i.cname}}</td>
+   	{{pass}}
+      		<td>{{=i.cid}}</td>
+      		<td>{{=i.cdts}}</td>
+      		<td>{{=i.coursetype}}</td>
+      		<td>{{=i.hours_per_week}}</td>
+      		<td>{{=name.strip(';')}}</td>
+   	</tr>
+   {{pass}}
+</table>
+</div>

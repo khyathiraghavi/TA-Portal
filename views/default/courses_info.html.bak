@@ -1,0 +1,30 @@
+{{extend 'layout.html'}}
+<center><font size='5'>COURSES INFORMATION</font></center><br /><br />
+<center>
+<table border='1' cellspacing='0' class="rounded-corner">
+   <tr>
+      <td padding="5px"><center>COURSE NAME</center></td>
+      <td padding="5px"><center>COURSE ID</center></td>
+      <td padding="5px"><center>COURSE CREDITS</center></td>
+      <td padding="5px"><center>HOURS PER WEEK</center> </td>
+      <td padding="5px"><center>FACULTY</center> </td>
+   </tr>
+   {{record=db(db.Course.id>0).select()}}
+   
+   {{for i in record:}}
+   {{name=""}}
+   {{fname=db((db.Teach.course_id==i.id)&(db.Faculty.id==db.Teach.faculty_id)).select()}}
+   {{for j in fname:}}
+   {{name+="; "+j.Faculty.fname}}
+   
+   {{pass}}
+   <tr>
+      <td padding="5px"><center>{{=i.cname}}</center></td>
+      <td padding="5px"><center>{{=i.cid}}</center></td>
+      <td padding="5px"><center>{{=i.cdts}}</center></td>
+      <td padding="5px"><center>{{=i.hours_per_week}}</center> </td>
+      <td padding="5px"><center>{{=name.strip(';')}}</center> </td>
+   </tr>
+   {{pass}}
+</table>
+</center>

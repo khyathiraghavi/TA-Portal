@@ -1,0 +1,32 @@
+{{extend 'layout.html'}}
+<center><font size='5'><u>Nominated Students are </u></font></center><br /><br />
+{{ courseName = db(db.Course.id==session.faculty_varCid).select()[0] }} <!-- Getting the tuple from Course table of selected courseId -->
+<center><font size='4' color='blue'>Course Name : {{for i in range(0,10):}}&nbsp{{pass}} {{=courseName.cname}} [{{=courseName.cid}}]</font></center><br /><br />
+
+{{ if request.vars.submit_sendmail: }}
+<font size='3' color='red'> The mail has been sent to the admin nominating the following Applicants </font>
+{{ redirect(URL(r=request, f='faculty_send_mail',args=[request.vars.courseId] )) }}
+
+{{else:}}
+{{ applicantList = session.faculty_applicantList }}
+{{ courseName = db(db.Course.id==session.faculty_varCid).select()[0] }} <!-- Getting the tuple from Course table of selected courseId -->
+{{ for roll in applicantList: }}
+{{ email = db(db.Applicant.aprollno == roll ).select()[0] }}
+<font size='3' color='purple'>
+<table>
+<tr> <td>{{for i in range(0,45):}}&nbsp{{pass}} Name {{for i in range(0,10):}}&nbsp{{pass}}</td><td>{{=email.apname}}</td></tr>
+<tr><td>{{for i in range(0,45):}}&nbsp{{pass}} Roll No.{{for i in range(0,10):}}&nbsp{{pass}}</td><td>{{=email.aprollno}}</td></tr>
+<tr><td>{{for i in range(0,45):}}&nbsp{{pass}} Phone No.{{for i in range(0,10):}}&nbsp{{pass}}</td><td>{{=email.phoneno}}</td></tr>
+<tr><td>{{for i in range(0,45):}}&nbsp{{pass}} TA Type {{for i in range(0,10):}}&nbsp{{pass}}</td><td>{{=session.faculty_rollType[roll]}}</td></tr>
+<tr><td>{{for i in range(0,45):}}&nbsp{{pass}} Email Id {{for i in range(0,10):}}&nbsp{{pass}}</td><td>{{=email.apemail_id}}</td></tr>
+</table>
+</font>
+<br>
+<br>
+{{ pass }}
+<form name='sendmail' >
+<input name='courseId' type='hidden' value= {{=courseName.id}} />
+{{for i in range(0,50):}}&nbsp{{pass}}<input name='submit_sendmail' type='submit' value='Click to Send Mail' />
+
+</form>
+{{ pass }}

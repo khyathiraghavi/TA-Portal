@@ -1,0 +1,116 @@
+@font-face {
+    font-family: 'Designer_block';
+	src: url('font/Designer_Block.eot');
+	src: url('font/Designer_Block.eot?#iefix') format('embedded-opentype'),
+		url('font/Designer_Block.woff') format('woff'),
+		url('font/Designer_Block.ttf') format('truetype'),
+		url('font/Designer_Block.svg') format('svg');
+}
+
+
+body{
+    /*background: rgba(177,177,177,1);*/
+    font-family: Tahoma, Geneva, sans-serif;
+    font-size:.8em;
+    text-align:center;
+}
+#notification {
+    margin-left:auto;
+    margin-right:auto;
+    /*background: rgba(177,177,177,1);*/
+    width:100%;
+    height:auto;
+    text-align:center
+    }
+h1{
+    color:white;
+    margin:0px;
+    font-weight:normal;
+    font-size:1.9em;
+    text-align:center
+   }
+#h{
+    padding:5px;
+    width:200px;	
+    background-color:#003544;
+    border-radius:4px;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:5px;
+    margin-bottom:5px;
+}
+h2{
+    margin:0px;
+    font-weight:normal;
+    font-size:1.7em;
+    text-align:center
+    padding:5px;
+}
+table{
+    margin-left:auto;
+    margin-right:auto;
+    align:center;
+    max-width:620px;
+    overflow:hidden;
+}
+.tab1{
+	    width:100%;
+    	border-radius:3px;
+	    -moz-border-radius:3px;
+	    -webkit-border-radius:3px;
+    	background:#00495C;
+	    color:white;
+        margin-left:auto;
+        margin-right:auto;
+        margin-top:5px;
+        margin-bottom:5px;
+}
+.info {
+     display:none;
+    font-size:1em;
+}
+button{
+    font-family: Tahoma, Geneva, sans-serif;
+    height:30px;
+    width:600px;
+    border:none;
+    margin:1px;    
+    border-radius:3px;
+    -moz-border-radius:3px;  
+    -webkit-border-radius:3px;
+    background:#BABABA;
+}
+button:hover{
+    background:rgba(135, 135, 127, 1);
+}
+#tabs{
+    /*background:rgba(203, 203, 197, 1);*/
+    border-radius:5px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    }
+
+.open{
+	width:15px;
+	height:15px;
+	font-size:.7em;
+	text-align:center;
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+}
+.para{
+	font-size:1.2em;
+	width:500px;
+	margin:0px auto;
+}
+
+h2:hover{
+	background:#003544;
+}
+
+.detailinfo{
+	margin:1px 0px;
+}

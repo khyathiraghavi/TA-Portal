@@ -1,0 +1,80 @@
+{{extend 'layout.html'}}
+<script>
+function validateForm()
+{
+var a=document.forms["Course"]["id"].value;
+var b=document.forms["Course"]["cid"].value;
+var c=document.forms["Course"]["cname"].value;
+var d=document.forms["Course"]["credits"].value;
+var e=document.forms["Course"]["ta"].value;
+
+if ( (a==null || a=="") || (b==null || b=="") || (c==null || c=="") || (d==null || d=="") || (e==null || e=="") )
+  {
+  alert("Please Fill All fields");
+  return false;
+  }
+}
+</script>
+{{if (request.vars.submit): }}
+   {{ db(db.Course.id == request.vars.id).update(cid=request.vars.cid,cname=request.vars.cname,cdts = request.vars.credits, no_of_ta = request.vars.ta , hours_per_week = request.vars.hour ,sem_id = request.vars.sem , coursetype =request.vars.type ) }}
+     {{db.auth_event.insert(origin=session.token,user_type="admin",description="updated course "+request.vars.cname,name=session.name,uid=session.roll)}}
+     {{ redirect(URL(r = request, f = 'update_course')) }} 
+{{ elif (not(request.vars.submit )): }}
+
+<div class="content_heading">UPDATE COURSE DETAILS</div>
+<div class="form">{{=form34}}</div>
+
+{{if records:}}
+<div class="form center">
+<form name='Course' onsubmit="return validateForm()" >
+<table>
+		<input type='hidden' name="id" value={{=records.id}}>
+	<tr>
+		<td>COURSE ID:</td>
+		<td><input type="text" name="cid" value={{=records.cid}} ></td>
+	</tr>
+	<tr>
+		<td>COURSE NAME:</td>
+		<td><input type="text" name="cname" value='{{=records.cname}}' ></td>
+	</tr>
+	<tr>
+		<td>CREDITS:</td>
+		<td><input type="text" name="credits" value={{=records.cdts}}></td>
+	</tr>
+    <tr >
+    	<td>NO Of TAs:</td>
+    	<td><input type="number" name="ta" value={{=records.no_of_ta}}></td>
+    </tr>
+	<tr>
+		<td>NO OF HOURS PER WEEK:</td>
+		<td><input type="text" name="hour" value={{=records.hours_per_week}}></td>
+	</tr>
+	<tr>
+    	<td>TYPE:</td>
+    	<td><select name="type">
+    		{{if records.coursetype=="Full":}}
+     			<option value="Full" selected="selected">Full</option>
+     			<option value="Half">Half</option>
+     		{{elif records.coursetype=="Half":}}
+     			<option value="Full">Full</option>
+     			<option value="Half" selected="selected">Half</option>
+     		{{pass}}
+      	</select></td>
+      </tr>
+	<tr>
+		<td>SEMESTER:</td>
+		<td><select name="sem">
+    	{{for i in range(1,9):}}
+        	{{if i==records.sem_id:}}
+    	    	<option value={{=i}} selected="selected">{{=i}}</option>
+    	   	{{else:}}
+         		<option value={{=i}}>{{=i}}</option>
+         	{{pass}}
+       {{pass}}</select></td>
+    </tr>         
+ </table>
+<input type="submit" value="submit" name="submit"/>
+</form>
+</div>
+{{pass}}
+{{pass}}

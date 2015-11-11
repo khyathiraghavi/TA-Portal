@@ -1,0 +1,22 @@
+{{extend 'layout.html'}}
+{{ if request.vars.submit :}}
+	{{ if request.vars.login=="A" : }}
+		{{ session.login = 1 }}
+		{{ session.admin_email = session.token }}
+		{{ redirect(URL(r=request,f='home_page')) }}
+	{{ elif request.vars.login =="F" :}}
+		{{ session.login = 3 }}
+		{{ session.faculty_login_emailid = session.token }}
+		{{ redirect(URL(r=request,f='home_page')) }}
+		{{pass}}
+{{ elif not request.vars.submit: }}
+
+<div class="content_font">You can login both as an Admin or a Faculty, Please choose one of them. </div>
+<div class="form">
+<form name="sp_login" action="sp_check.html" method="get">
+   <input type="radio" name="login" value="A" checked="True"/>Admin<br />
+   <input type="radio" name="login" value="F" />Faculty<br /><br />
+   <input type="submit" name="submit" value="Login"/>
+</form>
+</div>
+{{ pass }}

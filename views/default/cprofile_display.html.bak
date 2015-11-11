@@ -1,0 +1,30 @@
+{{extend 'layout.html'}}
+<div class="content_heading">COURSE PROFILE</div>
+
+{{for rows1 in rows1:}}
+	<div class="content_font center_small">
+    <table>
+     <tr><td>NAME:</td><td>&nbsp;{{=rows1.cname}}</td></tr>
+    <tr><td>COURSE ID:</td><td>&nbsp;{{=rows1.cid}}</td></tr>
+     <tr><td>CREDITS:</td><td>&nbsp;{{=rows1.cdts}}</td></tr>
+     <tr><td>NUMBER OF QUATER TAs:</td><td>&nbsp;{{=rows1.no_of_ta}}</td></tr>
+    <tr><td>NUMBER OF QUATER TAs:</td><td>&nbsp;{{=rows1.no_of_qta}}</td></tr>
+    <tr><td>NUMBER OF HALF TAs:</td><td>&nbsp;{{=rows1.no_of_hta}}</td></tr>
+        <tr><td>NUMBER OF FULL TAs:</td><td>&nbsp;{{=rows1.no_of_fta}}</td></tr>
+    <tr><td>HOURS PER WEEK:</td><td>&nbsp;{{=rows1.hours_per_week}}</td></tr>
+     <tr><td>SEMESTER ID:</td><td>&nbsp;{{=rows1.sem_id}}</td></tr>
+      <tr><td>COURSE TYPE:</td><td>&nbsp;{{=rows1.coursetype}}</td></tr>
+       <tr><td>NUMBER OF FACULTYs:</td><td>&nbsp;{{=rows1.no_of_faculty}}</td></tr>
+             
+    </table>
+	</div>
+{{rows2 = db((db.Teach.course_id==rows1.id)&(db.Faculty.id==db.Teach.faculty_id)).select()}}
+{{for rows2 in rows2:}}
+<div class="content_font center_small">
+    <table>
+     <tr><td>FACULTY:</td><td>&nbsp;{{=rows2.Faculty.fname}}</td></tr>
+    <tr><td>COURSE ID:</td><td>&nbsp;{{=rows2.Faculty.femail_id}}</td></tr>
+    </table>
+</div>
+{{pass}}
+{{pass}}

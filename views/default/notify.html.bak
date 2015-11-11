@@ -1,0 +1,428 @@
+{{extend 'layout_notify.html'}}
+
+{{import datetime}}
+
+{{x=datetime.datetime.date(datetime.datetime.now())}}
+{{x=str(x)}}
+{{x=x.split('-')}}
+{{now=datetime.datetime.now()}}
+
+
+{{def attribute_print(a,b,list,start,end):}}
+{{import re}}
+	{{if start=="*":}}
+		{{then=now-datetime.timedelta(days=7)}}
+		{{for i in list:}}
+			{{if i.time_stamp.date() < then.date():}}			
+				{{if(re.match(a,i.description)!=None):}}
+					<p class="detailinfo">{{=i.name}} has {{=i.description}}</p>
+				{{pass}}
+				{{if(re.match(b,i.description)!=None):}}
+					<p class="detailinfo">{{=i.name}} has {{=i.description}}</p>
+				{{pass}}
+			{{pass}}
+		{{pass}}
+	{{else:}}
+		{{e=now-datetime.timedelta(days=int(end))}}
+		{{s=now-datetime.timedelta(days=int(start))}}
+		{{for i in list:}}
+			{{if i.time_stamp.date() <= s.date() and i.time_stamp.date() >= e.date(): }}
+				{{if(re.match(a,i.description)!=None):}}
+					<p class="detailinfo">{{=i.name}} {{=i.description}}</p>
+				{{pass}}
+				{{if(re.match(b,i.description)!=None):}}
+					<p class="detailinfo">{{=i.name}} has {{=i.description}}</p>
+				{{pass}}
+			{{pass}}
+		{{pass}}
+	{{pass}}
+{{pass}}
+
+
+
+
+{{if session.login==1:}}
+    {{def new(start,end):}}
+    {{import re}}
+	{{if start=="*":}}<!-- for rest ------>
+		{{then=now-datetime.timedelta(days=7)}}
+		{{selected=0}}
+		{{unselected=0}}
+		{{deleted=0}}
+		{{added=0}}
+		{{selected=0}}
+		{{nomination=0}}
+		{{applied=0}}
+		{{added_faculty=0}}
+		{{accepted=0}}		
+		{{rejected=0}}		
+		{{for i in timelog_admin:}}
+			{{if i.time_stamp.date() < then.date():}}
+			
+				{{if(re.match(r'added course',i.description)!=None):}}<!-- added courses-->
+				{{added=added+1}}
+				{{pass}}
+				{{if(re.match(r'deleted',i.description)!=None):}}<!-- deleted courses-->
+				{{deleted=deleted+1}}
+				{{pass}}
+				{{if(re.match('selected',i.description)!=None):}}<!-- seleected tas-->
+				{{print i.description}}				
+				{{selected=selected+1}}
+				{{pass}}
+				{{if(re.match('unselected',i.description)!=None):}}<!-- unseleected tas-->
+				{{print i.description}}
+				{{unselected=unselected+1}}
+				{{pass}}
+				{{if(re.match(r'nominated',i.description)!=None):}}<!-- added courses-->
+				{{nomination=nomination+1}}
+				{{pass}}
+				{{if(re.match(r'applied',i.description)!=None):}}<!-- added courses-->
+				{{applied=applied+1}}
+				{{pass}}
+				{{if(re.match(r'added faculty',i.description)!=None):}}<!-- added courses-->
+				{{added_faculty=added_faculty+1}}
+				{{if(re.match(r'accepted',i.description)!=None):}}<!-- added courses-->
+				{{accepted=accepted+1}}
+				{{pass}}
+				{{if(re.match(r'rejected',i.description)!=None):}}<!-- added courses-->
+				{{rejected=rejected+1}}
+				{{pass}}
+				{{pass}}
+			{{pass}}		
+		{{pass}}	
+	{{else:}}<!--             for other functions such as today,1 day before and last week        -->
+		{{selected=0}}
+		{{unselected=0}}
+		{{deleted=0}}
+		{{added=0}}
+		{{selected=0}}
+		{{nomination=0}}
+		{{applied=0}}
+		{{added_faculty=0}}
+		{{accepted=0}}
+		{{rejected=0}}
+		{{e=now-datetime.timedelta(days=int(end))}}
+		{{s=now-datetime.timedelta(days=int(start))}}
+		{{for i in timelog_admin:}}
+			{{if i.time_stamp.date() <= s.date() and i.time_stamp.date() >= e.date(): }}
+				{{if(re.match(r'added course',i.description)!=None):}}<!-- added courses-->
+				{{added=added+1}}
+				{{pass}}
+				{{if(re.match(r'deleted',i.description)!=None):}}<!-- deleted courses-->
+				{{deleted=deleted+1}}
+				{{pass}}
+				{{if(re.match(r'selected',i.description)!=None):}}<!-- seleected tas-->
+				{{selected=selected+1}}
+				{{pass}}
+				{{if(re.match(r'unselected',i.description)!=None):}}<!-- unseleected tas-->
+				{{unselected=unselected+1}}
+				{{pass}}
+				{{if(re.match(r'nominated',i.description)!=None):}}<!-- added courses-->
+				{{nomination=nomination+1}}
+				{{pass}}
+				{{if(re.match(r'applied',i.description)!=None):}}<!-- added courses-->
+				{{applied=applied+1}}
+				{{pass}}
+				{{if(re.match(r'added faculty',i.description)!=None):}}<!-- added courses-->
+				{{added_faculty=added_faculty+1}}
+				{{pass}}
+				{{if(re.match(r'accepted',i.description)!=None):}}<!-- added courses-->
+				{{accepted=accepted+1}}
+				{{pass}}
+				{{if(re.match(r'rejected',i.description)!=None):}}<!-- added courses-->
+				{{rejected=rejected+1}}
+				{{pass}}		
+			{{pass}}
+		{{pass}}
+	
+	{{pass}}<!--  end of if else statement-->
+	{{if (added+deleted)!=0:}}
+	<div><p class="para">{{=(added+deleted)}}courses {{if (added+deleted)>1:}} have {{else:}} has {{pass}} been deleted/added &nbsp; &nbsp;<button class="open" record="admin1{{=end}}">+</button></p></div>
+	<div class="info" id="admin1{{=end}}">
+	<hr>
+	{{attribute_print('added course','deleted',timelog_admin,start,end)}}
+	<hr>
+	</div>
+	{{pass}}
+	{{if (added_faculty)!=0:}}
+	<div><p class="para">{{=added_faculty}} faculty {{if (added_faculty)>1:}} have {{else:}} has {{pass}} been added &nbsp; &nbsp;<button class="open" record="admin5{{=end}}">+</button></p></div>
+	<div class="info" id="admin5{{=end}}">
+	<hr>
+	{{attribute_print('added faculty','none',timelog_admin,start,end)}}
+	<hr>
+	</div>
+	{{pass}}
+	{{if (selected+unselected)!=0:}}
+	<div><p class="para">{{=(selected+unselected)}} TAs {{if (selected+unselected)>1:}} have {{else:}} has {{pass}} been selected/unselected &nbsp; &nbsp;<button class="open" record="admin2{{=end}}">+</button></p></div>
+	<div class="info" id="admin2{{=end}}">
+	<hr>	
+	{{attribute_print('selected','unselected',timelog_admin,start,end)}}
+	<hr>	
+	</div>			
+	{{pass}}
+	{{if nomination!=0:}}
+	<div><p class="para">{{=nomination}} TAs {{if (nomination)>1:}} have {{else:}} has {{pass}} been nominated&nbsp;&nbsp;<button class="open" record="admin3{{=end}}">+</button></p></div>
+	<div class="info" id="admin3{{=end}}">	
+	<hr>
+	{{attribute_print('nominated','none',timelog_admin,start,end)}}			
+	<hr>	
+	</div>	
+	{{pass}}
+	{{if applied!=0:}}
+	<div><p class="para">{{=applied}} TAs {{if (applied)>1:}} have {{else:}} has {{pass}} applied&nbsp;&nbsp;<button class="open" record="admin4{{=end}}">+</button></p></div>
+	<div class="info" id="admin4{{=end}}">	
+	<hr>	
+	{{attribute_print('applied','none',timelog_admin,start,end)}}
+	<hr>	
+	</div>	
+	{{pass}}
+	{{if (accepted+rejected)!=0:}}
+	<div><p class="para">{{=(accepted+rejected)}}students {{if (accepted+rejected)>1:}} have {{else:}} has {{pass}} accepted/rejected &nbsp; &nbsp;<button class="open" record="admin5{{=end}}">+</button></p></div>
+	<div class="info" id="admin5{{=end}}">
+	<hr>
+	{{attribute_print('accepted','rejected',timelog_admin,start,end)}}
+	<hr>
+	</div>
+	{{pass}}
+
+    {{pass}}<!--end of new function-->
+
+    <div id="tabs">
+       
+        <div class="tab1">
+            <h2 record="not1">TODAY</h2>
+            <div id="not1">{{new(0,0)}}</div>        
+        </div>
+	    <div class="tab1">
+            <h2 record="not2">1 DAY AGO</h2>
+            <div class="info" id="not2">{{new(1,1)}}</div>        
+        </div>
+        <div class="tab1">
+            <h2 record="not3">LAST 7 DAYS</h2>
+            <div class="info" id="not3">{{new(0,7)}}</div>        
+        </div>
+       <div class="tab1" >
+            <h2 record="not4">OLDER</h2>
+            <div class="info" id="not4">{{new('*',8)}}</div>
+        </div>
+    </div>   
+    {{pass}}
+
+{{if session.login==3:}}
+{{def nomi(start,end):}}
+{{import re}}
+	{{if start=="*":}}<!--             for rest          ------>
+		{{then=now-datetime.timedelta(days=7)}}
+		{{selected=0}}
+		{{unselected=0}}
+		{{deleted=0}}
+		{{added=0}}
+		{{updated=0}}
+		{{applied=0}}
+		{{accepted=0}}
+		{{rejected=0}}
+		{{for i in timelog_course:}}
+			{{if i.time_stamp.date() < then.date():}}
+			
+				{{if(re.match(r'added',i.description)!=None):}}<!-- added courses-->
+				{{added=added+1}}
+				{{pass}}
+				{{if(re.match(r'deleted',i.description)!=None):}}<!-- deleted courses-->
+				{{deleted=deleted+1}}
+				{{pass}}
+				{{if(re.match(r'updated',i.description)!=None):}}<!-- updated courses-->
+				{{updated=updated+1}}
+				{{pass}}
+				{{if(re.match(r'selected',i.description)!=None):}}<!-- seleected tas-->
+				{{selected=selected+1}}
+				{{pass}}
+				{{if(re.match(r'unselected',i.description)!=None):}}<!-- unseleected tas-->
+				{{unselected=unselected+1}}
+				{{pass}}
+				{{if(re.match(r'applied',i.description)!=None):}}<!-- apply tas-->
+				{{applied=applied+1}}
+				{{pass}}
+				{{if(re.match(r'accepted',i.description)!=None):}}<!-- added courses-->
+				{{accepted=accepted+1}}
+				{{pass}}
+				{{if(re.match(r'rejected',i.description)!=None):}}<!-- added courses-->
+				{{rejected=rejected+1}}
+				{{pass}}
+				
+		        {{pass}}
+		{{pass}}
+
+	{{else:}}<!--             for other functions such as today,1 day before and last week        -->
+	{{selected=0}}
+	{{unselected=0}}
+	{{deleted=0}}
+	{{added=0}}
+	{{updated=0}}
+	{{applied=0}}
+	{{accepted=0}}
+	{{rejected=0}}
+	{{e=now-datetime.timedelta(days=int(end))}}
+	{{s=now-datetime.timedelta(days=int(start))}}
+	{{for i in timelog_course:}}
+		{{if i.time_stamp.date() <= s.date() and i.time_stamp.date() >= e.date(): }}
+				{{if(re.match(r'added',i.description)!=None):}}<!-- added courses-->
+				{{added=added+1}}
+				{{pass}}
+				{{if(re.match(r'deleted',i.description)!=None):}}<!-- deleted courses-->
+				{{deleted=deleted+1}}
+				{{pass}}
+				{{if(re.match(r'updated',i.description)!=None):}}<!-- update courses-->
+				{{updated=updated+1}}
+				{{pass}}
+				{{if(re.match(r'selected',i.description)!=None):}}<!-- seleected tas-->
+				{{selected=selected+1}}
+				{{pass}}
+				{{if(re.match(r'unselected',i.description)!=None):}}<!-- unseleected tas-->
+				{{unselected=unselected+1}}
+				{{pass}}
+				{{if(re.match(r'applied',i.description)!=None):}}<!-- applying-->
+				{{applied=applied+1}}
+				{{pass}}
+				{{if(re.match(r'accepted',i.description)!=None):}}<!-- added courses-->
+				{{accepted=accepted+1}}
+				{{pass}}
+				{{if(re.match(r'rejected',i.description)!=None):}}<!-- added courses-->
+				{{rejected=rejected+1}}
+				{{pass}}
+		{{pass}}
+	{{pass}}	
+
+
+{{pass}}
+	{{if (added+deleted+updated)!=0:}}
+	<div><p class="para">{{=(added+deleted+updated)}}&nbsp; courses {{if (added+deleted+updated)>1:}} have {{else:}} has {{pass}} been deleted/added/updated&nbsp;&nbsp;<button class="open" record="fac1{{=end}}">+</button></p></div>
+	<div class="info" id="fac1{{=end}}">		
+	<hr>	
+	{{attribute_print('added','deleted',timelog_course,start,end)}}
+	{{attribute_print('updated','none',timelog_course,start,end)}}	
+	<hr>
+	</div>
+	{{pass}}
+	{{if selected!=0:}}
+	<div><p class="para">{{=selected}} TAs {{if selected>1:}} have {{else:}} has {{pass}} been selected for your course&nbsp;&nbsp;<button class="open" record="fac2{{=end}}">+</button></p></div>
+	<div class="info" id="fac2{{=end}}">
+	<hr>	
+	{{attribute_print('selected','none',timelog_course,start,end)}}
+	<hr>	
+	</div>			
+	{{pass}}
+	{{if unselected!=0:}}
+	<div><p class="para">{{=unselected}} TAs {{if unselected>1:}} have {{else:}} has {{pass}} been unselected from your course&nbsp;&nbsp;<button class="open" record="fac3{{=end}}">+</button></p></div>
+	<div class="info" id="fac3{{=end}}">
+	<hr>	
+	{{attribute_print('unselected','none',timelog_course,start,end)}}
+	<hr>	
+	</div>			
+	{{pass}}
+	{{if applied!=0:}}
+	<div><p class="para">{{=applied}} TAs {{if applied>1:}} have {{else:}} has {{pass}} applied for your courses&nbsp;&nbsp;<button class="open" record="fac4{{=end}}">+</button></p></div>
+	<div class="info" id="fac4{{=end}}">
+	<hr>	
+	{{attribute_print('applied','none',timelog_course,start,end)}}
+	<hr>	
+	</div>
+	{{pass}}
+	{{if (accepted+rejected)!=0:}}
+	<div><p class="para">{{=(accepted+rejected)}} &nbsp;students {{if (accepted+rejected)>1:}} have {{else:}} has {{pass}} accepted/rejected for your courses &nbsp; &nbsp;<button class="open" record="fac5{{=end}}">+</button></p></div>
+	<div class="info" id="fac5{{=end}}">
+	<hr>
+	{{attribute_print('accepted','rejected',timelog_course,start,end)}}
+	<hr>
+	</div>
+	{{pass}}
+{{pass}}
+
+<div id="tabs">
+        <div class="tab1">
+            <h2 record="not1">TODAY</h2>
+            <div id="not1">{{nomi(0,0)}}</div>        
+        </div>
+	<div class="tab1">
+            <h2 record="not2">1 DAY AGO</h2>
+            <div class="info" id="not2">{{nomi(1,1)}}</div>        
+        </div>
+        <div class="tab1">
+            <h2 record="not3">LAST 7 DAYS</h2>
+            <div class="info" id="not3">{{nomi(0,7)}}</div>        
+        </div>
+       <div class="tab1" >
+            <h2 record="not4">REST</h2>
+            <div class="info" id="not4">{{nomi('*',8)}}</div>
+        </div>
+</div>
+{{pass}}
+</table>
+{{if session.login==5:}}
+    {{def new(start,end):}}
+    {{import re}}
+	{{if start=="*":}}<!-- for rest ------>
+		{{then=now-datetime.timedelta(days=7)}}
+		{{selected=0}}
+		{{unselected=0}}
+		{{for i in timelog_student:}}
+			{{if i.time_stamp.date() < then.date():}}
+			
+				{{if(re.match('selected',i.description)!=None):}}<!-- seleected tas-->
+				{{print i.description}}				
+				{{selected=selected+1}}
+				{{pass}}
+				{{if(re.match('unselected',i.description)!=None):}}<!-- unseleected tas-->
+				{{print i.description}}
+				{{unselected=unselected+1}}
+				{{pass}}
+			{{pass}}		
+		{{pass}}	
+	{{else:}}<!--             for other functions such as today,1 day before and last week        -->
+		{{selected=0}}
+		{{unselected=0}}
+		{{selected=0}}
+		{{e=now-datetime.timedelta(days=int(end))}}
+		{{s=now-datetime.timedelta(days=int(start))}}
+		{{for i in timelog_student:}}
+			{{if i.time_stamp.date() <= s.date() and i.time_stamp.date() >= e.date(): }}
+				{{if(re.match(r'selected',i.description)!=None):}}<!-- seleected tas-->
+				{{selected=selected+1}}
+				{{pass}}
+				{{if(re.match(r'unselected',i.description)!=None):}}<!-- unseleected tas-->
+				{{unselected=unselected+1}}
+				{{pass}}
+			{{pass}}
+		{{pass}}
+	
+	{{pass}}<!--  end of if else statement-->
+	{{if (selected+unselected)!=0:}}
+	<div><p class="para">{{=(selected+unselected)}} TAs {{if (selected+unselected)>1:}} have {{else:}} has {{pass}} been selected/unselected &nbsp; &nbsp;<button class="open" record="admin2{{=end}}">+</button></p></div>
+	<div class="info" id="admin2{{=end}}">
+	<hr>	
+	{{attribute_print('selected','unselected',timelog_student,start,end)}}
+	<hr>	
+	</div>			
+	{{pass}}
+
+    {{pass}}<!--end of new function-->
+
+    <div id="tabs">
+       
+        <div class="tab1">
+            <h2 record="not1">TODAY</h2>
+            <div id="not1">{{new(0,0)}}</div>        
+        </div>
+	    <div class="tab1">
+            <h2 record="not2">1 DAY AGO</h2>
+            <div class="info" id="not2">{{new(1,1)}}</div>        
+        </div>
+        <div class="tab1">
+            <h2 record="not3">LAST 7 DAYS</h2>
+            <div class="info" id="not3">{{new(0,7)}}</div>        
+        </div>
+       <div class="tab1" >
+            <h2 record="not4">OLDER</h2>
+            <div class="info" id="not4">{{new('*',8)}}</div>
+        </div>
+    </div>   
+    {{pass}}

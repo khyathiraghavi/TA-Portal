@@ -1,0 +1,28 @@
+{{extend 'layout.html'}}
+<div class="content_heading">NAMEWISE LISTING OF APPLICANTS</div>
+<div class="form">{{=form}}</div>
+	<div class="content_font">
+   	 	{{if len(msg):}}
+        <b>APPLICANT NAME:</b>&nbsp;&nbsp;{{=msg[0].Applicant.apname}}
+        <b>APPLICANT ROLL NO:</b>&nbsp;&nbsp;{{=msg[0].Applicant.aprollno}}
+	</div>
+{{pass}}
+<div class="simple">
+<table>
+   <tr>
+     <td><center>COURSE ID</center></td>
+      <td><center>COURSE NAME</center></td>
+      <td><center>COURSE CREDITS</center></td>
+      <td><center>PREFERENCES</center></td>
+      <td><center>STATUS</center></td>
+   </tr>
+   {{ for i in msg :}}
+   <tr>
+      <td><center>{{=i.Course.cid}}</center></td>
+      <td><center>{{=i.Course.cname}}</center></td>
+      <td><center>{{=i.Course.cdts}}</center></td>
+      <td><center>{{=i.AppliedFor.preference}}</center></td>
+      <td><center>{{=i.AppliedFor.status}}</center></td>
+   </tr>
+   {{pass}}
+</table>

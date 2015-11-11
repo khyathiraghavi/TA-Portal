@@ -1,0 +1,40 @@
+{{extend 'layout.html'}}
+<div class="content_heading">TIMELOG FILTERS</div>
+<div class="form">
+{{=form}}
+</div>
+
+{{if row!=None:}}
+{{l=len(row)-1}}
+<br>
+<div class="content_heading">TIME LOG</div>
+<div class="simple">
+<form name="log" >
+<table >
+    <tr>
+        <td>EMAIL ID</td>
+         <td>UDER TYPE</td>
+          <td>ACTIVITY</td>
+       
+        <td>Date(YYYY-MM-DD)</td>
+        <td>NAME</td>
+        <td>UID</td>
+        <td>IP ADDRESS</td>
+    </tr>
+    {{while (l >= 0):}}
+        <tr>
+            <td>{{=row[l].origin}}</td>
+            <td>{{=row[l].user_type}}</td>
+            <td>{{=row[l].description}}</td>
+            <td>{{=row[l].time_stamp}}</td>
+            <td>{{=row[l].name}}</td>
+            <td>{{=row[l].uid}}</td>
+            <td>{{=row[l].client_ip}}</td>      
+        </tr>
+    {{l=l-1}}
+  
+{{pass}}
+{{pass}}
+    </table>
+</form>
+</div>

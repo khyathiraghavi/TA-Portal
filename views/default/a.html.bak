@@ -1,0 +1,77 @@
+{{extend 'layout.html'}}
+<center><font size='5'><u>Test</u> </font></center><br /><br />
+<script type="text/javascript">
+
+function check(){
+    var k=document.getElementById('jumbo').value;
+    {{j=1}}
+    for (i=0;i<5;i++)
+    {
+        {{j=j+1}}
+    if(k==i)
+    {
+    document.getElementById('check').value={{=j}};
+    }
+    {{j=j+1}}
+    }
+    var j=5;
+}
+
+</script>
+
+{{if ((request.vars.name1 == '0') or (request.vars.name1 == None)):}}
+	<div align='left'>Select By: 
+        <select id='jumbo' name='feedback' onchange='check();'>
+		<option value='0' selected='selected'>Course</option>
+		<option value='1'>Name</option>
+		<option value='2'>Roll No.</option>
+		<option value='3'>Email id</option>
+		<option value='4'>Program</option>
+		</select>   
+	</div>
+
+{{elif (request.vars.name1 == '1'): }}
+	<div align='left'>Select By: <select id='jumbo' name='feedback' onchange='check();'>
+		<option value='0'>Course</option>
+		<option value='1' selected='selected'>Name</option>
+		<option value='2'>Roll no</option>
+		<option value='3'>Email id</option>
+		<option value='4'>Program</option>
+		</select></div>
+
+{{elif (request.vars.name1 == '2'):}}
+	 <div align='left'>Select By: <select id='jumbo' name='feedback' onchange='check();'>
+		<option value='0'>Course</option>
+		<option value='1' >Name</option>
+		<option value='2' selected='selected'>Rollno</option>
+		<option value='3'>Emailid</option>
+		<option value='4'>Program</option>
+		</select></div>
+
+
+{{elif (request.vars.name1 == '3'):}}
+	 <div align='left'>Select By: <select id='jumbo' name='feedback' onchange='check();'>
+		<option value='0'>Course</option>
+		<option value='1' >Name</option>
+		<option value='2'>Rollno</option>
+		<option value='3' selected='selected'>Emailid</option>
+		<option value='4'>Program</option>
+		</select></div>
+{{elif (request.vars.name1 == '4'):}}
+	 <div align='left'>Select By: <select id='jumbo' name='feedback' onchange='check();'>
+		<option value='0'>Course</option>
+		<option value='1' >Name</option>
+		<option value='2'>Rollno</option>
+		<option value='3'>Emailid</option>
+		<option value='4' selected='selected'>Program</option>
+		</select></div>
+	{{pass}}
+
+<!--select id='jumbo' name='feedback' onchange='check();'>
+<option value='course'>Course</option>
+<option value='apname'>Name</option>
+<option value='rollno'>Roll No.</option>
+<option value='emailid'>Email id.</option>
+<option value='program'>Program</option>
+</select-->
+<input type='text' id='check' name='check1'>

@@ -1,0 +1,37 @@
+(dp1
+S'programid'
+p2
+(dp3
+S'type'
+p4
+S'reference Program'
+p5
+sS'sortable'
+p6
+I3
+sS'sql'
+p7
+S'INT, INDEX programid__idx (programid), FOREIGN KEY (programid) REFERENCES Program(id) ON DELETE CASCADE'
+p8
+ssS'id'
+p9
+(dp10
+g4
+g9
+sg6
+I1
+sg7
+S'INT AUTO_INCREMENT NOT NULL'
+p11
+ssS'cid'
+p12
+(dp13
+g4
+S'reference Course'
+p14
+sg6
+I2
+sg7
+S'INT, INDEX cid__idx (cid), FOREIGN KEY (cid) REFERENCES Course(id) ON DELETE CASCADE'
+p15
+ss.

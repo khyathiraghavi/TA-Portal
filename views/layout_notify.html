@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{{=T.accepted_language or 'en'}}">
+
+
+<head>
+    <title>NOTIFICATION</title>
+    <link rel="logo" href="../static/images.back.png">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />     
+    {{response.files.append(URL(request.application,'static','notifypage.css'))}}
+    {{response.files.append(URL(request.application,'static','css/accordian.css'))}}
+    {{include 'web2py_ajax.html'}}
+	<script src="{{=URL('static', 'js/jquery.js')}}"></script>
+
+
+    <script type='text/javascript'>
+      function mywin(roll){
+        document.getElementById( roll + "light").style.display="block";
+        document.getElementById("fade").style.display="block";
+      }
+      function closewin(roll){
+      document.getElementById(roll + "light").style.display="none";
+      document.getElementById("fade").style.display="none";
+      }
+</script>
+</head>
+
+
+<body>
+<div id="notification">
+{{include}}
+</div>
+<script>
+$(document).ready(function(){
+  $(".table").toggle(function(){
+    $(this).css("max-height","999px");},
+    function(){
+    $(this).css("max-height","20px");
+  });
+});
+</script>
+<script> 
+$(document).ready(function(){
+  $("h2").click(function(){
+    var record = $(this).attr("record");
+    $("#"+record).slideToggle("slow");
+  });
+});
+$(document).ready(function(){
+  $("button").click(function(){
+    var record = $(this).attr("record");
+    $("#"+record).slideToggle("slow");
+  });
+});
+</script>   
+</script>
+</body>
+</html>

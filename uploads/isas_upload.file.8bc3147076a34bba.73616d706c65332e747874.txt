@@ -1,0 +1,14 @@
+Sirnam Swetha,201303014,sirnam.swetha@students.iiit.ac.in,8.4
+Sneha Bandla,201201128,sneha.bandla@students.iiit.ac.in,6.5
+Sarvesh Mahajan,201201186,sarvesh.mahajan@students.iiit.ac.in,5.2
+Abrar Ahmed,201256067,abrar.ahmed@students.iiit.ac.in,9.9
+Vignesh Pandey,201202149,vignesh.prasad@students.iiit.ac.in,8.7
+Simran Kedia,201201024,simran.kedia@students.iiit.ac.in,8.9
+Kathera Rishi,201201019,kathera.rishi@students.iiit.ac.in,7.3
+Parth Verma,201201145,parth.verma@students.iiit.ac.in,5.6
+Vineet Garg,201203123,vineet.garg@students.iiit.ac.in,8
+Ayush Saxena,201202031,ayush.saxena@students.iiit.ac.in,9
+Manas Tewari,201256012,manas.tewari@students.iiit.ac.in,7.8
+Nurendra Chaudhary,201301023,nuri@students.iiit.ac.in,5.6
+Amit Kumar Jhar,201201123,amitkumar.jha@students.iiit.ac.in,7.6
+Akshay jaggi,201203012,akshay.jaggi@students.iiit.ac.in,9.7

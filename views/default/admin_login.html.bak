@@ -1,0 +1,7 @@
+{{extend 'layout.html'}}
+{{if session.login==1:}}
+<font size='6'><center><u>Welcome To Admin Page</u><center></font><br><br>
+<center><font size='4'>{{=form}}</font><center><br>
+{{elif session.login==0:}}
+{{ redirect(URL(r=request,f='home_page')) }}
+{{pass}}

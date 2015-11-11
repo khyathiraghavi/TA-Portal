@@ -1,0 +1,12 @@
+{{extend 'layout.html'}}
+<font size='5'><center><u>Update Database</u></center></font><br><br>
+The file should be in the following format
+<ul>
+<li> It should be a text file with info of one course on one line. </li>
+<li> The info should be in this order: Course Name, Course Id, Credits, Full/Half sem,No. of Faculty, each faculty Name, EmailID </li>
+<li> Each field should be separated by a comma(','). </li>
+<li> Example: <br>Computer Programming, ICS101, 5, Full,2, faculty11, faculty1@iiit.ac.in , faculty2 , faculty2@iiit.ac.in </li>
+</ul>
+<br /><br />
+<center><font size='4'>{{=form}}</font></center>
+<br>

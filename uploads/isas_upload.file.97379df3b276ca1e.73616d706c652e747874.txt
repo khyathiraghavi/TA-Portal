@@ -1,0 +1,3 @@
+Yogesh Maheshwari,201202014,yogesh.maheshwari@students.iiit.ac.in,9,UG2k12
+TA BHAI,201202001,taship@students.iiit.ac.in,8,UG2k12
+Arjit Srivastava,201256003,arjit.srivastava@students.iiit.ac.in,7,UG2k12

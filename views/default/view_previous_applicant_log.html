@@ -1,0 +1,7 @@
+{{extend 'layout.html'}}
+
+<div class="content_heading">APPLICANT LOG </div>
+<div class="simple">
+{{for i in l:}}
+<h3>{{=A(i,_href=URL('view_previous_applicant_l',args=[i]))}}</h3></br>
+{{pass}}

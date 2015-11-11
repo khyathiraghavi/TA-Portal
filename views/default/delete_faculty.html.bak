@@ -1,0 +1,9 @@
+{{extend 'layout.html'}}
+<form name='course' method='post'>
+<select name='fid'>
+{{for i in fname:}}
+<option value='{{=i.Teach.id}}'>{{=i.Faculty.fname}}({{=i.Faculty.femail_id}})</option>
+{{pass}}
+</select>
+<input type='submit' value='Submit' name='submit'>
+</form>

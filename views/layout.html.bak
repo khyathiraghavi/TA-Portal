@@ -1,0 +1,333 @@
+{{
+response.menu1=[]}}
+{{if session.login!=0:}}
+    {{response.menu1 += [[SPAN('Home',_class="highlighted"), False,URL(request.application,'default','home_page'), []],
+    ]}}
+{{pass}}
+{{if session.login==1:}}
+	{{response.menu1 += [[T('Applicant'), False,'#', 
+	[
+	[T('Select Applicant'),False,URL(request.application,'default','admin_applicant_list_2'),[]],
+	[T('Applicant Status'),False,URL(request.application,'default','namewise_list'),[]],
+	[T('Selected Applicants'),False,URL(request.application,'default','selected_TA'),[]]
+	],
+	]]}}
+	{{response.menu1+=[[T("TA's"),False ,'#',[[T("Unselect TA's"),False,URL(request.application,'default','sel_course'),[]],],],]}}
+	{{response.menu1+=[[T("Allocated TA's"),False,URL(request.application,'default','admin_allocatedTA'),[]],]}}
+		
+	{{response.menu1+=[[T('Courses'),False,'#',[
+		[T("Add Faculty"),False,URL(request.application,'default','add_faculty'),[]],
+		[T("Add Program"),False,URL(request.application,'default','add_program'),[]],
+		[T("Courses Info"),False,URL(request.application,'default','courses_info'),[]],
+		[T("Add Course"),False,URL(request.application,'default','add_courses'),[]],
+		[T("Update Course"),False,URL(request.application,'default','update_course'),[]],
+		[T("Delete"),False,URL(request.application,'default','delete'),[]],
+		]],]}}
+	{{response.menu1+=[[T('Settings'),False,'#',[
+		[T("Set Applicant Deadline"),False,URL(request.application,'default','set_date'),[]],
+		[T("Update Db"),False,URL(request.application,'default','upload'),[]],
+		[T("View Log Table"),False,URL(request.application,'default','logtable'),[]],
+		[T("Update Students Db"),False,URL(request.application,'default','isas_upload'),[]],
+		[T("View Previous Applicant Log"),False,URL(request.application,'default','view_previous_applicant_log'),[]],
+		[T("Set Faculty Deadline"),False,URL(request.application,'default','nominate_date'),[]],
+		]]
+	,]}}
+{{pass}}
+{{if session.login==3:}}
+	{{check=datetime.datetime.now()}}
+	{{portal=db(db.Faculty_deadline.id>0).select()}}
+	{{if portal:}}
+		{{starting=portal[0].start_date}}
+		{{ending=portal[0].end_date}}
+		{{if check > starting and check < ending:}}
+			{{response.menu1 += [[T('Nominate Applicant'), False,URL(request.application,'default','faculty_applicant_list_2'), []]]}}
+		{{pass}}
+	{{response.menu1 += [[T("Allocated TA's"), False,URL(request.application,'default','faculty_allocatedTA'), []],]}}
+	{{response.menu1 += [[T("Selected Applicant"), False,URL(request.application,'default','faculty_selectedTA'), []],]}}
+	{{pass}}
+{{pass}}
+	
+{{if session.login==2:}}
+	{{check=datetime.datetime.now()}}
+	{{portal=db(db.Portaldate.id>0).select()}}
+	{{if portal:}}
+		{{starting=portal[0].start_date}}
+		{{ending=portal[0].end_date}}
+		{{if (db(db.Applicant.apemail_id == session.student_email).select()):}}
+			{{response.menu1 += [[T('My Profile'), False,URL(request.application,'default','student_profile'), []]]}}
+		{{pass}}
+		{{if check > starting:}}
+			{{tlist=[]}}
+			{{if check<ending:}}
+				{{tlist+= [[T('Apply For Taship'),False,URL(request.application,'default','TA_application'),[]]]}}
+			{{pass}}
+			{{if (db((db.Applicant.apemail_id == session.student_email) & (db.AppliedFor.appid ==db.Applicant.id)).select()):}}
+				{{tlist+= [[T('Application Status'),False,URL(request.application,'default','status'),[]]]}}
+			{{pass}}
+			{{response.menu1 += [[T('Taship'), False,'#', tlist]]}}
+		{{pass}}
+		{{if (db((db.Applicant.apemail_id == session.student_email) & (db.AppliedFor.appid ==db.Applicant.id)).select()):}}
+			{{if check > starting and check < ending:}}
+				{{response.menu1 += [[T('Delete Application'), False,URL(request.application,'default','unselect_course'), []]]}}
+			{{pass}}	
+		{{pass}}		
+		{{selected = db((db.Applicant.id == db.SelectedTA.appid) & (db.Applicant.id == db.AppliedFor.appid) & (db.Applicant.apemail_id == session.student_email)).select()}}
+		{{if selected:}}
+			{{if selected[0].SelectedTA.flag==1:}}
+				{{response.menu1 += [[T('TA Reporting Form'), False,URL(response.application,'default','getPdf'), []]]}}
+			{{pass}}
+		{{response.menu1 += [[T('Course Info'), False,URL(response.application,'default','courses_info'), []]]}}
+		{{pass}}
+	{{pass}}
+{{pass}}
+{{response.menu1+=[[T('Admin Contacts'),False,URL(request.application,'default','contacts'),[]]]}}
+{{if session.login == 1 or session.login==3:}}
+	{{response.menu1+=[[SPAN('Notifications'),False,'#openModal',[]]]}}
+	{{response.menu1+=[[SPAN('Admin Privileges'),False,'#openAdmin',[]]]}}
+	{{response.menu1+=[[SPAN('About'),False,'#openAbout',[]]]}}
+{{pass}}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>TA Portal</title>
+		{{response.files.append(URL(request.application,'static','mainpage.css'))}}
+		{{#response.files.append(URL(request.application,'static','css/bootstrap-responsive.min.css'))}}
+		{{response.files.append(URL(request.application,'static','css/bootstrap.min.css'))}}
+		{{response.files.append(URL(request.application,'static','css/web2py_bootstrap.css'))}}
+		{{#response.files.append(URL(request.application,'static','css/web2py_bootstrap.nojs.css'))}}
+		{{response.files.append(URL(request.application,'static','css/web2py.css'))}}
+		{{response.files.append(URL(request.application,'static','css/accordian.css'))}}
+		{{response.files.append(URL(request.application,'static','css/docs.css'))}}
+		{{response.files.append(URL(request.application,'static','notifymodal.css'))}}
+		{{include 'web2py_ajax.html'}}
+		<script src="{{=URL('static','js/modernizr.custom.js')}}"></script>
+		<!--script src="{{#=URL('static','js/modal.js')}}"></script-->
+		<script src="{{=URL('static','js/collapse.js')}}"></script>
+		<style type="text/css">
+		</style>
+		<script src="{{=URL('static','js/jquery.js')}}"></script>
+		<script src="{{=URL('static','js/bootstrap.min.js')}}"></script>
+		<script src="{{=URL('static','js/web2py_bootstrap.js')}}"></script>
+		<script src="{{=URL('static','js/scrollspy.js')}}"></script>
+
+		<script>
+			$(function() {
+
+				// grab the initial top offset of the navigation 
+				var sticky_navigation_offset_top = $('#content').offset().top;
+
+				// our function that decides weather the navigation bar should have "fixed" css position or not.
+				var sticky_navigation = function(){
+					var scroll_top = $(window).scrollTop(); // our current vertical position from the top
+
+					// if we've scrolled more than the navigation, change its position to fixed to stick to top, otherwise change it back to relative
+					if (scroll_top > sticky_navigation_offset_top) { 
+						$('#menu').css({ 'position': 'fixed', 'top':0, 'left':0 ,'margin-left':0,'background-color':'#FFF','width':'100%'});
+						} else {
+						$('#menu').css({ 'position': 'absolute','top':'auto','left':'auto','height':50 ,'background-color':'transparent','margin-left':35}); 
+					}   
+				};
+				// run our function on load
+				sticky_navigation();
+				// and run it again every time you scroll
+				$(window).scroll(function() {
+					sticky_navigation();
+				});
+				// NOT required:
+				// for this demo disable all links that point to "#"
+				$('a[href="#"]').click(function(event){ 
+					event.preventDefault(); 
+				});
+
+			});
+		</script>
+
+
+		<script type="text/javascript">
+			$(document).ready(function(){
+					$(".change_table").toggle(
+						function(){$("table,table thead tr th,table thead tr td").css({"background-color":'black','color':'#6F0'});},
+						function(){$("table,table thead tr th,table thead tr td").css({"background-color":'white','color':'black'});
+						});
+					});
+</script>
+
+<script type='text/javascript'>
+	function mywin(roll){
+		document.getElementById( roll + "light").style.display="block";
+		document.getElementById("fade").style.display="block";
+	}
+function closewin(roll){
+	document.getElementById( roll + "light").style.display="none";
+	document.getElementById("fade").style.display="none";
+}
+$(document).keyup(function(e) {
+		if (e.keyCode == 27) 
+		{ 
+		$(".white_content").css("display","None");
+		$(".black_overlay").css("display","None"); 
+		$(".white_content1").css("display","None"); 
+		}   // es
+		});      
+</script>
+<style>
+	.wid{
+		width:1280px;
+	}
+	</style>
+</head>
+<body style="margin-top:-30px;margin-left:0px;margin-right:0px;margin-bottom:0px;">
+
+	{{import datetime}}
+	{{curr=datetime.datetime.now()}}
+	{{datab=db(db.SelectedTA).select()}}
+
+	{{ for i in datab:}}
+	{{sel= i}}
+	{{up=sel.timestamp+datetime.timedelta(days=1)}}                
+	{{let=up-curr}}
+	{{if let.days<0:}}
+	{{if i.flag == 0:}}
+	{{db(db.AppliedFor.appid == i.appid).update(noflag = '0')}}
+	{{db((db.AppliedFor.appid == i.appid) &  (db.AppliedFor.cid==i.cid)).update(status='None')}}
+	{{type=db(db.SelectedTA.appid==i.appid).select(db.SelectedTA.TAtype)[0]}}                       
+	{{db(db.SelectedTA.appid == i.appid).delete()}}
+	{{db(db.SelectedTA.appid == i.appid).delete()}}
+	{{if type.TAtype == "quarter":}}
+	{{db(db.Course.id == i.cid).update(no_of_qta = db.Course.no_of_qta - 1 )}}
+	{{pass}}
+	{{if type.TAtype == "half":}}
+	{{db(db.Course.id == i.cid).update(no_of_hta = db.Course.no_of_hta - 1 )}}
+	{{pass}}
+	{{if type.TAtype == "full":}}
+	{{db(db.Course.id == i.cid).update(no_of_fta = db.Course.no_of_fta - 1 )}}
+	{{pass}}
+	{{pass}}
+	{{pass}}
+	{{pass}}
+	<!--       START OF NOTIFICATIONS      -->
+	<div id="fade" class="black_overlay" onclick="closewin('notify')"></div>
+	<div id="notifylight" class="white_content" >
+		<a href="javascript:void(0)" onclick="closewin('notify')" id="close">X</a>
+		<div id="h">NOTIFICATIONS</div>
+		<div id="quicklinks">
+			<a href="{{=URL(r = request, f = 'courses_info')}}" title="Courses Info"><div class="notifylink">COURSE INFO</div></a>
+			{{ if session.login == 1: }}
+			<a href="{{=URL(r = request, f = 'admin_applicant_list_2')}}"  title="Applicant List"><div class="notifylink">SELECT APPLICANT</div></a>
+			<a href="{{=URL(r = request, f = 'selected_TA')}}" title="SelectedTA List"><div class="notifylink">SELECTED TA LIST</div></a> 
+			{{ elif session.login == 3: }} 
+			<a href="{{=URL(r = request, f = 'faculty_applicant_list_2')}}"  title="Applicant List"><div class="notifylink">SELECT APPLICANT</div></a>
+			<a href="{{=URL(r = request, f = 'faculty_selectedTA')}}" title="SelectedTA List"><div class="notifylink">SELECTED TA LIST</div></a> 
+			{{pass}}
+		</div>
+		<div id="newpage">
+			<iframe id="frame"src="notify.html"></iframe>
+		</div>
+	</div>
+
+	<!--     END OF NOTIFICATIONS     -->
+	<div id="header">
+		<div id="heading">
+			<image src="{{=response.logo or ''}}" height=100px width=100px align='left' style="margin-top:-10px"/>
+			<a href="{{=URL(r = request, f = 'home_page')}}"  title="Home Page"><div id="ta_portal" style="margin-top:10px">TA PORTAL</div><div id="semester_name"> {{=session.current_semester}}</div></a></div>
+		<div id="mini_menu">
+			<a href="{{=URL(r=request,f='logout')}}" class="btn btn-default btn-large" accesskey="6" title="">Logout</a>
+			<a href="{{=URL(r=request,f='help')}}"class="btn btn-default btn-large" >Help</a>
+		</div>
+		<div id="login_name">
+			{{logname=""}}
+			{{ if session.login != 0: }}
+			Hi,
+			{{x=session.token}}
+			{{for y in x:}}
+			{{if y!="@":}}
+			{{if y=='.':}}
+			{{y=' '}}
+			{{pass}}
+			{{logname=logname+y}}
+			{{else:}}
+			{{break}}
+			{{pass}}
+			{{pass}}
+			{{=logname.title()}}
+			{{pass}}
+		</div>       
+	</div>
+	<!---master header -->
+	<!--div class="mastheader row" id="header">
+	{{if response.title:}}
+	<div class="span12">
+		<div class="page-header">
+			<h1>
+				{{#=response.title}}
+				<small>{{#=response.subtitle or ''}}</small>
+			</h1>
+		</div>
+	</div>
+	{{pass}}
+	</div-->
+	<!--end of header-->
+	<div class="navbar navbar-inverse wid" >
+		<div class="navbar-inner wid" >
+			<div class="container wid" >
+				<div class="nav-collapse wid" >
+					{{if response.menu1:}}
+					{{is_mobile=request.user_agent().is_mobile}}
+					{{=MENU(response.menu1, _class='mobile-menu nav wid' if is_mobile else 'nav',mobile=is_mobile,li_class='dropdown',ul_class='dropdown-menu')}}
+					{{pass}}	
+				</div>
+				<!--a class="btn btn-primary btn-lg" href="#openModal">
+					Notifications
+				</a-->
+
+			</div>
+		</div>
+	</div>
+	<div id="content" style="margin-left:10px;margin-top:-15px;">
+		<hr id="line">
+		<div id="message" class="flash">{{=response.flash or ''}}</div>
+			{{include}}
+	</div>
+	<hr id="line">
+</div>
+<!---new additions-->
+<!-- Modal -->
+<div id="openModal" class="modalDialog">
+	<div class="modalBody">
+		<br />
+		<a href="#close" title="Close" class="close">&times;</a>
+		{{#=LOAD('compo','notify.load',ajax=True)}}
+		<div id="newpage">
+			<iframe id="frame"src="notify.html"></iframe>
+		</div>
+	</div>
+	<div class="modalFooter">
+		<a href="{{=URL(r = request, f = 'courses_info')}}" title="Courses Info"><div class="btn btn-primary">COURSE INFO</div></a>
+		{{ if session.login == 1: }}
+		<a href="{{=URL(r = request, f = 'admin_applicant_list_2')}}"  title="Applicant List"><div class="btn btn-primary">SELECT APPLICANT</div></a>
+		<a href="{{=URL(r = request, f = 'selected_TA')}}" title="SelectedTA List"><div class="btn btn-primary">SELECTED TA LIST</div></a> 
+		{{ elif session.login == 3: }} 
+		<a href="{{=URL(r = request, f = 'faculty_applicant_list_2')}}"  title="Applicant List"><div class="btn btn-primary">SELECT APPLICANT</div></a>
+		<a href="{{=URL(r = request, f = 'faculty_selectedTA')}}" title="SelectedTA List"><div class="btn btn-primary">SELECTED TA LIST</div></a> 
+		{{pass}}
+	</div>
+</div>
+<div id="openAdmin" class="modalDialog">
+	<div class="modalBody" style="background:#ffffff;height:500px;width:1000px">
+		<a href="#closeAdmin" title="Close" class="close">&times;</a>
+		<div id="newpage" style="height:100%">
+			<iframe id="frame"src="adminpriv.html"style="height:100%"></iframe>
+		</div>
+	</div>
+</div>
+<div id="openAbout" class="modalDialog">
+	<div class="modalBody" style="background:#ffffff;height:500px;width:1000px">
+		<a href="#closeAdmin" title="Close" class="close">&times;</a>
+		<div id="newpage" style="height:100%">
+			<iframe id="frame"src="about.html"style="height:100%"></iframe>
+		</div>
+	</div>
+</div>
+</body>
+</html>

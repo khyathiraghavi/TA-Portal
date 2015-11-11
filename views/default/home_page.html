@@ -1,0 +1,18 @@
+{{extend 'layout.html'}}
+{{date=db(db.Portaldate.id>0).select()}}
+<div class="content_font">
+    <div class="content_heading">OVERVIEW</div>
+	<ul class="content_lists">
+		<li> Apply ONLINE for the courses that you would like to be a TA for this semester</li>
+		<li> Also register your name against the courses for which you would like to be a TA in a register kept in the academic office. This is only for reliability purposes. Only ONLINE registration will be considered.</li>
+		<li> If you have been selected for one Course, Your name will be deleted from the list of applicants, you no longer can apply for Other Courses</li>
+		<li> Preference will be given to those candidates whom the course instructor recommends.</li>
+		<li><b> All selected TA's must attend a mandatory orentation session date will be announced latter</b> </li>
+		<li> Till {{if date :}}{{=date[0].end_date.strftime('%d %B %Y %I:%M%p')}} {{pass}} students can apply for TAship </li>
+		<li> <b>If you have registered for a course in a specific slot, then you should not apply for TAship for any other course that has a tutorial session scheduled in the same slot.</b> For example, if course "ABC" is scheduled from 10:00 - 11:25 am on Mondays and Thursdays and tutorial for the same course "ABC" is scheduled on Mondays at 2:00 pm, you should not apply for TAship for course "ABC" if you are registered for any other course that has lecture session from 2:00 - 3:25 pm on Mondays and Thursdays </li>
+   		<li>Note:M.Tech(GQ)-M.Tech Gate Qualified,M.Tech(NGQ)-M.Tech Non Gate Qualified
+    </ul>
+    {{if session.login == 1:}}
+    <!--div class="content_heading">Click below button for<br /><br /><span style="font-weight:bold;">{{#=A("ADMIN PREVILLEGES",_href=URL("adminpriv"),_class="btn btn-warning btn-large")}}</span><br /><br /></div-->
+    {{pass}}
+</div>

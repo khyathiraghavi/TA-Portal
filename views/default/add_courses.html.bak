@@ -1,0 +1,8 @@
+{{extend 'layout.html'}}
+
+</script>
+
+{{ if session.login == 1: }}
+	<font size='5'><center><u>Add Courses </u></center></font><br /><br />
+	<center><font size='3'>{{=form}}</font></center>
+	{{ pass }}

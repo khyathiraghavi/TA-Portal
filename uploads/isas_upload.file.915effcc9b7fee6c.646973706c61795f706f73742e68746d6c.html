@@ -1,0 +1,12 @@
+{{ extend 'layout.html' }}
+<ul>
+	{{for i in q:}}
+	<li>
+		<b> <a href={{=i['url']}}> {{=i['heading']}} </a> </b> </br>
+Posted by: <b style="font-size:13px"> {{=i['name'] }}   &nbsp; &nbsp; </b>  Posted on: <b style="font-size:13px"> {{ =i['timing'] }} </b> </br>
+		<ul style="list-style-type:square">
+			<u>	{{ =LI(A('Comments and Likes',_href=URL("view_comments",args=i['id'] ))) }} </u> </br> </ul>
+		<div style="border-bottom-style:ridge;"></div> </br> 
+	</li>
+	{{pass}}
+</ul>

@@ -1,0 +1,58 @@
+(dp1
+S'course_id'
+p2
+(dp3
+S'length'
+p4
+I255
+sS'unique'
+p5
+I00
+sS'sortable'
+p6
+I3
+sS'sql'
+p7
+S'INT, INDEX course_id__idx (course_id), FOREIGN KEY (course_id) REFERENCES Course (id) ON DELETE CASCADE'
+p8
+sS'notnull'
+p9
+I00
+sS'type'
+p10
+S'reference Course'
+p11
+ssS'faculty_id'
+p12
+(dp13
+g4
+I255
+sg5
+I00
+sg6
+I2
+sg7
+S'INT, INDEX faculty_id__idx (faculty_id), FOREIGN KEY (faculty_id) REFERENCES Faculty (id) ON DELETE CASCADE'
+p14
+sg9
+I00
+sg10
+S'reference Faculty'
+p15
+ssS'id'
+p16
+(dp17
+g4
+I255
+sg5
+I00
+sg6
+I1
+sg7
+S'INT AUTO_INCREMENT NOT NULL'
+p18
+sg9
+I00
+sg10
+g16
+ss.

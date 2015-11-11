@@ -1,0 +1,9 @@
+{{extend 'layout.html'}}
+{{if start and end :}}
+Start Date :{{=start}}<br><br>
+End Date : {{=end}}<br><br>
+CHANGE DATE:<br>
+{{elif True :}}
+Set Date : <br>
+{{pass}}
+{{=form}}

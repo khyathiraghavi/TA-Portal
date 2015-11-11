@@ -1,0 +1,33 @@
+{{extend 'layout.html'}}
+<div class="content_heading">SELECT THE TAs TO BE REMOVED FOR THIS PARTITCULAR COURSE</div>
+<div class="form simple">
+<form method="POST" id="confirm" action="">
+<table>
+    <tr>
+        <th>UNSELECT</th>
+        <th>COURSE NAME</th>
+        <th>TA TYPE</th>
+        <th>APPLICANT NAME</th>
+        <th>APPLICANT ROLL NO.</th>
+        <th>APPICANT MOBILE NO.</th>
+        <th>STATUS</th>
+        
+    </tr>
+{{for i in r:}}
+    <tr>
+        <td><input type="checkbox" name="{{=i.SelectedTA.id}}" /></td>
+        <td>{{=i.Course.cname}}</td>
+        <td>{{=i.SelectedTA.TAtype}}</td>
+        <td>{{=i.Applicant.apname}}</td>
+        <td>{{=i.Applicant.aprollno}}</td>
+        <td>{{=i.Applicant.phoneno}}</td>
+        <td>{{if i.SelectedTA.flag==1 :}} Accept {{elif  i.SelectedTA.flag==0 :}} Pending{{pass}}<td>    
+    </tr>
+{{pass}}
+</table>
+
+<INPUT type="submit" value="Submit" />
+
+<input type="hidden" name="_formname" value="confirm" />
+</form>
+</div>

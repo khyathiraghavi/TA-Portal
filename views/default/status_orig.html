@@ -1,0 +1,78 @@
+{{extend 'layout.html'}}
+<center><font size='5'>STATUS FOR APPLIED COURSES</font></center><br/><br/>
+{{if records_appliedfor: }}
+    
+   
+    <center>
+    <table cellspacing="5px" align='center'>
+    <tr align="center">
+    <td align="center"><font size='3'>COURSE NAME</font></td>
+    <td align="center"><font size='3'>PREFERENCES</font></td>
+
+    {{if state==1:}}
+    <td align="center">UP<font size='3'></font></td>
+    <td align="center">DOWN<font size='3'></font></td>
+    
+<!--    {{elif state==2:}}
+    <td align="center"><font size='3'>STATUS</font></td>
+<td align="center"><font size='3'></font></td>
+    <td align="center"><font size='3'></font></td>
+    {{pass}}
+    --></tr>
+    {{index=0}}
+        {{for i in records_appliedfor:}}
+        <tr>
+            {{if i.AppliedFor.status=='None' :}}
+            <td align="center"><font size='2' color='black' > {{=i.Course.cname}}</font></td>
+            <td align="center"><font size='2' color='black' > {{=i.AppliedFor.preference}}</font> </td>
+<!--    {{if state==2:}}
+    <td align="center"><font size='2' color='black' > {{=i.AppliedFor.status}} </font></td>
+            {{pass}}
+    -->        {{elif i.AppliedFor.status=='Rejected' :}}
+            <td align="center"><font size='2' color='black' > {{=i.Course.cname}}</font></td><!--color changed from blue to black -->
+            <td align="center"><font size='2' color='black' > {{=i.AppliedFor.preference}}</font> </td>
+           <!-- <td align="center"><font size='2' color='blue' > {{=i.Course.cname}}</font></td>
+            <td align="center"><font size='2' color='blue' > {{=i.AppliedFor.preference}}</font> </td>-->
+<!--        {{if state==2:}}
+            <td align="center"><font size='2' color='blue' > {{=i.AppliedFor.status}} </font></td>
+        {{pass}}
+    -->    {{elif i.AppliedFor.status=='Selected' :}}
+            
+            <td align="center"><font size='2' color='black' > {{=i.Course.cname}}</font></td><!--color changed from red to black -->
+            <td align="center"><font size='2' color='black' > {{=i.AppliedFor.preference}}</font> </td>
+           <!-- <td align="center"><font size='2' color='red' > {{=i.Course.cname}}</font></td>
+            <td align="center"><font size='2' color='red' > {{=i.AppliedFor.preference}}</font> </td>-->
+<!--            {{if state==2:}}
+            <td align="center"><font size='2' color='red' > {{=i.AppliedFor.status}}</font></td>
+        {{pass}}-->
+	 {{if state==2:}}
+            {{TAid=db(db.SelectedTA.appid == i.AppliedFor.appid).select()}}            
+            {{if TAid :}}
+            {{if TAid[0].flag==0 :}}
+        
+            <form name='Applicant' method="post" >
+            <input name='cid' type='hidden' value={{=i.AppliedFor.cid}} />
+            <td> <input name='submit' value='accept' type='submit'/></td>
+            <td><input name='submit' value='reject' type='submit'/></td>
+            </form>
+            {{pass}}
+            {{pass}}
+            {{pass}}
+            {{elif i.AppliedFor.status=='Nominated' :}}
+            	<td align="center"><font size='2' color='black' > {{=i.Course.cname}}</font></td>
+            	<td align="center"><font size='2' color='black' > {{=i.AppliedFor.preference}}</font> </td>
+            {{pass}}
+            {{if state==1 :}}
+            <form name='Preference' method="post" >
+            <input name='apfid' type='hidden' value={{=i.AppliedFor.id}} />
+            <input name='index' type='hidden' value={{=index}} />
+            <td> <input name='submit' value='up' type='submit'/></td>
+            <td><input name='submit' value='down' type='submit'/></td>
+            </form>
+            {{pass}}
+          </tr> 
+          {{index+=1}}
+        {{pass}}
+        </table>
+	</center>
+{{pass}}

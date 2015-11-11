@@ -1,0 +1,12 @@
+{{extend 'layout.html'}}
+<div class="content_heading">DELETE PROGRAM</div>
+<div class="form center_small margin">
+<form name='program' method='post'>
+<select name='pid'>
+{{for i in program:}}
+<option value='{{=i.OfferedTo.id}}'>{{=i.Program.pname}}</option>
+{{pass}}
+</select>
+<input type='submit' value='Submit' name='submit'>
+</form>
+</div>

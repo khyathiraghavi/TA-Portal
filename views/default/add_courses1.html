@@ -1,0 +1,24 @@
+{{extend 'layout.html'}}
+<script>
+function validateForm()
+{
+	var x=document.forms["faculty"]["prof_name"].value;
+	var y=document.forms["faculty"]["prof_email"].value;
+	if(x==null||x==""||y==null||y=="")
+	{
+		alert("form must be filled out");
+		return false;
+	}
+}
+</script>
+<form name='faculty' action='add_courses1'>
+
+{{for i in range(1,int(nof)+1) :}}
+Prof {{=i}} details : <br>
+Prof Name : <input type="text" name="prof_name" ><br>
+Prof Email : <input type="text" name="prof_email" ><br><br>
+{{pass}}
+<input type="submit" value="submit" name="submit">
+
+    
+</form>

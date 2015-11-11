@@ -1,0 +1,319 @@
+{{ extend 'layout.html' }}
+{{max_ta = 0}}
+{{current_ta = 0}}
+<div class="content_heading">SELECT STUDENTS FROM SORTED LIST</div>
+<div class="content_font">
+<p>NOTES-</p>
+    <p>A student who has already been allocated a course is marked in <font color="red"><b>RED</b></font></p>
+    <p>A student who should NOT be selected as TA for the specific course is marked in  <font color='blue'><b>BLUE</b></font></p>
+    <p>A student who has been nominated by the faculty is marked in <font color='green'><b>GREEN</b></font></p>
+</div>
+{{print "check"}}
+{{if(session.admin_varCid):}}
+{{d=db(db.Course.id==session.admin_varCid).select()}}
+{{d=d[0].no_of_qta}}
+{{e=db(db.Course.id==session.admin_varCid).select()}}
+{{e=e[0].no_of_hta}}
+{{f=db(db.Course.id==session.admin_varCid).select()}}
+{{f=f[0].no_of_fta}}
+{{g=db(db.Course.id==session.admin_varCid).select()}}
+{{g=g[0].no_of_ta}}
+<div class="content_font">
+    <ul>
+    <li>No. of Quarter TAs:{{=d}}</li>
+    <li>No. of Half TAs:{{=e}}</li>
+    <li>No. of Full TAs:{{=f}}</li>
+    <li>Max No. of TAs:{{=(g-d-2*e-4*f)}} {{max_ta=(g)}}</li>
+    {{current_ta = int(d) + int(e)*2 + int(f)*4 }}
+    </ul>
+    </div>
+{{pass}}
+<br/><br/>
+
+{{import datetime}}
+
+<script type='text/javascript'>
+function confirmation(){
+   var where_to=confirm("Are you sure?");
+   if( !where_to ){
+      window.location='admin_applicant_list_2.html';
+   }
+   return where_to;
+}
+</script>
+
+{{ if ( request.vars.submit ):  }}
+    {{ exit_flag = 0}}    <!-- for checking exit condition if 0 continue else exit -->
+    {{ if (request.vars.applicant is None) :}}
+        {{ session.flash = 'No Applicant selected!!' + ' ' + 'Please select applicant(s)' }}        
+        {{ exit_flag = 1 }} 
+        {{ redirect(URL(r = request, f = 'admin_applicant_list_2')) }}
+    {{pass}}
+
+    {{ if (exit_flag == 0) :}}
+        {{ multipleValue = 0 }}
+        {{ if (request.vars.applicant[0] != '2' ): }}
+            {{ multipleValue = 1 }}
+        {{ pass }}
+
+        {{ roll_type = {} }}
+        {{ count = 0 }}
+
+        {{ if not(request.vars.totalApplicants == '1') :}}
+            {{ for i in request.vars.coursetype: }}
+                {{ string = i.split(':') }}
+
+                {{ if(len(string) > 1): }}
+                    {{ roll_type[string[1]] = string[0] }}
+                {{ pass }}
+            {{pass}}
+        {{ elif True: }}
+            {{ string = request.vars.coursetype.split(':') }}
+            {{ roll_type[string[1]] = string[0] }}
+        {{ pass }}
+
+        {{ if (multipleValue == 1) : }}
+            {{ applicantList = request.vars.applicant }}
+
+
+            {{next_total = int(request.vars.curr_ta)}}
+
+            {{ for i in request.vars.applicant : }}
+                {{ =(i, roll_type[i] ) }}<br>
+                {{ applicantId = db(db.Applicant.aprollno == i).select()[0]}}
+                
+                {{ if (roll_type[i] == 'quarter') : }}
+                    {{ next_total = next_total +1 }}
+                {{ elif (roll_type[i] == 'half'): }}
+                    {{ next_total = next_total +2 }}
+                {{ elif (roll_type[i] == 'full') : }}
+                    {{ next_total = next_total +4 }}
+                {{ pass }}
+
+            {{pass}}
+
+            {{=next_total}}
+		{{print next_total}}
+		{{print "next_total"}}
+		{{print request.vars.maximum_ta}}
+            {{if ( int(request.vars.maximum_ta) >= int(next_total ) ):}}
+            {{ for i in request.vars.applicant : }}
+                {{ =(i, roll_type[i] ) }}<br>
+                
+                {{ applicantId = db(db.Applicant.aprollno == i).select()[0]}}
+                {{c=db(db.Course.id==session.admin_varCid).select()[0]}}
+                
+                <!-- modifications of no. of TA -->
+                {{ taId = db(db.SelectedTA.appid == applicantId.id).select() }} <!-- add [0] -->
+                
+                {{ db(db.SelectedTA.appid == applicantId.id).delete() }}
+                {{ if (taId): }}
+                                        {{taId=taId[0] }}
+                                        {{ db((db.AppliedFor.appid == applicantId.id ) & (db.AppliedFor.cid==taId.cid)).update(status='None') }}
+                                        
+                    {{ if taId.TAtype == 'quarter': }}
+                        {{ db(db.Course.id == taId.cid).update(no_of_qta = db.Course.no_of_qta - 1 ) }}
+                    {{ elif taId.TAtype == 'half': }}
+                        {{ db(db.Course.id == taId.cid).update(no_of_hta = db.Course.no_of_hta - 1 ) }}
+                    {{ elif taId.TAtype == 'full': }}
+                        {{ db(db.Course.id == taId.cid).update(no_of_fta = db.Course.no_of_fta - 1 ) }}
+                        {{ pass }}
+                {{ pass }}
+                {{db.auth_event.insert(origin=session.token,user_type="admin",description="selected "+applicantId.apname +" for course "+c.cname,name=session.name,uid=session.roll)}}
+                {{ db(db.AppliedFor.appid ==applicantId.id).update(noflag = '2') }}
+                {{ db((db.AppliedFor.appid ==applicantId.id )& (db.AppliedFor.cid==session.admin_varCid)).update(status='Selected') }}
+
+                {{ db.SelectedTA.insert(appid = applicantId.id, cid = session.admin_varCid,\
+                        TAtype = roll_type[i], selectiontimestamp = datetime.datetime.today(),acceptiontimestamp ='',flag=0) }}
+                {{ if (roll_type[i] == 'quarter') : }}
+                    {{ db(db.Course.id == session.admin_varCid).update(no_of_qta = db.Course.no_of_qta + 1 ) }}
+                {{ elif (roll_type[i] == 'half'): }}
+                    {{ db(db.Course.id==session.admin_varCid).update(no_of_hta = db.Course.no_of_hta + 1 ) }}
+                {{ elif (roll_type[i] == 'full') : }}
+                    {{ db(db.Course.id == session.admin_varCid).update(no_of_fta = db.Course.no_of_fta + 1 ) }}
+                {{ pass }}
+
+            {{pass}}
+            {{ session.admin_rollType = roll_type }}
+            {{ session.admin_applicantList = applicantList }}
+            {{ redirect(URL(r = request, f = 'admin_applicant_list_3')) }}
+            
+            {{else:}}
+                {{session.flash = "More TA's selected then required"}}
+                {{ redirect(URL(r = request, f = 'admin_applicant_list_2')) }}                
+            {{pass}}
+
+        {{ elif (multipleValue == 0) : }}
+            {{ =request.vars.applicant}} 
+            {{ =roll_type[request.vars.applicant] }}
+            {{ applicantId = db(db.Applicant.aprollno == request.vars.applicant).select()[0] }}
+            {{c=db(db.Course.id==session.admin_varCid).select()[0]}}
+
+            {{ if (roll_type[request.vars.applicant] == 'quarter'): }}
+                {{ next_total = int(request.vars.curr_ta) +1  }}
+            {{ elif (roll_type[request.vars.applicant] == 'half'): }}
+                {{ next_total = int(request.vars.curr_ta) +2  }}
+            {{ elif (roll_type[request.vars.applicant] == 'full'): }}
+                {{ next_total = int(request.vars.curr_ta) +4 }}
+            {{ pass }}
+	
+            {{=request.vars.maximum_ta}}
+            {{=next_total}}
+		{{ print next_total }}
+		{{ print "hello" }}
+		{{ print request.vars.maximum_ta}}
+            {{if ( int(request.vars.maximum_ta) >= int(next_total ) ):}}
+		    {{ taId = db(db.SelectedTA.appid == applicantId.id).select() }}
+
+                {{ if (taId): }}
+                    {{ db(db.SelectedTA.appid == applicantId.id).delete() }}
+                    {{ taId = taId[0] }}
+                    {{ db((db.AppliedFor.appid == applicantId.id ) & (db.AppliedFor.cid==taId.cid)).update(status='None') }}
+                    {{ if (taId.TAtype == 'quarter'  ): }}
+                        {{ db(db.Course.id == taId.cid ).update(no_of_qta = db.Course.no_of_qta - 1 ) }}
+                    {{ elif (taId.TAtype == 'half'): }}
+                        {{ db(db.Course.id == taId.cid).update(no_of_hta = db.Course.no_of_hta - 1 ) }}
+                    {{ elif (taId.TAtype == 'full'): }}
+                        {{ db(db.Course.id == taId.cid).update(no_of_fta = db.Course.no_of_fta - 1 ) }}
+                        {{ pass }}
+                {{ pass }}
+        {{db.auth_event.insert(origin=session.token,user_type="admin",description="selected "+applicantId.apname +" for course "+c.cname,name=session.name,uid=session.roll)}} 
+            {{ db(db.AppliedFor.appid == applicantId.id ).update(noflag = '2') }}
+            {{ db((db.AppliedFor.appid == applicantId.id )& (db.AppliedFor.cid==session.admin_varCid)).update(status='Selected') }}
+        
+                {{ db.SelectedTA.insert(appid = applicantId.id, cid = session.admin_varCid,\
+                            TAtype = roll_type[request.vars.applicant],datetime.datetime.today(),acceptiontimestamp ='',flag=0) }}
+
+                            
+                {{ if (roll_type[request.vars.applicant] == 'quarter'): }}
+                    {{ db(db.Course.id == session.admin_varCid).update(no_of_qta = db.Course.no_of_qta + 1 ) }}
+                {{ elif (roll_type[request.vars.applicant] == 'half'): }}
+                    {{ db(db.Course.id == session.admin_varCid).update(no_of_hta = db.Course.no_of_hta + 1 ) }}
+                {{ elif (roll_type[request.vars.applicant] == 'full'): }}
+                    {{ db(db.Course.id == session.admin_varCid).update(no_of_fta = db.Course.no_of_fta + 1 ) }}
+                {{ pass }}
+                {{ applicantList = [] }}
+                {{ applicantList.append(request.vars.applicant) }}
+                {{ session.admin_rollType = roll_type }}
+                {{ session.admin_applicantList = applicantList }}
+                {{ redirect(URL(r = request, f = 'admin_applicant_list_3')) }}
+
+            {{else:}}
+                {{session.flash = "More TA's selected then required"}}
+                {{ redirect(URL(r = request, f = 'admin_applicant_list_2')) }}
+            {{pass}}
+        {{pass}}
+    {{pass}}
+
+{{ elif (not(request.vars.submit)) : }}
+   <center> 
+   <div class="form">{{=form34}}</div>
+    	<div class="content_font">
+    		<table width="100%">
+                <tr>
+                    <td align="left">COURSE NAME:{{="   "+coursename.upper()}}</td>
+                    <td align="right"><button class="content_button">{{=A("RESET", _href=URL( vars= dict( suggest="no", s=""))) }}</button></td>
+                </tr>
+          </table>    
+       </div>
+    <form name='Applicant'>
+    <div class="simple">
+    
+    <table>
+        <tr>
+            <td><a href='#'>SELECT</a></td>
+            <td><a href='#'>TYPE</a></td>
+            <td>{{=A("NAME", _href=URL( vars= dict( suggest="True", s="apname"))) }}</td>
+            <td>{{=A("ROLLNO.", _href=URL( vars= dict( suggest="True", s="aprollno"))) }}</td>
+            <td>{{=A("PREFERENCE", _href=URL( vars= dict( suggest="True", s="AppliedFor.preference"))) }}</td>
+        	<td>{{=A("EMAIL", _href=URL( vars= dict( suggest="True", s="apemail_id"))) }}</font></td> 
+            <td> {{=A("PROGRAM", _href=URL( vars= dict( suggest="True", s="pname DESC"))) }}</td>
+            <td> {{=A("GRADE", _href=URL( vars= dict( suggest="True", s="grade"))) }}</td>
+            <td> {{=A("CGPA", _href=URL( vars= dict( suggest="True", s="apcgpa DESC"))) }}</td>
+            <td> {{=A("PREV EXP", _href=URL( vars= dict( suggest="True", s="prev_exp DESC"))) }}</td>
+            <td><a href='#'>STATUS</a></td>
+        </tr>
+    {{ totalApplicants=0}}
+    {{ for i in records:}}
+    {{Status="Nominated for :"}}
+    {{check = db((db.AppliedFor.appid==i.AppliedFor.appid)&(db.AppliedFor.cid==db.Course.id)).select()}}
+    {{for j in check:}}
+    {{if j.AppliedFor.status=='Nominated':}}
+    {{Status=Status+" "+j.Course.cname+" with preference "+str(j.AppliedFor.preference)+":"}}
+	{{pass}}
+{{pass}}
+{{for j in check:}}
+    {{if j.AppliedFor.status=='Selected':}}
+    {{Status="Selected for "+":"+j.Course.cname+" with preference "+str(j.AppliedFor.preference)+":"}}
+    {{pass}}
+	{{pass}}
+    {{if Status=="Nominated for :":}}
+    {{Status="None"}}
+    {{pass}}
+        {{ totalApplicants=totalApplicants+1}}
+        <tr>
+            <td>
+            <input type='checkbox' name='applicant' value={{=i.Applicant.aprollno}} />
+            {{type1='quarter'+':'+str(i.Applicant.aprollno)}}
+            {{type2='half'+':'+str(i.Applicant.aprollno)}}
+            {{type3='full'+':'+str(i.Applicant.aprollno)}}</td><td>	
+            <select name='coursetype'>
+                <option value={{=type1}}>Q</option>
+                <option value={{=type2}}>H</option>
+                <option value={{=type3}}>F</option>
+            </select>
+            </td>
+        {{if (i.AppliedFor.noflag==2): }}              <!-- If the TA is selected for any  course  -->
+            <td><font color='red' > {{=i.Applicant.apname}}</font></td>
+            <td><font color='red' > {{=i.Applicant.aprollno}}</font> </td>
+            <td><font color='red' > {{=i.AppliedFor.preference}} </font></td>
+            <td><font color='red' >{{=i.Applicant.apemail_id}}</font> </td>  
+            <td><font color='red' > {{ =i.Program.pname}},</font> </td>
+            <td><font color='red' > {{ =i.AppliedFor.grade}}</font></td>
+            <td><font color='red' >{{ =i.Applicant.apcgpa}}</font></td>
+            <td><font color='red' >{{ if( i.Applicant.prev_exp == True):}}Yes{{else:}}No{{pass}}</font></td>
+            <td><font color='red' >{{R=Status.split(':')}}{{for s in R:}}{{=s}}<br/>{{pass}}</font></td>
+        {{ elif (i.AppliedFor.status=='Rejected') :}}
+            <td><font color='blue' > {{=i.Applicant.apname}}</font></td>
+            <td><font color='blue' > {{=i.Applicant.aprollno}}</font> </td>
+            <td><font color='blue' > {{=i.AppliedFor.preference}} </font></td>
+        	<td><font color='blue' > {{=i.Applicant.apemail_id}} </font></td>   -->
+            <td><font color='blue' > {{ =i.Program.pname}} </font></td>
+            <td><font color='blue' >{{ =i.AppliedFor.grade}}</font> </td>
+            <td><font color='blue' >{{ =i.Applicant.apcgpa}}</font></td>
+            <td><font color='blue' >{{ if( i.Applicant.prev_exp == True):}}Yes{{else:}}No{{pass}}</font></td>
+            <td><font color='blue' >{{R=Status.split(':')}}{{for s in R:}}{{=s}}<br/>{{pass}}</font></td>
+            {{ elif i.AppliedFor.status=='Nominated': }}
+            <td><font color='green' > {{=i.Applicant.apname}}</font></td>
+            <td><font color='green' >{{=i.Applicant.aprollno}}</font> </td>
+            <td><font color='green' > {{=i.AppliedFor.preference}} </font></td>
+       		<td><font color='green' > {{=i.Applicant.apemail_id}} </font></td>  
+            <td><font color='green' >{{ =i.Program.pname}}</font></td>
+            <td><font color='green' >{{ =i.AppliedFor.grade}}</font></td>
+            <td><font color='green' >{{ =i.Applicant.apcgpa}}</font></td>
+            <td><font color='green' >{{ if( i.Applicant.prev_exp == True):}}Yes{{else:}}No{{pass}}</font></td>
+                <td><font color='green' >{{R=Status.split(':')}}{{for s in R:}}{{=s}}<br/>{{pass}}</font></td>
+            {{ elif True : }}
+            <td><font color='black' > {{=i.Applicant.apname}}</font></td>
+            <td><font color='black' >{{=i.Applicant.aprollno}}</font> </td>
+            <td><font color='black' > {{=i.AppliedFor.preference}} </font></td>
+       <td><font color='black' > {{=i.Applicant.apemail_id}} </font></td>  
+            <td><font color='black' >{{ =i.Program.pname}}</font></td>
+            <td><font color='black' >{{ =i.AppliedFor.grade}}</font></td>
+            <td><font color='black' >{{ =i.Applicant.apcgpa}}</font></td>
+            <td><font color='black' >{{ if( i.Applicant.prev_exp == True):}}Yes{{else:}}No{{pass}}</font></td>
+            <td><font color='black' >{{R=Status.split(':')}}{{for s in R:}}{{=s}}<br/>{{pass}}</font></td>
+        
+        </tr>
+        {{ pass }}
+        {{pass}}
+    </table>
+        </div>
+    <br /><br />
+        <div class="form"><input name='submit' value='submit' type='submit'/></div>
+    <input name='totalApplicants' type='hidden' value={{=totalApplicants}} />
+    <input name='maximum_ta' type='hidden' value={{=max_ta}} />
+    <input name='curr_ta' type='hidden' value={{=current_ta}} />
+    </form>
+{{ pass }}
+     </center>

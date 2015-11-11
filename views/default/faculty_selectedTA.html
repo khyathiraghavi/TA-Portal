@@ -1,0 +1,32 @@
+{{extend 'layout.html'}}
+
+<div class="content_heading">SELECTED TAs</div>
+<div class="simple">
+<table>
+   <tr>
+      <td>COURSE NAME</td>
+      <td>TA TYPE</td>
+      <td>NAME</td>
+      <td>ROLL NO</td>
+      <td>GRADE</td>
+      <td>CGPA</td>
+      <td>STATUS</td>
+   </tr>
+   {{ for i in records :}}
+   <tr>
+      <td>{{=i.Course.cname}}</td>
+      <td>{{=i.SelectedTA.TAtype}}</td>
+      <td><a href="#" onclick="alert('Email-id:   {{=i.Applicant.apemail_id}}\r\n\nPhone No.:   {{=i.Applicant.phoneno}}')">{{=i.Applicant.apname}}</a></td>
+      <td>{{=i.Applicant.aprollno}}</td>
+      <!--td><center>{{=i.Applicant.apemail_id}}</center></td-->
+      <td>{{=i.AppliedFor.grade}}</td>
+      <td>{{=i.Applicant.apcgpa}}</td>
+      {{if i.SelectedTA.flag==1:}}
+      <td>Accecpted</td>
+      {{else:}}
+      <td>Pending</td>
+      {{pass}}
+   </tr>
+   {{pass}}
+</table>
+</div>

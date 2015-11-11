@@ -1,0 +1,20 @@
+{{extend 'layout.html'}}
+
+<div class="content_heading"> PREVIOUS TA Records</div>
+<div class="simple">
+<table>
+<tr>
+<td>COURSE NAME</td>
+<td>COURSE ID</td>
+<td>TOTAL NO OF SELECTED TAs</td>
+</tr>
+{{for i in q:}}
+<tr>
+<td>{{=A(i.cname,_href=URL('ta_detail_view',args=[i.id]))}} </td>
+<td>{{=i.cid}}</td>
+<td>{{=i.No_of_TAs}}</td>
+</tr>
+{{pass}}
+</table>
+</div>
+

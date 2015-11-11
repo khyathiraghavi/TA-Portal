@@ -1,0 +1,7 @@
+{{extend 'layout.html'}}
+<br />
+<center><font size='5'><u>Select the Course and Priorities order for sorting </u></font></center><br><br /><br />
+
+{{ if (session.admin_flag == '0'): }}
+	<center><font size='3'>{{=form}}</font></center>
+	{{pass}}

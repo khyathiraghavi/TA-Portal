@@ -1,0 +1,26 @@
+TD {FONT-SIZE: 8pt; FONT-FAMILY: verdana, sans-serif, geneva;}
+
+.MenuHead {
+  color: #000000;
+  font-family: Verdana, Helvetica, sans-serif;
+  font-size: 10pt;
+}
+.MenuHead1 {
+  color: #000000;
+  font-family: Verdana, Helvetica, sans-serif;
+  font-size: 8pt;
+}
+
+.MenuLink {  
+  font-family: Verdana, Helvetica, sans-serif; 
+  color: #003366; 
+  text-decoration: none; 
+  cursor: none}
+
+.MenuLink:hover {  
+  font-family: Verdana, Helvetica, sans-serif; 
+  background-color: #cc3333; 
+  color: #FFFFC6; 
+  text-decoration: none; 
+  cursor: hand}
+

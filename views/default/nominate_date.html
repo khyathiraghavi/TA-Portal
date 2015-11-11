@@ -1,0 +1,11 @@
+{{extend 'layout.html'}}
+<div class="content_heading">CHANGE DATES FOR TA PORTAL</div>
+<div class="content_font center">
+{{if start and end :}}
+    Current Date:<br/><br/></br>
+    Start Date :{{=start}}<br/>
+End Date : {{=end}}
+{{elif True :}}
+{{pass}}</br></br>
+    <div class="form center_small"><div width="300px">{{=form}}</div></div>
+</div>

@@ -1,0 +1,70 @@
+{{extend 'layout.html'}}
+<script language='javascript'>
+   function confirmation(){
+      var where_to = confirm('Do you really want to delete this course??');
+      if( where_to == false ){
+	 window.location='delete_courses.html';
+      }
+   }
+</script>
+<font size='5'><center>DELETE COURSES</center></font><br><br>
+{{ formAccept = 0 }}
+{{ if (request.vars.submit) : }}
+	  {{ course_id = request.vars.courseId	# getting the course id of course selected }}
+	  {{ cofferto = request.vars.program	# getting the program id to which the course is offered }}
+       
+	  {{ Id = db((db.OfferedTo.cid == course_id)&(db.OfferedTo.programid == cofferto)).select() }}
+ 	  {{ if Id:}}
+		{{ for rows in Id :}}
+			{{ db((db.OfferedTo.cid == course_id) & (db.OfferedTo.programid == cofferto)).delete()}}
+			{{ session.flash = 'Course Successfully Deleted' }}
+			{{ pass }}
+		{{ if (db(db.OfferedTo.cid == course_id).count() == 0) : }}
+			{{ initialAppid = db(db.AppliedFor.cid == course_id).select() }}
+			{{ db(db.Course.id == course_id).delete()}}
+			{{ for records in initialAppid :}}
+				{{ if(not(db(db.AppliedFor.appid == records.id).select())):}}
+					{{ db(db.Applicant.id == records.id).delete()}}
+					{{ pass }}
+				{{ pass }}
+			{{ pass }}
+	{{ else:}}
+		{{ ProgramId = db((db.OfferedTo.cid == course_id) & (db.Program.id == db.OfferedTo.programid)).select()}}
+		{{ str=' ['}}
+		{{ for row in ProgramId:}}
+			{{ str = str + row.Program.pname + ','}}
+			{{ pass }}
+		{{ str = str + ']' }}
+		{{ session.flash = 'Can not delete!! Selected course is offered to only ' + str}}
+		{{ pass }}
+	{{ redirect(URL(r = request, f = 'delete_courses'))}}
+{{ elif not(request.vars.submit): }}
+<center>
+   <form id='form2' name="form2" action='delete_courses.html' method='POST'>
+      <table>
+	 <tr><td>
+	       Select Course: </td><td>
+	       <select name='courseId'>
+		  {{ records = db(db.Course.id > 0).select() }}
+		  {{ for rows in records: }}
+		  <option value='{{ =rows.id }}'> {{=rows.cname}} ({{=rows.cid}})</option>
+		  {{ pass }}
+	    </td></tr>
+	 </select>
+	       <br><tr><td>
+	       Select Program:</td><td>
+	       <select name='program'>
+		  {{ program = db(db.Program.id > 0).select() }}
+		  {{ for rows in program: }}
+		  <option value='{{=rows.id}}'>{{=rows.pname}}</option>
+		  {{ pass }}
+	       </td>
+	    </table>
+	    <br>
+	 </select>
+	 <input id='submit' type='submit' name='submit' value='Delete'  />
+      </form>
+   </center>
+{{ pass }}
+
+

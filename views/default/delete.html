@@ -1,0 +1,30 @@
+{{extend 'layout.html'}}
+<script language='javascript'>
+   function confirmation(){
+      var where_to = confirm('Do you really want to delete this course??');
+      if( where_to){
+         document.forms['course'].confirm.value='yes';
+         }
+   }
+</script>
+<div class="form">
+<form name='course' method='post'>
+<table celspacing='2' align='center' class="rounded-corner"> 
+<tr>
+<td colspan='3' align='center'>
+<select name='cid'>
+{{for i in course:}}
+<option value='{{=i.id}}'>{{=i.cname}}({{=i.cid}})</option>
+{{pass}}
+</select>
+</td>
+</tr>
+<tr>
+<input type='hidden' value='no' name='confirm'>
+<td><input type='submit' value='Del_Course' name='submit' onclick='confirmation()'></td>
+<td><input type='submit' value='Del_Faculty' name='submit'></td>
+<td><input type='submit' value='Del_Program' name='submit'></td>    
+</tr>
+</table>
+</form>
+</div>

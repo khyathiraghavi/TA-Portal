@@ -1,0 +1,4 @@
+{{extend 'layout.html'}}
+<center>
+{{=form}}
+</center>

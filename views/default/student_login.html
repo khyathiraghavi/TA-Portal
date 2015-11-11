@@ -1,0 +1,25 @@
+{{extend 'layout.html'}}
+{{if session.login==0:}}
+	<font size='6'><center><u>TASHIP PORTAL</u></center></font><br><br>
+	<center><font size='4'>Login with your students/research id and password.</font></center><br>
+	<form enctype="multipart/form-data" action="" method="post" >
+	   <center>
+	      <table>
+		<tr>
+		   <td><font size='4'>Username: <input name="username" />@
+			 <select name="email">
+			    <option value="students.iiit.ac.in">students.iiit.ac.in</option>
+			    <option value="research.iiit.ac.in">research.iiit.ac.in</option>
+		   	 </select>
+		       </font>
+		   </td>
+		</tr>
+		<tr><td><font size='4'>Password : <input name="password" type="password"/><br /></font></td>
+		<tr><td><input name="submit" type="submit" value="submit"/></td></tr>
+	      </table>
+       	   </center>
+	</form>
+
+{{elif session.login==2:}}
+	{{ redirect(URL(r=request,f='home_page')) }}
+	{{pass}}

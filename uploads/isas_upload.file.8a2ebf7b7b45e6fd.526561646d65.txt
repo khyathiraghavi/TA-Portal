@@ -1,0 +1,18 @@
+Sir, i took help of this URL to modify the way my terminal acted, basically these:
+void rever()
+{
+	tcsetattr(0,TCSANOW,&current);   
+}
+void change()
+{
+	tcgetattr(0,&current);       
+	atexit(rever);         
+	new=current;
+	new.c_lflag &= ~(ICANON|ECHO);   
+	new.c_cc[VMIN]=1;              
+	new.c_cc[VTIME]=0;			
+	tcsetattr(0,TCSAFLUSH, &new);
+}
+URL:
+http://www.delorie.com/gnu/docs/glibc/libc_375.html
+

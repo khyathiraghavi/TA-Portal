@@ -1,0 +1,212 @@
+{{extend 'layout.html'}}
+<div class="content_heading">SELECT STUDENTS FROM SELECTED LIST</div>
+<div class="content_font">
+	<ul>
+        <li>If students have been selected for one Course, their record will displayed in <font color='red'>RED</font></li>
+        <li>A student who should NOT be selected as TA for the specific course is marked in <font color="blue">BLUE</font></li>
+        <li>If student have been nominated by a faculty,the corresponding record will be displayed in <font color="green">GREEN</font></li>
+    </ul>
+</div>
+{{import datetime}}
+<script type='text/javascript'>
+function check(){
+    alert('No Applicant Selected');
+    return '1';
+}
+</script>
+<!-- ###### Checking if Nolist button is clicked or not ###### -->
+{{ if (( request.vars.submit ) and (request.vars.submit == 'No_List')) : }}
+    <!-- ####   If no applicant is selected then show flash error message and redirect to the same page ##### -->   
+    {{ if (request.vars.applicant == None ): }} 
+        {{ session.flash = 'No Applicant selected!! Please select applicant(s)' }}      
+        {{ redirect(URL(r = request, f = 'faculty_applicant_list_2')) }}
+        {{pass}}
+        <!-- ######## Else continue showing the list ######### -->
+        {{ applicantList = [] }}
+        {{ if (request.vars.applicant[0] == '2' ): }}
+            {{ applicantList.append(request.vars.applicant) }}
+            {{ request.vars.applicant = applicantList }}
+            {{ pass }}
+            
+        {{ for row in request.vars.applicant: }}
+            {{ appid = db( db.Applicant.aprollno == row ).select(db.Applicant.id)[0] }}
+            {{c=db(db.Course.id==session.faculty_varCid).select()[0]}}
+{{ap=db(db.Applicant.aprollno==row).select()[0]}}
+{{db.auth_event.insert(origin=session.token,user_type="faculty",description=" rejected student "+ap.apname+" for course "+c.cname,name=session.name,uid=session.roll)}}
+            <!-- ##### Modifying the noflag of AppliedFor table ###### -->
+            {{ db((db.AppliedFor.appid == appid.id)&(db.AppliedFor.cid ==session.faculty_varCid)).update(noflag = '1',status='Rejected') }}
+            {{ pass }}
+            
+        <!-- ##### Redirecting to the same page with modifications ###### -->
+        {{ redirect(URL(r = request, f = 'faculty_applicant_list_2')) }}
+
+<!-- ######## Elseif the select button is clicked ####### -->
+{{ elif ( request.vars.submit ) and (request.vars.submit == 'Nominate') : }}
+    <!-- ###### If no applicant is selected for nomination show flash error and redirect to the same page ########## -->
+    {{ if request.vars.applicant is None :}}
+        {{ session.flash = 'No Applicant selected!! Please select applicant(s)' }}   
+        {{ redirect(URL(r = request, f = 'faculty_applicant_list_2',args =[session.faculty_varCid])) }}
+
+        {{pass}}
+    {{ multipleValue = 0 }}
+    {{ if (request.vars.applicant[0] != '2' ): }} <!-- #### If multiple applicants are selected ##### -->  
+        {{ multipleValue=1 }}
+        {{ pass }}
+            
+    {{ roll_type={} }}                <!-- ##### Dictionary use: type of TA withdta Edit rollno as key and TAType as their values ###### -->    
+    {{ count = 0 }}
+		{{if flag!=1:}}
+			{{ for i in request.vars.coursetype: }}
+            	{{print i}}
+            	{{ string = i.split(':') }}
+				{{if len(string)>1:}}
+                	{{ roll_type[string[1]] = string[0] }}
+					{{pass}}
+				
+            	{{pass}}
+		{{else:}}
+			{{ string = request.vars.coursetype.split(':') }}
+            {{if len(string)>1:}}
+            	{{ roll_type[string[1]] = string[0] }}
+				{{pass}}
+		{{pass}}
+
+
+    {{ if multipleValue == 1 : }}
+        {{ applicantList = request.vars.applicant }}
+        {{ for i in request.vars.applicant : }}
+            {{ =(i, roll_type[i] ) }}<br> 
+            {{ applicantId = db(db.Applicant.aprollno == i).select()[0] }}
+            {{c=db(db.Course.id==session.faculty_varCid).select()[0]}}
+{{db.auth_event.insert(origin=session.token,user_type="faculty",description="nominated "+applicantId.apname +" for course "+c.cname,name=session.name,uid=session.roll)}}
+            {{ db((db.AppliedFor.appid == applicantId.id) & (db.AppliedFor.cid==session.faculty_varCid)).update(noflag = '0',status='Nominated') }}
+            {{pass}}
+    {{ elif multipleValue == 0 : }}
+        {{ =request.vars.applicant}} 
+        {{ =roll_type[request.vars.applicant] }}
+        {{ applicantId = db(db.Applicant.aprollno == request.vars.applicant).select()[0]}}
+        {{c=db(db.Course.id==session.faculty_varCid).select()[0]}}
+{{db.auth_event.insert(origin=session.token,user_type="faculty",description="nominated "+applicantId.apname +" for course "+c.cname,name=session.name,uid=session.roll)}}
+        {{ print applicantId.id }}
+        {{ db((db.AppliedFor.appid == applicantId.id) & (db.AppliedFor.cid==session.faculty_varCid)).update(noflag = '0',status='Nominated') }} <!-- ##### Updating the nolist flag #### -->
+        {{ applicantList = [] }}
+        {{ applicantList.append(request.vars.applicant) }}
+
+
+        {{ pass }}
+    {{ session.faculty_rollType = roll_type }}
+    {{ session.faculty_applicantList = applicantList }}
+    
+    {{ redirect(URL(r = request, f = 'faculty_applicant_list_3')) }}
+
+<!-- ###### if no button is clicked #######o --> 
+{{ elif (not(request.vars.submit)) : }}     
+    <div class="form">{{=form34}}</div>
+    
+    
+    <div class="content_heading">{{=coursename}}</div>
+    <button class="content_button">{{=A("RESET", _href=URL( vars= dict( suggest="no", s=""))) }}</button>
+    <form name='Applicant'>
+    <div class="simple">
+    <table>
+    <tr>
+    	<td><a href='#'>SELECT</a></td>    
+		<td><a href='#'>TYPE</a></td>
+    	<td>{{=A("NAME", _href=URL( vars= dict( suggest="True", s="apname"))) }}</td>
+    	<td>{{=A("ROLLNO.", _href=URL( vars= dict( suggest="True", s="aprollno"))) }}</td>
+		<td>{{=A("EMAIL", _href=URL( vars= dict( suggest="True", s="apemail_id"))) }}</td> 
+    	<td>{{=A("PREFERENCE", _href=URL( vars= dict( suggest="True", s="AppliedFor.preference"))) }}</td>
+    	<td>{{=A("PROGRAM", _href=URL( vars= dict( suggest="True", s="pname DESC"))) }}</td>
+		<td>{{=A("GRADE", _href=URL( vars= dict( suggest="True", s="grade"))) }}</td>
+    	<td>{{=A("CGPA", _href=URL( vars= dict( suggest="True", s="apcgpa DESC"))) }}</td>
+    	<td>{{=A("PREV EXP", _href=URL( vars= dict( suggest="True", s="prev_exp DESC"))) }}</td>
+    	<td><a href='#'>STATUS</a></td>
+    </tr>
+    {{ totalApplicants = 0}}
+{{ for i in records:}}
+    {{Status="Nominated for :"}}
+    {{check = db((db.AppliedFor.appid==i.AppliedFor.appid)&(db.AppliedFor.cid==db.Course.id)).select()}}
+    {{for j in check:}}
+    {{if j.AppliedFor.status=='Nominated':}}
+    {{Status=Status+" "+j.Course.cname+" with preference "+str(j.AppliedFor.preference)+":"}}
+	{{pass}}
+{{pass}}
+{{for j in check:}}
+    {{if j.AppliedFor.status=='Selected':}}
+    {{Status="Selected for "+":"+j.Course.cname+" with preference "+str(j.AppliedFor.preference)+":"}}
+    {{pass}}
+	{{pass}}
+    {{if Status=="Nominated for :":}}
+    {{Status="None"}}
+    {{pass}}
+        {{ totalApplicants = totalApplicants + 1}}
+        <tr>
+        	<td><input type='checkbox' name='applicant' value={{=i.Applicant.aprollno}} /></td>
+        	<td>
+        	{{type1 = 'quarter' + ':' + str(i.Applicant.aprollno)}}
+        	{{type2 = 'half' + ':' + str(i.Applicant.aprollno)}}
+        	{{type3 = 'full' + ':' + str(i.Applicant.aprollno)}}
+        	<select name='coursetype'>
+            	<option value={{=type1}}>Q</option>
+            	<option value={{=type2}}>H</option>
+            	<option value={{=type3}}>F</option>
+        	</select><br>
+        	</td>
+        	{{if (i.AppliedFor.noflag==2): }}              <!-- If the TA is selected for any  course  -->
+            <td><font color='red'> {{=i.Applicant.apname}}</font></td>
+            <td><font color='red'>  {{=i.Applicant.aprollno}}</font></td>
+            <td><font color='red'> {{=i.Applicant.apemail_id}}</font></td>
+            <td><font color='red'>  {{=i.AppliedFor.preference}}</font></td>
+            <td><font color='red'>  {{ =i.Program.pname}},</font></td>
+            <td><font color='red'>  {{ =i.AppliedFor.grade}}</font></td>
+            <td><font color='red'> {{ =i.Applicant.apcgpa}}</font></td>
+            <td><font color='red'> {{ if( i.Applicant.prev_exp == True):}}Yes{{else:}}No{{pass}}</font></td>
+            <td><font color='red'> {{R=Status.split(':')}}{{for s in R:}}{{=s}}{{pass}}</font></td>
+        {{ elif (i.AppliedFor.status=='Rejected') :}}
+            <td><font color='blue'> {{=i.Applicant.apname}}</font></td>
+            <td><font color='blue'>  {{=i.Applicant.aprollno}}</font></td>
+            <td><font color='blue'> {{=i.Applicant.apemail_id}}</font></td>
+            <td><font color='blue'>  {{=i.AppliedFor.preference}}</font></td>
+            <td><font color='blue'>  {{ =i.Program.pname}},</font></td>
+            <td><font color='blue'>  {{ =i.AppliedFor.grade}}</font></td>
+            <td><font color='blue'> {{ =i.Applicant.apcgpa}}</font></td>
+            <td><font color='blue'> {{ if( i.Applicant.prev_exp == True):}}Yes{{else:}}No{{pass}}</font></td>
+            <td><font color='blue'> {{R=Status.split(':')}}{{for s in R:}}{{=s}}{{pass}}</font></td>
+            {{ elif i.AppliedFor.status=='Nominated': }}
+            <td><font color='green'> {{=i.Applicant.apname}}</font></td>
+            <td><font color='green'>  {{=i.Applicant.aprollno}}</font></td>
+            <td><font color='green'> {{=i.Applicant.apemail_id}}</font></td>
+            <td><font color='green'>  {{=i.AppliedFor.preference}}</font></td>
+            <td><font color='green'>  {{ =i.Program.pname}},</font></td>
+            <td><font color='green'>  {{ =i.AppliedFor.grade}}</font></td>
+            <td><font color='green'> {{ =i.Applicant.apcgpa}}</font></td>
+            <td><font color='green'> {{ if( i.Applicant.prev_exp == True):}}Yes{{else:}}No{{pass}}</font></td>
+            <td><font color='green'> {{R=Status.split(':')}}{{for s in R:}}{{=s}}{{pass}}</font></td>
+            {{ elif True : }}
+            <td><font color='black'> {{=i.Applicant.apname}}</font></td>
+            <td><font color='black'>  {{=i.Applicant.aprollno}}</font></td>
+            <td><font color='black'> {{=i.Applicant.apemail_id}}</font></td>
+            <td><font color='black'>  {{=i.AppliedFor.preference}}</font></td>
+            <td><font color='black'>  {{ =i.Program.pname}},</font></td>
+            <td><font color='black'>  {{ =i.AppliedFor.grade}}</font></td>
+            <td><font color='black'> {{ =i.Applicant.apcgpa}}</font></td>
+            <td><font color='black'> {{ if( i.Applicant.prev_exp == True):}}Yes{{else:}}No{{pass}}</font></td>
+            <td><font color='black'> {{R=Status.split(':')}}{{for s in R:}}{{=s}}{{pass}}</font></td>
+        
+        </tr>
+        
+     {{ pass }}
+        {{pass}}
+    </table>
+    </div>
+{{ session.faculty_varCid= courseid}}
+    <input name='totalApplicants' type='hidden' value={{=totalApplicants}} />
+<center>
+    <div class="form">
+    <input name='submit' value='Nominate' type='submit'/>
+&nbsp;&nbsp;&nbsp;
+    <input name='submit' value='No_List' type='submit' /> 
+    </div>
+</center>
+    </form>
+    {{ pass }}

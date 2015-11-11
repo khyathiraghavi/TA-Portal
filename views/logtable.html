@@ -1,0 +1,319 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TA Portal</title>
+{{response.files.append(URL(request.application,'static','mainpage.css'))}}
+{{include 'web2py_ajax.html'}}
+<style type="text/css">
+</style>
+<script src="jquery.js"></script>
+
+
+<script>
+$(function() {
+
+	// grab the initial top offset of the navigation 
+	var sticky_navigation_offset_top = $('#content').offset().top;
+	
+	// our function that decides weather the navigation bar should have "fixed" css position or not.
+	var sticky_navigation = function(){
+		var scroll_top = $(window).scrollTop(); // our current vertical position from the top
+		
+		// if we've scrolled more than the navigation, change its position to fixed to stick to top, otherwise change it back to relative
+		if (scroll_top > sticky_navigation_offset_top) { 
+			$('#menu').css({ 'position': 'fixed', 'top':0, 'left':0 ,'margin-left':0,'background-color':'#FFF','width':'100%'});
+		} else {
+			$('#menu').css({ 'position': 'absolute','top':'auto','left':'auto','height':50 ,'background-color':'transparent','margin-left':35}); 
+		}   
+	};
+	// run our function on load
+	sticky_navigation();
+	// and run it again every time you scroll
+	$(window).scroll(function() {
+		 sticky_navigation();
+	});
+	// NOT required:
+	// for this demo disable all links that point to "#"
+	$('a[href="#"]').click(function(event){ 
+		event.preventDefault(); 
+	});
+	
+});
+</script>
+ 
+    
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".change_table").toggle(
+    function(){$("table,table thead tr th,table thead tr td").css({"background-color":'black','color':'#6F0'});},
+    function(){$("table,table thead tr th,table thead tr td").css({"background-color":'white','color':'black'});
+  });
+});
+</script>
+<script type='text/javascript'>
+      function mywin(roll){
+        document.getElementById( roll + "light").style.display="block";
+        document.getElementById("fade").style.display="block";
+      }
+      function closewin(roll){
+     	 document.getElementById( roll + "light").style.display="none";
+        document.getElementById("fade").style.display="none";
+      }
+      $(document).keyup(function(e) {
+      if (e.keyCode == 27) 
+      { 
+      $(".white_content").css("display","None");
+      $(".black_overlay").css("display","None"); 
+      $(".white_content1").css("display","None"); 
+      }   // es
+});      
+</script>
+
+</head>
+
+<body>
+    {{print "heeee"}}
+  {{import datetime}}
+    {{curr=datetime.datetime.now()}}
+    {{datab=db(db.SelectedTA).select()}}
+    
+    {{ for i in datab:}}
+     {{sel= i}}
+       
+        {{up=sel.timestamp+datetime.timedelta(days=1)}}                
+        {{let=up-curr}}
+    {{if let.days<0:}}
+    {{if i.flag == 0:}}
+    	{{db(db.AppliedFor.appid == i.appid).update(noflag = '0')}}
+        {{db((db.AppliedFor.appid == i.appid) &  (db.AppliedFor.cid==i.cid)).update(status='None')}}
+                        
+                        
+                        {{type=db(db.SelectedTA.appid==i.appid).select(db.SelectedTA.TAtype)[0]}}
+                       
+                        {{db(db.SelectedTA.appid == i.appid).delete()}}
+                        {{db(db.SelectedTA.appid == i.appid).delete()}}
+    
+                        {{if type.TAtype == "quarter":}}
+                        {{db(db.Course.id == i.cid).update(no_of_qta = db.Course.no_of_qta - 1 )}}
+                        {{pass}}
+                        {{if type.TAtype == "half":}}
+                        {{db(db.Course.id == i.cid).update(no_of_hta = db.Course.no_of_hta - 1 )}}
+                        {{pass}}
+                        {{if type.TAtype == "full":}}
+                        {{db(db.Course.id == i.cid).update(no_of_fta = db.Course.no_of_fta - 1 )}}
+                        {{pass}}
+    
+    
+    
+    {{pass}}
+    {{pass}}
+    {{pass}}
+  
+  <!--       START OF NOTIFICATIONS      -->
+  <div id="fade" class="black_overlay" onclick="closewin('notify')"></div>
+  <div id="notifylight" class="white_content" >
+  		<a href="javascript:void(0)" onclick="closewin('notify')" id="close">X</a>
+		<div id="h">NOTIFICATIONS</div>
+		<div id="quicklinks">
+			<a href="{{=URL(r = request, f = 'courses_info')}}" title="Courses Info"><div class="notifylink">COURSE INFO</div></a>
+			{{ if session.login == 1: }}
+			<a href="{{=URL(r = request, f = 'admin_applicant_list_2')}}"  title="Applicant List"><div class="notifylink">SELECT APPLICANT</div></a>
+ 				<a href="{{=URL(r = request, f = 'selected_TA')}}" title="SelectedTA List"><div class="notifylink">SELECTED TA LIST</div></a> 
+			{{ elif session.login == 3: }} 
+     		<a href="{{=URL(r = request, f = 'faculty_applicant_list_2')}}"  title="Applicant List"><div class="notifylink">SELECT APPLICANT</div></a>
+			<a href="{{=URL(r = request, f = 'faculty_selectedTA')}}" title="SelectedTA List"><div class="notifylink">SELECTED TA LIST</div></a> 
+      		{{pass}}
+      </div>
+		<div id="newpage">
+		<iframe id="frame"src="notify.html"></iframe>
+		</div>
+	</div>
+	<!--     END OF NOTIFICATIONS     -->
+<div id="header">
+    <div id="heading"><a href="{{=URL(r = request, f = 'home_page')}}"  title="Home Page">TA PORTAL</a></div>
+    <div id="mini_menu">
+    	<div id="logout"><a href="{{=URL(r=request,f='logout')}}" accesskey="6" title="">Logout</a></div>
+        <div  id="help" ><img src="../static/images/help_4.png" height="50" width="50" /></div>
+    </div>
+    <div id="login_name">
+            {{logname=""}}
+            {{ if session.login != 0: }}
+            Hi,
+        		{{x=session.token}}
+	    	{{for y in x:}}
+	    		{{if y!="@":}}
+        			{{if y=='.':}}
+            			{{y=' '}}
+            		{{pass}}
+            		{{logname=logname+y}}
+	    		{{else:}}
+	    		{{break}}
+	    		{{pass}}
+	    	{{pass}}
+		{{=logname.title()}}
+	    {{pass}}
+	</div>
+    <div id="message" class="flash">{{=response.flash or ''}}</div>
+        
+</div>
+
+<div id="menu">
+{{if session.login!=0:}}<!--If anybody is logged in-->
+
+<div class="slider">
+	<div class="name">
+    <a href="{{=URL(r = request, f = 'home_page')}}"  title="Home Page"><p>Home</p></a>
+    </div>
+</div>
+
+{{ if session.login == 1: }}<!-- ADMIN IS LOGGED IN -->
+
+
+<div class="slider">
+	<div class="name">
+		<p>Applicant</p>
+    </div><div class="transparent_border"></div><div class="transparent_border"></div>
+    <div class="options">
+	<a href="{{=URL(r = request, f = 'admin_applicant_list_2')}}" title="Applicant List">
+	<p>Select Applicant</p><div class="transparent_border"></div>
+	</a>
+	<a href="{{=URL(r = request, f = 'namewise_list')}}"  title="Namewise List">
+	<p>Applicant Status</p><div class="transparent_border"></div>
+	</a>
+	<a href="{{=URL(r = request, f = 'selected_TA')}}" title="SelectedTA List">
+	<p>Selected Applicants</p><div class="transparent_border"></div>
+	</a>
+	</div>
+</div>
+<div class="slider"> 
+	<div class="name">
+    	<p>Ta's</p>
+    </div><div class="transparent_border"></div><div class="transparent_border"></div>
+	<div class="options">
+		<a href="{{=URL(r = request, f = 'sel_course')}}" title="UnSelect TA's">
+		<p>Unselect Ta's</p><div class="transparent_border"></div>
+		</a>
+		<a href="{{=URL(r = request, f = 'admin_allocatedTA')}}" title="Admin AllocatedTA ">
+		<p>Allocated Ta's</p><div class="transparent_border"></div>
+		</a>
+	</div>
+</div>
+<div class="slider">
+	<div class="name">
+        <p>Courses</p>
+    </div><div class="transparent_border"></div><div class="transparent_border"></div>
+    <div class="options">
+  		<a href="{{=URL(r=request,f='add_faculty')}}" title="Add faculty">
+       	<p>Add Faculty</p><div class="transparent_border"></div>
+       	</a>
+       	<a href="{{=URL(r=request,f='add_program')}}" title="Add Program">
+       	<p>Allocate Program</p><div class="transparent_border"></div>
+       	</a>
+        <a href="{{=URL(r = request, f = 'courses_info')}}" title="Courses Info">
+        <p>Course Info</p><div class="transparent_border"></div>
+        </a>
+	    <a href="{{=URL(r = request, f = 'add_courses')}}" title="Add Courses">
+   	  	<p>Add Course</p><div class="transparent_border"></div>
+   	  	</a>
+   	  	<a href="{{=URL(r = request, f = 'update_course')}}"title="Update Course">
+   	   	<p>Update Course</p><div class="transparent_border"></div>
+   	   	</a>
+   	   	<a href="{{=URL(r = request, f = 'delete')}}"title="Delete Courses">
+   	   	<p>Delete</p><div class="transparent_border"></div>
+   	   	</a>
+   	</div>
+</div>
+<div class="slider">
+	<div class="name">
+    <p>Settings</p>
+    </div><div class="transparent_border"></div><div class="transparent_border"></div>
+    <div class="options">
+   		<a href="{{=URL(r = request, f = 'set_date')}}" title="SET DATE ">
+   		<p>Set Date</p><div class="transparent_border"></div>
+   		</a>
+		<a href="{{=URL(r = request, f = 'upload')}}" title="Update DB ">
+		<p>Update Db</p><div class="transparent_border"></div>
+		</a>
+		<a href="{{=URL(r = request, f = 'logtable')}}" title="View Log Table ">
+    	<p>View Log Table</p><div class="transparent_border"></div>
+    	</a>
+    </div>
+</div>
+{{ elif session.login == 3: }}<!-- FACULTY IS LOGGED IN -->
+<div class="slider">
+	<div class="name">
+	<a href="{{=URL(r = request, f = 'faculty_applicant_list_2')}}" title="Applicant List"><p>Nominate Applicant</p></a>
+    </div><div class="transparent_border"></div><div class="transparent_border"></div>
+</div>
+<div class="slider">
+	<div class="name">
+    	<a href="{{=URL(r = request, f = 'faculty_allocatedTA')}}" title="No. of AllocatedTA "><p>Allocated Ta's</p></a>
+   	</div>
+</div>
+<div class="slider">
+	<div class="name">
+		<a href="{{=URL(r = request, f = 'faculty_selectedTA')}}" title="SelectedTA "><p>Selected Applicant</p></a>
+    </div><div class="transparent_border"></div><div class="transparent_border"></div>
+</div>
+{{ elif session.login == 2: }}<!-- STUDENT IS LOGGED IN -->
+	{{ if (db(db.Applicant.apemail_id == session.student_email).select()): }}
+		<div class="slider">
+    		<div class="name">
+        		<a href="{{=URL(r = request, f = 'student_profile')}}" title="My Profile"><p>My Profile</p></a>
+        	</div>
+		</div>
+	{{pass}}
+
+<div class="slider">
+	<div class="name">
+    	<p>Taship</p>
+    </div><div class="transparent_border"></div><div class="transparent_border"></div>
+    <div class="options">
+		<a href="{{=URL(r = request, f = 'TA_application')}}" title="TA Application"><p>Apply For Taship</p></a><div class="transparent_border"></div>
+    	{{ if (db((db.Applicant.apemail_id == session.student_email) & (db.AppliedFor.appid ==db.Applicant.id)).select()):}}
+    		<a href="{{=URL(r = request, f = 'status')}}" title="status"><p>Application Status</p></a><div class="transparent_border"></div>
+    	{{pass}}
+    </div>
+</div>
+	{{ if (db((db.Applicant.apemail_id == session.student_email) & (db.AppliedFor.appid ==db.Applicant.id)).select()):}}
+	<div class="slider">
+    	<div class="name">
+    		<a href="{{=URL(r = request, f = 'unselect_course')}}" title="Unselect Course"><p>Delete Application</p></a>
+		</div>
+    </div>
+   {{pass}}
+<div class="slider">
+	<div class="name">
+	    <a href="{{=URL(r = request, f = 'courses_info')}}" title="Courses Info"><p>Course Info</p></a>
+    </div>
+</div>
+    {{pass}}
+    {{pass}}
+
+<div class="slider">
+	<div class="name">
+		<a href="{{=URL(r = request, f = 'contacts')}}" title="Contacts"><p>Admin Contacts</p></a>
+    </div>
+</div>
+{{pass}}
+{{pass}}
+{{pass}}
+    {{if session.login == 1 or session.login==3:}}<!-- ADMIN/FACULTY IS LOGGED IN -->
+<div class="slider">
+	<div class="name">
+        <a href="javascript:void(0)" onclick="mywin('notify')"><p>Notifications</p></a>
+    </div>
+</div>
+{{pass}}
+</div>
+<div id="content">
+<hr id="line">
+<!--<a href="#"><div class="change_table">Home</div></a>-->
+{{include}}
+</div>
+    </div>
+ 
+<hr id="line">
+</body>
+</html>

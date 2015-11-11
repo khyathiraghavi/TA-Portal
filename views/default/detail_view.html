@@ -1,0 +1,23 @@
+{{extend 'layout.html'}}
+
+<div class="content_heading">APPLICANT INFORMATION</div>
+<div class="simple">
+<table>
+<tr>
+<td>APPLICANT NAME</td>
+<td>APPLICANT ROLL NO</td>
+<td>APPLICANT EMAILID</td>
+<td>FINAL STATUS</td>
+</tr>
+
+
+{{for i in l:}}
+<tr>
+<td>{{=A(i.applicant_name,_href=URL('student_details',args=[i.applicant_id]))}} </td>
+<td>{{=i.applicant_id}}</td>
+<td>{{=i.applicantid}}</td>
+<td>{{=i.Status}}</td>
+</tr>
+{{pass}}
+</table>
+</div>

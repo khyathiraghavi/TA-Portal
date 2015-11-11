@@ -1,0 +1,3 @@
+TA BHAI,201202001,taship@students.iiit.ac.in,8
+Arjit Srivastava,201256003,arjit.srivastava@students.iiit.ac.in,7
+Yash chamadia,201201122,yash.chamadia@students.iiit.ac.in,6

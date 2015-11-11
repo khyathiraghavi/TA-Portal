@@ -1,0 +1,25 @@
+{{extend 'layout.html'}}
+<center><font size='6'><u>Student Profile</u> </font></center><br>
+{{if records_appliedfor: }}
+    {{  i = records_appliedfor[0] }}
+    <table>
+    <tr><td><b>Name :</b></td> <td>{{=i.Applicant.apname}}</td></tr>
+    <tr><td><b>RollNo :</b></td><td> {{=i.Applicant.aprollno}}</td></tr>
+    <tr><td><b>EmailId :</b></td><td> {{=i.Applicant.apemail_id}}</td></tr>
+    <tr><td><b>Program Of Study :</b></td><td> {{=i.Program.pname}}</td></tr>
+    <tr><td><b>CGPA :</b></td><td> {{=i.Applicant.apcgpa}}</td></tr>
+    <tr><td><b>Previous Experience :</b></td><td> {{=i.Applicant.prev_exp}}</td></tr>
+    <tr><td><b>Phone No :</b></td><td> {{=i.Applicant.phoneno}}</td></tr></table>
+    <b>Applied For :</b><br>
+        {{for i in records_appliedfor:}}
+            {{for j in range(0,42):}}&nbsp{{pass}}
+            {{=i.Course.cname}}<br>
+        {{pass}}
+{{pass}}
+{{if records_selectedfor:}}
+<b>Selected For :</b> <br>
+    {{for i in records_selectedfor:}}
+        {{for j in range(0,42):}}&nbsp{{pass}}
+        {{=i.Course.cname}}<br>
+    {{pass}}
+{{pass}}

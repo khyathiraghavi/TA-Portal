@@ -1,0 +1,46 @@
+{{extend 'layout.html'}}
+{{if (request.vars.submit): }}
+   {{ db(db.Course.id == request.vars.id).update(cid=request.vars.cid,cname=request.vars.cname,cdts = request.vars.credits, no_of_ta = request.vars.ta , hours_per_week = request.vars.hour ,sem_id = request.vars.sem , coursetype =request.vars.type ) }}
+     {{ redirect(URL(r = request, f = 'update_course')) }} 
+{{ elif (not(request.vars.submit )): }}
+<center><font size='3'>{{=form34}}</font></center><br><br /><br />
+<form name='Course'>
+<table cellspacing='0'>
+{{if records:}}
+<input type='hidden' name="id" value={{=records.id}}>
+<tr><td>Course Cid:</td><td>
+<input type="text" name="cid" value={{=records.cid}} ></td></tr>
+<tr><td>Course Name:</td><td>
+<input type="text" name="cname" value='{{=records.cname}}' ></td></tr>
+<tr><td>Credits:</td><td>
+<input type="text" name="credits" value={{=records.cdts}}></td></tr>
+
+<tr width="50"><td>NO Of TAs:</td><td><input type="text" name="ta" value={{=records.no_of_ta}}><t/d></tr>
+<tr width="50"><td>NO OF HOURS PER WEEK:</td><td><input type="text" name="hour" value={{=records.hours_per_week}}></td></tr>
+<tr><td>TYPE:</td><td><select name="type">
+    {{if records.coursetype=="Full":}}
+     <option value="Full" selected="selected">Full</option>
+     <option value="Half">Half</option>
+     {{elif records.coursetype=="Half":}}
+     <option value="Full">Full</option>
+     <option value="Half" selected="selected">Half</option>
+     {{pass}}
+      </select></td></tr>
+<tr><td>Semester:</td><td>
+<select name="sem">
+    {{for i in range(1,9):}}
+ 
+       {{if i==records.sem_id:}}
+     
+         <option value={{=i}} selected="selected">{{=i}}</option>
+        {{else:}}
+         <option value={{=i}}>{{=i}}</option>
+         {{pass}}
+          
+          {{pass}}</select></td>   </tr>
+          
+                 </table>
+<input type="submit" value="submit" name="submit"/>
+</form>
+{{pass}}
+{{pass}}

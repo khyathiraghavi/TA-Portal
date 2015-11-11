@@ -1,0 +1,7 @@
+{{extend 'layout.html'}}
+<a href="{{=URL(r=request,f='admin_applicant_list_3') }}"><u>Back</u></a>
+<br /><br />
+<font size='4'> {{=msg}} </font>
+{{=a}}
+{{=b}}
+{{=sender}}

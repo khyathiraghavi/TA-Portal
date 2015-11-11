@@ -1,0 +1,23 @@
+{{extend 'layout.html'}}
+<div class="content_font ">
+<b>Note:
+<ul>
+<li>CGPA is of Spring 2014 retrieved from ISAS.</li>
+<li>If you dont see your profile click on Taship->Apply for TAship and fill the required details.</li>
+</ul>
+</b></div>
+<div class="content_heading">MY PROFILE</div>
+{{ if records: }}
+{{ i = records[0] }}
+    <div class="content_font center_small">
+    <table>
+    <tr><td>NAME:</td><td>&nbsp;{{=i.Applicant.apname}}</td></tr>
+    <tr><td>ROLL NO.:</td><td>&nbsp;{{=i.Applicant.aprollno}}</td></tr>
+    <tr><td>EMAIL ID:</td><td>&nbsp;{{=i.Applicant.apemail_id}}</td></tr>
+    <tr><td>PROGRAM OF STUDY:</td><td>&nbsp;{{=i.Program.pname}}</td></tr>
+    <tr><td>CGPA:</td><td>&nbsp;{{=i.Applicant.apcgpa}}</td></tr>
+    <tr><td>PREV EXPERIENCE:</td><td>&nbsp; {{= i.Applicant.prev_exp}}</td></tr>
+    <tr><td>MOBILE NO.</td><td>&nbsp; {{=i.Applicant.phoneno}}</td></tr>
+    </table>
+	</div>
+{{pass}}

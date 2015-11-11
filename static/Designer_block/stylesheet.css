@@ -1,0 +1,8 @@
+@font-face {
+	font-family: 'Designer_block';
+	src: url('Designer_Block.eot');
+	src: url('Designer_Block.eot?#iefix') format('embedded-opentype'),
+		url('Designer_Block.woff') format('woff'),
+		url('Designer_Block.ttf') format('truetype'),
+		url('Designer_Block.svg') format('svg');
+}

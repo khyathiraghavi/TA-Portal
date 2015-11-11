@@ -1,0 +1,3 @@
+Computer Programming, ICS101, 5, Full,2, faculty11, faculty1@iiit.ac.in , faculty2 , faculty2@iiit.ac.in
+Computer Pro, ICS301, 3, Full,2, faculty11, faculty1@iiit.ac.in , faculty2 , faculty2@iiit.ac.in
+ComputPro, ICS401, 3, Full,2, faculty11, faculty1@iiit.ac.in , faculty2 , faculty2@iiit.ac.in

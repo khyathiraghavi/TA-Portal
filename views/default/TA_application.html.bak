@@ -1,0 +1,16 @@
+{{extend 'layout.html'}}
+{{ if session.alreadyThereFlag == 1: }}
+<div class="content_heading">APPLY FOR TASHIP</div>
+<div class="content_font"> Please select a course and your grade in that course</div>
+<div class="form center_small">{{=form}}</div>
+{{ elif session.alreadyThereFlag == 0 : }}
+<div class="content_heading">UPDATE PROFILE</div>
+<div class="content_font">
+<ul>
+<li> Please fill the information correctly. </li>
+<li> The informations will be retained once you submit. </li>
+<li> Your Email-id is : <b> {{ response.write(session.student_email) }} </b></li>
+</ul>
+</div>
+<div class="form">{{=form}}</div>
+{{ pass }}

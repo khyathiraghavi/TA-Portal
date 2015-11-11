@@ -1,0 +1,317 @@
+{{extend 'layout.html'}}
+
+<!--script type="text/javascript">
+/*	$(document).ready(function(){
+			$(".help_tab").toggle(
+				function(){$(this).css({"max-height":'999px'});},
+				function(){$(this).css({"max-height":'33px'});
+				});
+			$(".help_tab_options").toggle(
+				function(){$(this).css({"max-height":'999px'});},
+				function(){$(this).css({"max-height":'30px'});
+				});
+			});*/
+		</script-->
+
+		<div class="content_heading">HELP
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+		</div>
+		<div class="span3">
+			<div class="bs-sidebar print-hidden" role="complementary" id="navii">
+			<ul class="nav bs-sidenav">
+				{{if session.login==1:}}<!--admin help-->
+
+				<li class=""><a href="#one">Applicant Tab</a></li>
+				<li class=""><a href="#two">Ta's Tab</a></li>
+				<li class=""><a href="#three">Courses Tab</a></li>
+				<li class=""><a href="#four">Settings Tab</a></li>
+				<li class=""><a href="#five">Notifications Tab</a></li>
+
+				{{elif session.login==3:}}<!--faculty help-->
+				<li class=""><a href="#six">Nominate Applicant Tab</a></li>
+				<li class=""> <a href="#seven">Allocated Ta's Tab</a></li>
+				<li class=""><a href="#eight">Selected Ta's Tab</a></li>
+				<li class=""><a href="#nine">Notifications Tab</a></li>
+				{{elif session.login==2:}}<!--student help-->
+				<li class=""><a href="#ten">My Profile Tab</a></li>
+				<li class=""><a href="#eleven">Taship Tab</a></li>
+				<li class=""><a href="#twelve">Delete Application</a></li>
+				<li class=""><a href="#thirteen">Course Info</a></li>
+				<li class=""><a href="#fourteen">Admin Contacts</a></li>
+				{{pass}}
+			</ul>
+			</div>
+		</div>
+		<div data-spy="scroll" data-target="#navi" style="height:300px;overflow-y:auto;padding-left:20px" class="" role="main">
+			{{if session.login==1:}}<!--admin help-->
+
+			<div id="one">
+				<p class="help_heading" id="one1" >Applicant Tab</p>
+				<div>
+					<p>Select Applicants</p>
+					<ul>
+						<li>select applicants for a particular course</li>
+						<li>students are color coded according to their properties as shown on the page</li>
+						<li>students can be selected for quarter,half,full taships</li>
+						<li>Reset option is provided if all current selections are to be rest</li>
+					</ul>
+				</div>
+				<div>
+					<p>Applicant Status</p>
+					<ul>
+						<li>Enter name of Applicant and check his/her status of application</li>
+					</ul>
+				</div>
+
+				<div>
+					<p>Selected Applicants</p>
+					<ul>
+						<li>List of Applicants according to selected filters</li>
+						<li>Filters are By Course,By Name,By Roll No.,By Email Id,By Program of Study
+					</ul>
+				</div>
+			</div>
+
+			<div id="two">
+				<p class="help_heading" id="two2">Ta's Tab</p>
+				<div>
+					<p>Unselect Ta</p>
+					<ul>
+						<li>Select course from which Ta's are to be removed</li>
+						<li>Ta's selected will show up and Ta's which are to be removed can be removed</li>
+					</ul>
+				</div>
+				<div>
+					<p>Allocated Ta's</p>
+					<ul>
+						<li>The required number of Ta's(Quarter,Half,Full) to be allocated for each course</li>
+					</ul>
+				</div>
+			</div>
+
+
+			<div id="three">
+				<p class="help_heading" >Courses Tab</p>
+				<div>
+					<p>Add Faculty</p>
+					<ul>
+						<li>Add faculty to existing course</li>
+					</ul>
+				</div>
+				<div>
+					<p>Allocate Program</p>
+					<ul>
+						<li>Allocate course for a particular program of study(CLD,CSE,CSD etc.)</li>
+					</ul>
+				</div>
+				<div>
+
+					<p>Course Info</p>
+					<ul>
+						<li>Information related to all the courses currently offered</li>
+					</ul>
+				</div>
+				<div>
+					<p>Add course</p>
+					<ul>
+						<li>Add course to the list of offered courses</li>
+					</ul>
+				</div>
+				<div>
+					<p>Update course</p>
+					<ul>
+						<li>Choose a course from the given list</li>
+						<li>On selection the current details of the course will be shown</li>
+						<li>Thsese details can then be edited and submitted</li>
+					</ul>
+				</div>
+				<div>
+					<p>Delete</p>
+					<ul>
+						<li>Course,Faculty,Program can be deleted</li>
+					</ul>
+				</div>
+			</div>
+
+			<div id="four">
+				<p class="help_heading" >Settings Tab</p>
+				<div>
+					<p>Set Date</p>
+					<ul>
+						<li>This will show the start and end dates for applications of Taship by students</li>
+						<li>Students cannot apply for taship before or after the deadlines</li>
+						<li>If dates have not been set they will not be displayed</li>
+						<li>Below the display of dates option of changing the dates is given</li>
+					</ul>
+				</div>
+				<div>
+					<p>Update db</p>
+					<ul>
+						<li>This functionality allows user to add multiplpe course and their respetive details</li>
+						<li>The format of the file(.csv) is described on the page itself</li>
+					</ul>
+				</div>
+				<div>
+					<p>Log Table</p>
+					<ul>
+						<li>This functionality allows user to see all activity on the portal</li>
+						<li>There are filters available looking up for specific activity(loggin in,selecting ta's.applying for taship etc.)</li>
+					</ul>
+				</div>
+				<div >
+            <p>Upload Student Info</p>
+            <ul>
+                <li>This functionality allows user to upload ISAS dump for all the students so as to verify and validate their credentials</li>
+                <li>In case data not present in the dump, applicants will have to manually fill up their profile information.</li>
+		<li>Format for dump will be Name, Roll Number, EmailID, CGPA separated by ','</li>
+            </ul>
+        </div>
+        <div >
+            <p>Upload Feedback</p>
+            <ul>
+                <li>This functionality allows user to upload feedback from a dump file for the students who have been TA's in past years</li>
+                <li>Comments and ratings are given in by faculty under whom they were acting as TAs</li>
+		<li>Format of the dump will be Name; Roll Number; Course ID; Rating(given by faculty); Course Name; Semester in which they were TA; and faculties comments about their work separated by ';' (semi colon) . </li>
+            </ul>
+        </div>
+        <div >
+            <p>View Previous Applicant Log</p>
+            <ul>
+                <li>This functionality allows user to see all the previous years Applicants.</li>
+            </ul>
+        </div>
+			</div>
+
+			<div id="five">
+				<p class="help_heading" >Notifications Tab</p>
+				<ul>
+					<li>View of specific activity on the portal</li>
+					<li>The activity is divided based on time of activity</li>
+				</ul>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+			</div>
+
+			{{elif session.login==3:}}<!--faculty help-->
+			<div id="six">
+				<p class="help_heading " >Nominate Applicant Tab</p>
+				<ul>
+					<li>Nominate applicants for a particular course and preference for candidate shall be considered during final selection</li>
+					<li>students are color coded according to their properties as shown on the page</li>
+					<li>students can be selected for quarter,half,full taships</li>
+					<li>Reset option is provided if all current selections are to be rest</li>
+				</ul>
+			</div>
+			<div>
+				<p class="help_heading" >Allocated Ta's Tab</p>
+				<ul>
+					<li>The required number of Ta's(Quarter,Half,Full) to be allocated for each course</li>
+					<li>Given to indicate how many applicants can be nominated for a particular course</li>
+				</ul>
+			</div>
+			<div>
+				<p class="help_heading" id="eight">Selected Ta's Tab</p>
+				<ul>
+					<li>List of applicants already selected for the course</li>
+				</ul>
+			</div>
+			<div>
+			<div>
+				<p class="help_heading" id="nine">Notifications Tab</p>
+				<ul>
+					<li>View of specific activity related to your courses(application by students,selection by admin etc) on the portal</li>
+					<li>The activity is divided based on time of activity</li>
+				</ul>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+			</div>
+			{{elif session.login==2:}}
+
+			<div>
+				<p class="help_heading" id="ten">My Profile Tab</p>
+				<ul>
+					<li>The first time you click this you will be required to fill in your details</li>
+					<li>These details will be used when selecting students for taships</li>
+					<li>Filling the profile is compulsory</li>
+				</ul>
+			</div>
+
+			<div>
+				<p class="help_heading" id="eleven">Taship Tab</p>
+				<div >
+					<p>Apply For Taship</p>
+					<ul>
+						<li>A list of courses will be provided.</li>
+						<li>You can apply for taship in multiple courses and also have to state your preference order</li>
+						<li>This order can be changed in the application status option</li>
+					</ul>
+				</div>
+				<div>
+					<p>Application Status</p>
+					<ul>
+						<li>The courses you have applied for will be shown here in the preference order you stated</li>
+						<li>You can also change your preference ordr from here</li>
+						<li>Once the deadline for applying is over,if you are selected a accept button will show up beside the course</li>
+						<li>If selected you have 24grs to accept otherwise your selection will become void</li>
+						<li>On accepting a form will automatically download which you will have to submit to the office</li>
+						<li>If you reject you again become eligible to be selected for another course</li>
+					</ul>
+				</div>
+			</div>
+			<div>
+				<p class="help_heading" id="twelve">Delete Application</p>
+				<ul>
+					<li>Delete application for a particular course</li>
+				</ul>
+			</div>
+			<div>
+
+				<p class="help_heading" id="thirteen">Course Info</p>
+				<ul>
+					<li>List of courses available for taship oppurtunity</li>
+					<li>Course details such as faculty,hours per week,credits are also given</li>
+				</ul>
+			</div>
+			<div>
+
+				<p class="help_heading" id="fourteen">Admin Contacts</p>
+				<ul>
+					<li>List of Admins to whom you can send your queries via mail(click on their email id's)</li>
+					<li>Do not use this feature for useless queries as admin are the ones to select students</li>
+				</ul>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+			</div>
+			{{pass}}
+			{{pass}}
+			{{pass}}
+		</div>

@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{{=T.accepted_language or 'en'}}">
+
+
+<head>
+	<title>TA Portal</title>
+    <link rel="logo" href="../static/images.back.png">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />     
+    {{response.files.append(URL(request.application,'static','mainpage.css'))}}
+    {{include 'web2py_ajax.html'}}
+    <script src="./jquery.js"></script>
+<script type='text/javascript'>
+      function mywin(roll){
+        document.getElementById( roll + "light").style.display="block";
+        document.getElementById("fade").style.display="block";
+      }
+      function closewin(roll){
+     	 document.getElementById( roll + "light").style.display="none";
+        document.getElementById("fade").style.display="none";
+      }
+      $(document).keyup(function(e) {
+      if (e.keyCode == 27) 
+      { 
+      $(".white_content").css("display","None");
+      $(".black_overlay").css("display","None"); 
+      $(".white_content1").css("display","None"); 
+      }   // esc
+
+      
+
+});
+      
+</script>
+</head>
+
+
+<body>
+  <!--div id="box"-->
+  <div id="fade" class="black_overlay" onclick="closewin('notify')"></div>
+  <div id="notifylight" class="white_content" >
+  	<a href="javascript:void(0)" onclick="closewin('notify')" id="close">X</a>
+	<div id="h">NOTIFICATIONS</div>
+<a href="{{=URL(r = request, f = 'courses_info')}}" title="Courses Info"><div class="notifylink">COURSE INFO</div></a>
+{{ if session.login == 1: }}
+<a href="{{=URL(r = request, f = 'admin_applicant_list_2')}}"  title="Applicant List"><div class="notifylink">SELECT APPLICANT</div></a>
+ <a href="{{=URL(r = request, f = 'selected_TA')}}" title="SelectedTA List"><div class="notifylink">SELECTED TA LIST</div></a> 
+{{ elif session.login == 3: }} 
+     <a href="{{=URL(r = request, f = 'faculty_applicant_list_2')}}"  title="Applicant List"><div class="notifylink">SELECT APPLICANT</div></a>
+<a href="{{=URL(r = request, f = 'faculty_selectedTA')}}" title="SelectedTA List"><div class="notifylink">SELECTED TA LIST</div></a> 
+{{pass}}
+
+    
+
+	<div id="newpage">
+	<iframe id="frame"src="notify.html"></iframe>
+	</div>
+  </div>
+  <div id="text-content"><!--main box- entire document-->
+
+
+    <div id="header">
+      <div id="logo">
+        <a href="{{=URL(r = request, f = 'home_page')}}"  title="Home Page"><p>TA  PORTAL </p></a>
+      </div>
+      <div class="flash">{{=response.flash or ''}}</div>
+        <!-- logout part(id="loginfo" was taken from content and then divided into 
+        two ids- user(xyz@stude....) and loginfo(the logut button) the logout button was given the original id itself
+        it might be reffered elsewhere)-->
+    	<div id="loginfo">
+	    <div id="name"><p>
+{{logname=""}}
+            {{ if session.login != 0: }}
+            	{{x=session.token}}
+		
+	    	{{for y in x:}}
+	    		{{if y!="@":}}
+            		{{logname=logname+y}}
+	    		{{else:}}
+	    		{{break}}
+	    		{{pass}}
+	    	{{pass}}
+		{{=logname}}
+	    {{pass}}
+            </p></div>
+            <div id="slidemenu">
+	    	{{ if session.login != 0: }}
+            	<div id="logout">
+	    	<a href="{{=URL(r=request,f='logout')}}" accesskey="6" title="">LOGOUT</a>
+          </div>
+          {{pass}}
+            {{ if session.login == 1 or session.login==3:}}
+                <a href="javascript:void(0)" onclick="mywin('notify')"> <div id="notification">NOTIFICATIONS</div></a>
+            {{pass}}    
+              </div>
+	<!--    <script>
+		$("#name").click(function(){
+			$("#slidemenu").slideToggle("fast");
+		});
+	    </script>-->		
+        </div>
+</div>
+
+<div id="wrapper">
+
+
+<div id="newmenu">
+
+{{if session.login!=0:}}<!--If anybody is logged in-->
+<div class="slider">
+    <a href="{{=URL(r = request, f = 'home_page')}}"  title="Home Page"><p>HOME PAGE</p></a>
+</div>
+
+{{ if session.login == 1: }} <!-- ADMIN IS LOGGED IN -->
+
+
+<div class="slider">
+	<p>APPLICANT</p>
+	<a href="{{=URL(r = request, f = 'admin_applicant_list_2')}}" accesskey="5" title="Applicant List"><p>SELECT APPLICANTS</p></a>
+	<a href="{{=URL(r = request, f = 'namewise_list')}}"  title="Namewise List"><p>APPLICANT STATUS</p></a>
+	<a href="{{=URL(r = request, f = 'selected_TA')}}" title="SelectedTA List"><p>SELECTED APPLICANTS</p></a>
+	</div>
+<div class="slider"> 
+<p>TA's</p>  
+<a href="{{=URL(r = request, f = 'sel_course')}}" title="UnSelect TA's"><p>UNSELECT TA'S</p></a>
+	<a href="{{=URL(r = request, f = 'admin_allocatedTA')}}" title="Admin AllocatedTA "><p>ALLOCATED TA</p></a>
+
+</div>
+
+<div class="slider">
+    <p>COURSES</p>
+    <a href="{{=URL(r = request, f = 'courses_info')}}" title="Courses Info"><p>COURSE INFO</p></a>
+    <a href="{{=URL(r = request, f = 'add_courses')}}" accesskey="5" title="Add Courses"><p>ADD COURSES</p></a>
+    <a href="{{=URL(r = request, f = 'update_course')}}" accesskey="5" title="Update Course"><p>UPDATE COURSES</p></a>
+	<a href="{{=URL(r = request, f = 'delete')}}" accesskey="5" title="Delete Courses"><p>DELETE </p></a>
+<a href="{{=URL(r=request,f='add_faculty')}}" title="Add faculty"><p>ADD FACULTY</p></a>
+    <a href="{{=URL(r=request,f='add_program')}}" title="Add Program"><p>ALLOCATE PROGRAM</p></a>
+</div>
+<div class="slider">
+	<p>SETTINGS</p>
+    
+    <a href="{{=URL(r = request, f = 'set_date')}}" title="SET DATE "><p>SET DATE</p></a>
+	<a href="{{=URL(r = request, f = 'upload')}}" title="Update DB "><p>UPDATE DB</p></a>
+	<a href="{{=URL(r = request, f = 'logtable')}}" title="View Log Table "><p>VIEW LOG TABLE</p></a>
+</div>
+
+{{ elif session.login == 3: }} <!-- FACULTY IS LOGGED IN -->
+<div class="slider">
+	<a href="{{=URL(r = request, f = 'faculty_applicant_list_2')}}" title="Applicant List"><p>NOMINATE APPLICANT</p></a>		
+</div>
+<div class="slider">
+    <a href="{{=URL(r = request, f = 'faculty_allocatedTA')}}" title="No. of AllocatedTA "><p>ALLOCATED TA</p></a>
+</div>
+<div class="slider">
+<a href="{{=URL(r = request, f = 'faculty_selectedTA')}}" title="SelectedTA "><p>SELECTED APPLICANTS</p></a>
+</div>
+<!---
+<div class="slider">
+    <a href="{{=URL(r = request, f = 'faculty_selectedTA')}}" title="SelectedTA "><p>SELECTED TA</p></a>
+</div>
+
+-->
+<div class="slider">
+    <a href="{{=URL(r = request, f = 'courses_info')}}" title="Courses Info"><p>COURSE INFO</p></a>
+</div>
+
+{{ elif session.login == 2: }} <!-- STUDENT IS LOGGED IN -->
+	{{ if (db(db.Applicant.apemail_id == session.student_email).select()) : }}
+	<div class="slider">
+    <a href="{{=URL(r = request, f = 'student_profile')}}" title="My Profile"><p>MY PROFILE</p></a>
+</div>
+{{pass}}
+
+<div class="slider">
+    <p>TASHIP</p>
+	<a href="{{=URL(r = request, f = 'TA_application')}}" title="TA Application"><p>APPLY FOR TASHIP</p></a>
+    {{ if (db((db.Applicant.apemail_id == session.student_email) & (db.AppliedFor.appid ==db.Applicant.id)).select()):}}
+    <a href="{{=URL(r = request, f = 'status')}}" title="status"><p>APPLICATION STATUS</p></a>
+    {{pass}}
+</div>
+	{{ if (db((db.Applicant.apemail_id == session.student_email) & (db.AppliedFor.appid ==db.Applicant.id)).select()):}}
+<div class="slider">
+    <a href="{{=URL(r = request, f = 'unselect_course')}}" title="Unselect Course"><p>DELETE APPLICATION</p></a>
+</div>
+    {{pass}}
+<div class="slider">
+    <a href="{{=URL(r = request, f = 'courses_info')}}" title="Courses Info"><p>COURSE INFO</p></a>
+</div>
+    {{pass}}
+    {{pass}}
+
+<div class="slider">
+	<a href="{{=URL(r = request, f = 'contacts')}}" title="Contacts"><p>ADMIN CONTACTS</p></a>
+</div>
+{{pass}}
+{{pass}}
+{{pass}}
+</div>
+	<!--START OF CONTENT-->
+
+	<div id="content">
+	
+	<br /><br />
+	{{include}}<!--main part of the website using ajax,web2py it is loaded-->
+	<br /><br />
+	</div>
+
+
+	<div style="height: 1px; clear: both;"></div>
+	</div>
+
+	<!--START OF FOOTER-->
+	<!--
+	<div id="footer">
+	<hr />
+	<p id="legal">Copyright &copy; 2010 IIIT-H</p>
+	</div>
+	-->
+	<!--END OF FOOTER-->
+
+<!--END OF WRAPPER-->
+
+<!--/div-->
+</body>
+</html>

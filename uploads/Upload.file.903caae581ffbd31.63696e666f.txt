@@ -1,0 +1,2 @@
+CMOS Radio Frequencey Integrated Circuit Design,ECE467,very good,4,3
+CNS Lab,SCI373,good,4,2

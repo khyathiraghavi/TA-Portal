@@ -1,0 +1,14 @@
+{{extend 'layout.html'}}
+
+{{ if records: }}
+{{ i = records[0] }}
+{{pass}}
+<center><font size='5' color=green><u>{{=i.Applicant.apname}}'s Profile</u> </font></center><br /><br />
+    <table>
+    <tr><td><b>Name :</b></td> <td>{{=i.Applicant.apname}}</td></tr>
+    <tr><td><b>RollNo :</b></td><td> {{=i.Applicant.aprollno}}</td></tr>
+    <tr><td><b>EmailId :</b></td><td> {{=i.Applicant.apemail_id}}</td></tr>
+    <tr><td><b>Program Of Study :</b></td><td> {{=i.Program.pname}}</td></tr>
+    <tr><td><b>CGPA :</b></td><td> {{=i.Applicant.apcgpa}}</td></tr>
+    <tr><td><b>Previous Experience :</b></td><td> {{if i.Applicant.prev_exp==False: }}No {{else: }} Yes{{pass}}</td></tr>
+    <tr><td><b>Phone No :</b></td><td> {{=i.Applicant.phoneno}}</td></tr></table>
